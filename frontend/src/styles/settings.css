@@ -1,0 +1,24 @@
+.settings-page {
+  padding: 24px;
+  color: #fff;
+}
+
+.settings-header {
+  border-bottom: 1px solid #2c2c2c;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+}
+
+.settings-content {
+  padding-top: 10px;
+}
+
+.delete-btn {
+  background: #4da3ff;
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}

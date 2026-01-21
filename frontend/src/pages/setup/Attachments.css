@@ -1,0 +1,140 @@
+/* ========================= */
+/* Attachments Page Styles   */
+/* ========================= */
+
+.attachment-page {
+  max-width: 600px; /* ⬆️ was 520px */
+  margin: 10px auto;
+  padding: 40px; /* ⬆️ */
+  text-align: center;
+  color: #ffffff;
+}
+
+.attachment-logo {
+  width: 42px; /* ⬆️ */
+  margin-bottom: 18px;
+}
+
+.attachment-page h2 {
+  font-size: 28px; /* ⬆️ */
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 15px; /* ⬆️ */
+  color: #9ca3af;
+  margin-bottom: 32px;
+}
+
+/* ================= */
+/* Upload Box        */
+/* ================= */
+
+.upload-box {
+  border: 1.5px dashed #1f2a44;
+  border-radius: 18px;
+  padding: 44px 26px; /* ⬆️ */
+  cursor: pointer;
+  background: linear-gradient(180deg, #0b1220, #070d1a);
+  transition: border 0.2s ease, transform 0.15s ease;
+}
+
+.upload-box:hover {
+  border-color: #3b82f6;
+  transform: translateY(-2px);
+}
+
+.upload-box img {
+  width: 64px; /* ⬆️ */
+  margin-bottom: 18px;
+  opacity: 0.9;
+}
+
+.upload-title {
+  font-size: 16px; /* ⬆️ */
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.upload-hint {
+  font-size: 13px; /* ⬆️ */
+  color: #6b7280;
+}
+
+/* ================= */
+/* Note Section      */
+/* ================= */
+
+.note-section {
+  text-align: left;
+  margin-top: 32px; /* ⬆️ */
+}
+
+.note-section label {
+  font-size: 14px; /* ⬆️ */
+  color: #9ca3af;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.note-section textarea {
+  width: 100%;
+  min-height: 110px; /* ⬆️ */
+  background: #0f172a;
+  border: 1px solid #1f2a44;
+  border-radius: 14px;
+  padding: 14px;
+  color: #ffffff;
+  font-size: 15px; /* ⬆️ */
+  resize: none;
+  outline: none;
+}
+
+.note-section textarea::placeholder {
+  color: #6b7280;
+}
+
+/* ================= */
+/* Finish Button     */
+/* ================= */
+
+.attachment-page button {
+  width: 100%;
+  margin-top: 36px; /* ⬆️ */
+  padding: 16px; /* ⬆️ */
+  border-radius: 16px;
+  background: linear-gradient(90deg, #3b82f6, #2563eb);
+  border: none;
+  color: #ffffff;
+  font-size: 16px; /* ⬆️ */
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.attachment-page button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 30px rgba(37, 99, 235, 0.4);
+}
+
+.attachment-page button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ================= */
+/* Mobile            */
+/* ================= */
+
+@media (max-width: 600px) {
+  .attachment-page {
+    margin: 24px;
+    padding: 28px;
+  }
+
+  .upload-box {
+    padding: 36px 22px;
+  }
+}

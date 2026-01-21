@@ -1,0 +1,58 @@
+.preview-page {
+  padding: 24px;
+  color: #fff;
+}
+
+.preview-header h2 span {
+  color: #4da3ff;
+}
+
+.preview-card {
+  background: #1e1f22;
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 20px;
+}
+
+.field {
+  margin-bottom: 14px;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 6px;
+  color: #ccc;
+}
+
+.field input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #333;
+  background: #111;
+  color: #fff;
+}
+
+.email-body {
+  margin-top: 12px;
+}
+
+.email-body textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  background: #111;
+  border: 1px solid #333;
+  color: #fff;
+  resize: none;
+}
+
+.send-btn {
+  margin-top: 16px;
+  background: #4da3ff;
+  color: white;
+  padding: 10px 24px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}

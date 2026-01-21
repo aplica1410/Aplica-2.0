@@ -1,0 +1,58 @@
+.apply-page {
+  padding: 24px;
+  color: #fff;
+}
+
+.apply-header h2 span {
+  color: #4da3ff;
+}
+
+.apply-card {
+  background: #1e1f22;
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 20px;
+}
+
+.job-link {
+  display: flex;
+  gap: 12px;
+}
+
+.job-link input {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #333;
+  background: #111;
+  color: #fff;
+}
+
+.job-description textarea {
+  width: 100%;
+  margin-top: 20px;
+  padding: 12px;
+  border-radius: 8px;
+  background: #111;
+  color: #fff;
+  border: 1px solid #333;
+}
+
+.primary-btn {
+  background: #4da3ff;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.bottom-btn {
+  margin-top: 16px;
+}
+
+.divider {
+  text-align: center;
+  margin: 16px 0;
+  color: #777;
+}

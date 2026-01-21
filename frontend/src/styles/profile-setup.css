@@ -1,0 +1,13 @@
+.profile-setup-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 32px;
+  background: #1c1c1c;
+  border-radius: 12px;
+}
+
+.profile-setup-title {
+  margin-bottom: 24px;
+  font-size: 24px;
+  color: #ffffff;
+}

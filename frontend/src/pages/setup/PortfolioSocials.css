@@ -1,0 +1,148 @@
+/* =============================== */
+/* Portfolio & Socials Page Styles */
+/* =============================== */
+
+.portfolio-socials {
+  max-width: 760px;
+  margin: 40px auto;
+  padding: 32px;
+  background: linear-gradient(180deg, #0b1220, #070d1a);
+  border-radius: 18px;
+  color: #ffffff;
+}
+
+/* Header */
+.portfolio-socials h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+.portfolio-socials p {
+  font-size: 14px;
+  color: #9ca3af;
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+/* ===================== */
+/* Portfolio Main Input  */
+/* ===================== */
+
+.portfolio-main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.portfolio-main input {
+  flex: 1;
+}
+
+/* Add another link */
+.add-link {
+  font-size: 13px;
+  color: #60a5fa;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.add-link:hover {
+  text-decoration: underline;
+}
+
+/* ================= */
+/* Social Grid       */
+/* ================= */
+
+.social-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  margin-bottom: 32px;
+}
+
+/* Individual input */
+.social-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #0f172a;
+  border: 1px solid #1f2a44;
+  padding: 12px 14px;
+  border-radius: 12px;
+  transition: border 0.2s ease;
+}
+
+.social-input:hover {
+  border-color: #3b82f6;
+}
+
+.social-input img {
+  width: 18px;
+  height: 18px;
+  opacity: 0.8;
+}
+
+.social-input input {
+  border: none;
+  background: transparent;
+  outline: none;
+  color: #ffffff;
+  font-size: 14px;
+  width: 100%;
+}
+
+.social-input input::placeholder {
+  color: #6b7280;
+}
+
+/* ================= */
+/* CTA Button        */
+/* ================= */
+
+.portfolio-socials button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  background: linear-gradient(90deg, #3b82f6, #2563eb);
+  border: none;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.portfolio-socials button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
+}
+
+.portfolio-socials button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ================= */
+/* Mobile Responsive */
+/* ================= */
+
+@media (max-width: 640px) {
+  .portfolio-socials {
+    margin: 20px;
+    padding: 24px;
+  }
+
+  .social-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .portfolio-main {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

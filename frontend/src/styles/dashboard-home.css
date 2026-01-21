@@ -1,0 +1,100 @@
+.dashboard-home {
+  padding: 24px;
+  color: #fff;
+}
+
+.dashboard-header h2 span {
+  color: #4da3ff;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.stat-card {
+  background: #1e1f22;
+  padding: 16px;
+  border-radius: 12px;
+}
+
+.stat-card h3 {
+  color: #4da3ff;
+  font-size: 28px;
+}
+
+.dashboard-bottom {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.dashboard-card {
+  background: #1e1f22;
+  padding: 16px;
+  border-radius: 12px;
+}
+
+.dashboard-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #2c2c2c;
+  font-size: 14px;
+}
+
+.dashboard-row .name {
+  color: #4da3ff;
+}
+
+.card-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.primary-btn {
+  background: #4da3ff;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.secondary-btn {
+  background: transparent;
+  border: 1px solid #4da3ff;
+  color: #4da3ff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.empty-dashboard {
+  margin-top: 40px;
+  padding: 24px;
+  background: #1e1e1e;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.primary-btn {
+  margin-top: 16px;
+  padding: 12px 20px;
+  background: #4da3ff;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+}
+
+.update-profile-btn {
+  margin-top: auto;
+  padding: 10px;
+  background: #2a7fff;
+  border-radius: 6px;
+  color: white;
+}

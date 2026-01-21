@@ -1,0 +1,165 @@
+/* ============================= */
+/* Professional Info Page Styles */
+/* ============================= */
+
+.professional-info {
+  max-width: 720px;
+  margin: 40px auto;
+  padding: 32px;
+  background: linear-gradient(180deg, #0b1220, #070d1a);
+  border-radius: 16px;
+  color: #ffffff;
+}
+
+/* Headings */
+.professional-info h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.professional-info p {
+  font-size: 14px;
+  color: #a8b0c2;
+  margin-bottom: 24px;
+}
+
+/* ================= */
+/* Category Selector */
+/* ================= */
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.category-card {
+  background: #0f172a;
+  border: 1px solid #1f2a44;
+  border-radius: 14px;
+  padding: 18px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.category-card img {
+  width: 36px;
+  height: 36px;
+  opacity: 0.9;
+}
+
+.category-card span {
+  font-size: 14px;
+  color: #d1d5db;
+}
+
+.category-card:hover {
+  border-color: #3b82f6;
+  background: #0b1b35;
+}
+
+.category-card.active {
+  border-color: #3b82f6;
+  background: linear-gradient(180deg, #0b1b35, #08162c);
+  box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.4);
+}
+
+/* ========= */
+/* Form Base */
+/* ========= */
+
+.professional-info label {
+  display: block;
+  font-size: 13px;
+  color: #c7cde0;
+  margin-bottom: 6px;
+  margin-top: 14px;
+}
+
+.professional-info input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #0f172a;
+  border: 1px solid #1f2a44;
+  color: #ffffff;
+  font-size: 14px;
+  outline: none;
+  transition: border 0.2s ease;
+}
+
+.professional-info input::placeholder {
+  color: #6b7280;
+}
+
+.professional-info input:focus {
+  border-color: #3b82f6;
+}
+
+/* ================= */
+/* Experience Inputs */
+/* ================= */
+
+.experience-row {
+  display: flex;
+  gap: 12px;
+}
+
+.experience-row input {
+  flex: 1;
+}
+
+/* ========= */
+/* CTA BTN  */
+/* ========= */
+
+.professional-info button {
+  width: 100%;
+  margin-top: 28px;
+  padding: 14px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #3b82f6, #2563eb);
+  border: none;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.professional-info button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
+}
+
+.professional-info button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ================= */
+/* Mobile Responsive */
+/* ================= */
+
+@media (max-width: 640px) {
+  .professional-info {
+    margin: 20px;
+    padding: 24px;
+  }
+
+  .category-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .experience-row {
+    flex-direction: column;
+  }
+}

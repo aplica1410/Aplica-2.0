@@ -1,0 +1,53 @@
+.applications-page {
+  padding: 24px;
+  color: #fff;
+}
+
+.applications-header {
+  margin-bottom: 20px;
+}
+
+.applications-card {
+  background: #1e1f22;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.applications-card h3 {
+  margin-bottom: 12px;
+  font-size: 16px;
+  color: #ddd;
+}
+
+.application-row {
+  display: flex;
+  gap: 12px;
+  padding: 10px 0;
+  border-top: 1px solid #2c2c2c;
+  font-size: 14px;
+}
+
+.application-row:first-child {
+  border-top: none;
+}
+
+.application-row .name {
+  color: #4da3ff;
+  min-width: 70px;
+  font-weight: 500;
+}
+
+.application-row .content {
+  flex: 1;
+  color: #ccc;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.application-row .date {
+  color: #888;
+  font-size: 12px;
+  white-space: nowrap;
+}
