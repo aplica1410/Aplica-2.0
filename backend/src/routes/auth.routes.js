@@ -26,10 +26,14 @@ router.get(
 router.get(
   "/google/callback",
   passport.authenticate("google", {
-    failureRedirect: "http://localhost:5173/login",
+    failureRedirect: `${process.env.FRONTEND_URL}/auth`,
     session: false,
   }),
   (req, res) => {
+    if (!process.env.FRONTEND_URL) {
+      return res.status(500).json({ message: "FRONTEND_URL not configured" });
+    }
+
     const token = jwt.sign(
       {
         googleId: req.user.googleId,
@@ -42,8 +46,8 @@ router.get(
 
     res.cookie("aplica_token", token, {
       httpOnly: true,
-      secure: false,
-      sameSite: "lax",
+      secure: true,
+      sameSite: "none",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
@@ -52,7 +56,7 @@ router.get(
 );
 
 /**
- * 🔥 THIS IS THE MISSING ROUTE
+ * Get logged-in user
  */
 router.get("/me", authMiddleware, (req, res) => {
   res.status(200).json({
