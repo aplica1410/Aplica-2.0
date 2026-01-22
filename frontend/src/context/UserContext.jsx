@@ -3,16 +3,8 @@ import { createContext, useContext, useState } from "react";
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState({
-    email: "vidhirawat54@gmail.com",
-    profileComplete: false,
-    stats: {
-      emailsSent: 0,
-      emailsRemaining: 100,
-      toBePreviewed: [],
-      history: [],
-    },
-  });
+  // 🔥 Start with null — auth not checked yet
+  const [user, setUser] = useState(null);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
