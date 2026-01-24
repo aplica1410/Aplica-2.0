@@ -22,7 +22,8 @@ router.post("/professional", auth, async (req, res) => {
       professionalInfo: {
         role,
         experience
-      }
+      },
+      onboardingStep: "portfolio"
     });
 
     res.json({ success: true });
@@ -56,7 +57,8 @@ router.post("/portfolio", auth, async (req, res) => {
         behance,
         instagram,
         twitter
-      }
+      },
+      onboardingStep: "attachments"
     });
 
     res.json({ success: true });
@@ -82,7 +84,8 @@ router.post(
           mimeType: req.file?.mimetype || null,
           size: req.file?.size || null,
           note: req.body?.note || ""
-        }
+        },
+        onboardingStep: "done"
       });
 
       res.json({ success: true });
@@ -112,7 +115,8 @@ router.post("/public", auth, async (req, res) => {
         lastName,
         location,
         avatar: avatar || null
-      }
+      },
+      onboardingStep: "professional"
     });
 
     res.json({ success: true });
@@ -123,12 +127,13 @@ router.post("/public", auth, async (req, res) => {
 });
 
 /* =====================================
-   STEP 5: Complete Profile
+   STEP 5: Complete Profile (Safety Net)
 ===================================== */
 router.post("/complete", auth, async (req, res) => {
   try {
     await User.findByIdAndUpdate(req.user._id, {
-      profileComplete: true
+      profileComplete: true,
+      onboardingStep: "done"
     });
 
     res.json({ success: true });
