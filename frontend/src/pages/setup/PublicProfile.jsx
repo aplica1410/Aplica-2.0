@@ -1,10 +1,9 @@
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import authFetch from "../../utils/authFetch";
 import "./PublicProfile.css";
 
-import logo from "../../assets/logo.svg"; // Applica logo
-import imageIcon from "../../assets/Picture.svg"; // image icon inside circle
+import logo from "../../assets/logo.svg";
+import imageIcon from "../../assets/Picture.svg";
 
 const PublicProfile = () => {
   const navigate = useNavigate();
@@ -37,25 +36,36 @@ const PublicProfile = () => {
   };
 
   const handleNext = async () => {
-    if (!firstName.trim() || !lastName.trim()) {
-      alert("First name and last name are required");
+    if (!firstName.trim() || !lastName.trim() || !location.trim()) {
+      alert("All fields are required");
       return;
     }
 
     try {
       setLoading(true);
 
-      // NOTE: Image upload handling can be extended later (S3 / Cloudinary)
-      await authFetch("/api/profile-setup/public", {
-        method: "POST",
-        body: JSON.stringify({
-          firstName: firstName.trim(),
-          lastName: lastName.trim(),
-          location: location.trim()
-        })
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/api/profile-setup/public`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include", // 🔥 REQUIRED
+          body: JSON.stringify({
+            firstName: firstName.trim(),
+            lastName: lastName.trim(),
+            location: location.trim(),
+          }),
+        }
+      );
 
-      navigate("/dashboard/home");
+      if (!res.ok) {
+        throw new Error("Save failed");
+      }
+
+      // 🔥 Move to next onboarding step
+      navigate("/dashboard/profile/professional");
     } catch (err) {
       console.error("Public profile save failed:", err);
       alert("Failed to save public profile");
