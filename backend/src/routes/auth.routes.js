@@ -43,7 +43,7 @@ router.get(
           email,
           googleId,
           avatar,
-          onboardingStep: "public", // 🔥 Step 1 of onboarding
+          onboardingStep: "public-profile",
           profileComplete: false,
         });
       }
@@ -66,11 +66,20 @@ router.get(
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
 
-      // 5️⃣ Decide redirect based on onboarding
+      // 5️⃣ Decide redirect based on onboarding (🔥 FIXED)
+      const ONBOARDING_ROUTES = {
+        "public-profile": "/setup/public-profile",
+        "professional-info": "/setup/professional-info",
+        "portfolio-socials": "/setup/portfolio-socials",
+        attachments: "/setup/attachments",
+      };
+
       let redirectPath = "/dashboard/home";
 
-      if (user.onboardingStep !== "done") {
-        redirectPath = `/dashboard/profile/${user.onboardingStep}`;
+      if (!user.profileComplete) {
+        redirectPath =
+          ONBOARDING_ROUTES[user.onboardingStep] ||
+          "/setup/public-profile";
       }
 
       // 6️⃣ Redirect to frontend
@@ -87,7 +96,7 @@ router.get(
  */
 router.get("/me", authMiddleware, async (req, res) => {
   const user = await User.findById(req.user._id);
-  res.status(200).json({ user });
+  res.status(200).json(user);
 });
 
 export default router;
