@@ -45,7 +45,7 @@ const ProtectedRoute = () => {
   if (!user.profileComplete) {
     const correctPath =
       ONBOARDING_ROUTES[user.onboardingStep] ||
-      "/setup/public-profile";
+      "/setup/PublicProfile";
 
     if (location.pathname !== correctPath) {
       return <Navigate to={correctPath} replace />;
