@@ -32,33 +32,29 @@ router.get(
   }),
   async (req, res) => {
     try {
-      const { email, googleId, name, avatar } = req.user;
+      const { email, googleId, avatar } = req.user;
 
-      // 1️⃣ Find user
+      // 1️⃣ Find or create user
       let user = await User.findOne({ email });
 
-      // 2️⃣ Create user if new
       if (!user) {
         user = await User.create({
           email,
           googleId,
           avatar,
-          onboardingStep: "public-profile",
+          onboardingStep: "public",
           profileComplete: false,
         });
       }
 
-      // 3️⃣ Create JWT
+      // 2️⃣ Create JWT
       const token = jwt.sign(
-        {
-          id: user._id,
-          email: user.email,
-        },
+        { id: user._id, email: user.email },
         process.env.JWT_SECRET,
         { expiresIn: "7d" }
       );
 
-      // 4️⃣ Set cookie
+      // 3️⃣ Set cookie
       res.cookie("aplica_token", token, {
         httpOnly: true,
         secure: true,
@@ -66,23 +62,13 @@ router.get(
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
 
-      // 5️⃣ Decide redirect based on onboarding (🔥 FIXED)
-      const ONBOARDING_ROUTES = {
-        "public-profile": "/setup/public-profile",
-        "professional-info": "/setup/professional-info",
-        "portfolio-socials": "/setup/portfolio-socials",
-        attachments: "/setup/attachments",
-      };
-
+      // 4️⃣ Redirect based on onboarding (MATCHES APP ROUTES)
       let redirectPath = "/dashboard/home";
 
       if (!user.profileComplete) {
-        redirectPath =
-          ONBOARDING_ROUTES[user.onboardingStep] ||
-          "/setup/public-profile";
+        redirectPath = `/dashboard/profile/${user.onboardingStep}`;
       }
 
-      // 6️⃣ Redirect to frontend
       res.redirect(`${process.env.FRONTEND_URL}${redirectPath}`);
     } catch (err) {
       console.error("🔥 OAuth callback error:", err);

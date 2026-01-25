@@ -4,10 +4,10 @@ import { getMe } from "../api/auth";
 import { useUser } from "../context/UserContext";
 
 const ONBOARDING_ROUTES = {
-  "public-profile": "/setup/public-profile",
-  "professional-info": "/setup/professional-info",
-  "portfolio-socials": "/setup/portfolio-socials",
-  attachments: "/setup/attachments",
+  public: "/dashboard/profile/public",
+  professional: "/dashboard/profile/professional",
+  portfolio: "/dashboard/profile/portfolio",
+  attachments: "/dashboard/profile/attachments",
 };
 
 const ProtectedRoute = () => {
@@ -18,8 +18,8 @@ const ProtectedRoute = () => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const data = await getMe();
-        setUser(data); // backend returns user directly
+        const data = await getMe(); // backend returns user directly
+        setUser(data);
       } catch {
         setUser(null);
       } finally {
@@ -39,23 +39,15 @@ const ProtectedRoute = () => {
     return <Navigate to="/auth" replace />;
   }
 
-  // 🔒 Onboarding NOT complete → force setup flow
+  // 🔒 Onboarding not complete → force existing onboarding routes
   if (!user.profileComplete) {
     const correctPath =
       ONBOARDING_ROUTES[user.onboardingStep] ||
-      "/setup/public-profile";
+      "/dashboard/profile/public";
 
     if (location.pathname !== correctPath) {
       return <Navigate to={correctPath} replace />;
     }
-  }
-
-  // 🚫 Onboarding complete → block setup routes
-  if (
-    user.profileComplete &&
-    location.pathname.startsWith("/setup")
-  ) {
-    return <Navigate to="/dashboard/home" replace />;
   }
 
   // ✅ All good
