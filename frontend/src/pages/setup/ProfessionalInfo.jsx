@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import "./ProfessionalInfo.css";
@@ -28,56 +28,18 @@ const ProfessionalInfo = () => {
   const [years, setYears] = useState("");
   const [months, setMonths] = useState("");
   const [headline, setHeadline] = useState("");
-  const [loading, setLoading] = useState(true);
-
-  // ✅ AUTH + FLOW GUARD (same as PublicProfile)
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const res = await fetch(`${BACKEND_URL}/api/profile/me`, {
-          credentials: "include"
-        });
-
-        if (res.status === 401) {
-          navigate("/login", { replace: true });
-          return;
-        }
-
-        const data = await res.json();
-
-        // ⛔ Prevent skipping steps
-        if (data.onboardingStep !== "professional-info") {
-          navigate(`/setup/${data.onboardingStep}`, { replace: true });
-          return;
-        }
-
-        // (Optional prefill – safe even if empty)
-        if (data.professionalInfo) {
-          setCategory(data.professionalInfo.category || "");
-          setRole(data.professionalInfo.role || "");
-          setYears(data.professionalInfo?.experience?.years ?? "");
-          setMonths(data.professionalInfo?.experience?.months ?? "");
-          setHeadline(data.professionalInfo.headline || "");
-        }
-
-        setLoading(false);
-      } catch (err) {
-        console.error("Failed to fetch profile", err);
-      }
-    };
-
-    fetchProfile();
-  }, [navigate, BACKEND_URL]);
+  const [saving, setSaving] = useState(false);
 
   const handleNext = async () => {
-    // 🔴 Validation (unchanged)
     if (!category) return alert("Please select a category");
     if (!role.trim()) return alert("Role is required");
-    if (years === "" || months === "") return alert("Please enter your experience");
-    if (Number(months) > 11) return alert("Months should be between 0 and 11");
+    if (years === "" || months === "")
+      return alert("Please enter your experience");
+    if (Number(months) > 11)
+      return alert("Months should be between 0 and 11");
 
     try {
-      setLoading(true);
+      setSaving(true);
 
       const res = await fetch(
         `${BACKEND_URL}/api/profile/professional-info`,
@@ -95,7 +57,7 @@ const ProfessionalInfo = () => {
               months: Number(months)
             },
             headline: headline.trim() || null,
-            onboardingStep: "portfolio-socials"
+            onboardingStep: "portfolio"
           })
         }
       );
@@ -104,16 +66,15 @@ const ProfessionalInfo = () => {
         throw new Error("Failed to save professional info");
       }
 
-      navigate("/setup/portfolio-socials");
+      // ✅ Navigate using EXISTING routes
+      navigate("/dashboard/profile/portfolio");
     } catch (err) {
       console.error("Professional info save failed:", err);
       alert("Failed to save professional info");
     } finally {
-      setLoading(false);
+      setSaving(false);
     }
   };
-
-  if (loading) return <p>Loading...</p>;
 
   return (
     <div className="profile-setup professional-info">
@@ -125,7 +86,9 @@ const ProfessionalInfo = () => {
           <button
             key={item.id}
             type="button"
-            className={`category-card ${category === item.id ? "active" : ""}`}
+            className={`category-card ${
+              category === item.id ? "active" : ""
+            }`}
             onClick={() => setCategory(item.id)}
           >
             <img src={item.icon} alt={item.label} />
@@ -169,8 +132,8 @@ const ProfessionalInfo = () => {
         onChange={(e) => setHeadline(e.target.value)}
       />
 
-      <button onClick={handleNext} disabled={loading}>
-        {loading ? "Saving..." : "Next"}
+      <button onClick={handleNext} disabled={saving}>
+        {saving ? "Saving..." : "Next"}
       </button>
     </div>
   );
