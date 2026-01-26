@@ -3,13 +3,6 @@ import { useEffect, useState } from "react";
 import { getMe } from "../api/auth";
 import { useUser } from "../context/UserContext";
 
-const ONBOARDING_ROUTES = {
-  public: "/dashboard/profile/public",
-  professional: "/dashboard/profile/professional",
-  portfolio: "/dashboard/profile/portfolio",
-  attachments: "/dashboard/profile/attachments",
-};
-
 const ProtectedRoute = () => {
   const { user, setUser } = useUser();
   const [loading, setLoading] = useState(true);
@@ -18,10 +11,10 @@ const ProtectedRoute = () => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const data = await getMe(); // backend returns user directly
-        setUser(data);
-      } catch {
-        setUser(null);
+        const me = await getMe();
+        setUser(me);
+      } catch (err) {
+        setUser(undefined); // 🔥 IMPORTANT: undefined ≠ null
       } finally {
         setLoading(false);
       }
@@ -30,27 +23,24 @@ const ProtectedRoute = () => {
     checkAuth();
   }, [setUser]);
 
+  // ⏳ Still checking auth
   if (loading) {
     return <div>Checking authentication...</div>;
   }
 
-  // ❌ Not logged in
-  if (!user) {
+  // ❌ Auth check finished AND user is missing
+  if (user === undefined) {
     return <Navigate to="/auth" replace />;
   }
 
-  // 🔒 Onboarding not complete → force existing onboarding routes
-  if (!user.profileComplete) {
-    const correctPath =
-      ONBOARDING_ROUTES[user.onboardingStep] ||
-      "/dashboard/profile/public";
-
+  // 🔒 Onboarding enforcement
+  if (user && user.profileComplete === false) {
+    const correctPath = `/dashboard/profile/${user.onboardingStep}`;
     if (location.pathname !== correctPath) {
       return <Navigate to={correctPath} replace />;
     }
   }
 
-  // ✅ All good
   return <Outlet />;
 };
 
