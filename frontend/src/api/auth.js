@@ -6,7 +6,7 @@ const api = axios.create({
 });
 
 export const getMe = async () => {
-  const res = await fetch(`${API_BASE_URL}/api/auth/me`, {
+  const res = await fetch(`${API_BASE_URL}/auth/me`, {
     credentials: "include"
   });
 
