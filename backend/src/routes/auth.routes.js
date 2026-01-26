@@ -47,23 +47,20 @@ router.get(
         });
       }
 
-      /**
-       * 🔧 NORMALIZE LEGACY / INCONSISTENT USERS
-       * If onboardingStep is "done", profile MUST be complete
-       */
-      if (user.onboardingStep === "done" && user.profileComplete === false) {
+      // 2️⃣ Normalize legacy users
+      if (user.onboardingStep === "done") {
         user.profileComplete = true;
         await user.save();
       }
 
-      // 2️⃣ Create JWT
+      // 3️⃣ Create JWT
       const token = jwt.sign(
         { id: user._id, email: user.email },
         process.env.JWT_SECRET,
         { expiresIn: "7d" }
       );
 
-      // 3️⃣ Set cookie
+      // 4️⃣ Set cookie
       res.cookie("aplica_token", token, {
         httpOnly: true,
         secure: true,
@@ -72,16 +69,11 @@ router.get(
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
 
-      // 4️⃣ FINAL SAFE REDIRECT LOGIC
-      let redirectPath;
-
-      if (user.profileComplete) {
-        redirectPath = "/dashboard/home";
-      } else {
-        redirectPath = `/dashboard/profile/${user.onboardingStep}`;
-      }
-
-      res.redirect(`${process.env.FRONTEND_URL}${redirectPath}`);
+      /**
+       * ✅ ONLY SAFE REDIRECT
+       * Let frontend decide everything else
+       */
+      res.redirect(`${process.env.FRONTEND_URL}/dashboard`);
     } catch (err) {
       console.error("🔥 OAuth callback error:", err);
       res.redirect(`${process.env.FRONTEND_URL}/auth`);
@@ -93,7 +85,8 @@ router.get(
  * Get logged-in user
  */
 router.get("/me", authMiddleware, async (req, res) => {
-  res.status(200).json(req.user);
+  const user = await User.findById(req.user.id);
+  res.status(200).json(user);
 });
 
 export default router;
