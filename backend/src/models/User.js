@@ -32,13 +32,7 @@ const userSchema = new mongoose.Schema(
     ====================== */
     onboardingStep: {
       type: String,
-      enum: [
-        "public",
-        "professional",
-        "portfolio",
-        "attachments",
-        "done"
-      ],
+      enum: ["public", "professional", "portfolio", "attachments", "done"],
       default: "public"
     },
 
@@ -55,10 +49,26 @@ const userSchema = new mongoose.Schema(
     ====================== */
     professionalInfo: {
       role: {
-        type: String
+        type: String,
+        required: true
       },
       experience: {
-        type: Number // total experience in years
+        years: {
+          type: Number,
+          required: true,
+          min: 0
+        },
+        months: {
+          type: Number,
+          required: true,
+          min: 0,
+          max: 11
+        }
+      },
+      headline: {
+        type: String,
+        required: true,
+        trim: true
       }
     },
 
