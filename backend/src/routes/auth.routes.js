@@ -59,14 +59,18 @@ router.get(
         httpOnly: true,
         secure: true,
         sameSite: "none",
-        domain: ".onrender.com", // 👈 REQUIRED
+        domain: ".onrender.com", // backend domain
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
 
-      // 4️⃣ Redirect based on onboarding (MATCHES APP ROUTES)
-      let redirectPath = "/dashboard/home";
+      // 4️⃣ FINAL redirect logic (SAFE)
+      let redirectPath;
 
-      if (!user.profileComplete) {
+      if (user.profileComplete) {
+        // ✅ Onboarding completed users
+        redirectPath = "/dashboard/home";
+      } else {
+        // 🚧 Users still onboarding
         redirectPath = `/dashboard/profile/${user.onboardingStep}`;
       }
 
@@ -82,8 +86,8 @@ router.get(
  * Get logged-in user
  */
 router.get("/me", authMiddleware, async (req, res) => {
-  const user = await User.findById(req.user._id);
-  res.status(200).json(user);
+  // authMiddleware already attaches full user
+  res.status(200).json(req.user);
 });
 
 export default router;
