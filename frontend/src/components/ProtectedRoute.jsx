@@ -31,11 +31,21 @@ const ProtectedRoute = () => {
     return <Navigate to="/auth" replace />;
   }
 
-  // 🔒 FINAL onboarding enforcement
-  if (user.profileComplete !== true) {
-    const step = user.onboardingStep || "public";
-    const correctPath = `/dashboard/profile/${step}`;
+  // ✅ FINAL ONBOARDING RULE
+  if (user.profileComplete === true) {
+    // 🚫 Never allow /dashboard/profile/*
+    if (location.pathname.startsWith("/dashboard/profile")) {
+      return <Navigate to="/dashboard/home" replace />;
+    }
+    return <Outlet />;
+  }
 
+  // 🔒 Incomplete onboarding
+  if (
+    user.onboardingStep &&
+    user.onboardingStep !== "done"
+  ) {
+    const correctPath = `/dashboard/profile/${user.onboardingStep}`;
     if (location.pathname !== correctPath) {
       return <Navigate to={correctPath} replace />;
     }
