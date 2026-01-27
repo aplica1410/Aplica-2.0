@@ -1,5 +1,7 @@
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../../context/UserContext";
+import { getMe } from "../../api/auth";
 import "./Attachments.css";
 
 import attachmentIcon from "../../assets/attachment.svg";
@@ -7,6 +9,7 @@ import logo from "../../assets/logo.svg";
 
 const Attachments = () => {
   const navigate = useNavigate();
+  const { setUser } = useUser();
 
   const BACKEND_URL =
     import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
@@ -68,6 +71,10 @@ const Attachments = () => {
       if (!res.ok) {
         throw new Error("Failed to complete onboarding");
       }
+
+      // 🔥 FINAL CRITICAL FIX: sync user context
+      const updatedUser = await getMe();
+      setUser(updatedUser);
 
       navigate("/dashboard/home", { replace: true });
     } catch (err) {

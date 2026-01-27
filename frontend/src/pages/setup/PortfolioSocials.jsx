@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../../context/UserContext";
+import { getMe } from "../../api/auth";
 import "./PortfolioSocials.css";
 
 // Icons
@@ -14,6 +16,7 @@ import driveIcon from "../../assets/Google Drive.svg";
 
 const PortfolioSocials = () => {
   const navigate = useNavigate();
+  const { setUser } = useUser();
 
   const BACKEND_URL =
     import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
@@ -65,7 +68,10 @@ const PortfolioSocials = () => {
         throw new Error("Failed to save portfolio links");
       }
 
-      // ✅ Correct next step
+      // 🔥 CRITICAL FIX: sync user context
+      const updatedUser = await getMe();
+      setUser(updatedUser);
+
       navigate("/dashboard/profile/attachments");
     } catch (err) {
       console.error("Portfolio save failed:", err);

@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { useUser } from "../../context/UserContext";
+import { getMe } from "../../api/auth";
 import "./ProfessionalInfo.css";
 
 const ProfessionalInfo = () => {
   const navigate = useNavigate();
+  const { setUser } = useUser();
 
   const BACKEND_URL =
     import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
@@ -33,22 +35,26 @@ const ProfessionalInfo = () => {
           method: "POST",
           credentials: "include",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             role: role.trim(),
             experience: {
               years: Number(years),
-              months: Number(months)
+              months: Number(months),
             },
-            headline: headline.trim()
-          })
+            headline: headline.trim(),
+          }),
         }
       );
 
       if (!res.ok) {
         throw new Error("Failed to save professional info");
       }
+
+      // 🔥 CRITICAL FIX: sync user context
+      const updatedUser = await getMe();
+      setUser(updatedUser);
 
       navigate("/dashboard/profile/portfolio");
     } catch (err) {

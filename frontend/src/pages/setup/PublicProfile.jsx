@@ -1,5 +1,7 @@
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../../context/UserContext";
+import { getMe } from "../../api/auth";
 import "./PublicProfile.css";
 
 import logo from "../../assets/logo.svg";
@@ -7,6 +9,7 @@ import imageIcon from "../../assets/Picture.svg";
 
 const PublicProfile = () => {
   const navigate = useNavigate();
+  const { setUser } = useUser();
   const fileRef = useRef(null);
 
   const [image, setImage] = useState(null);
@@ -51,7 +54,7 @@ const PublicProfile = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          credentials: "include", // 🔥 REQUIRED
+          credentials: "include",
           body: JSON.stringify({
             firstName: firstName.trim(),
             lastName: lastName.trim(),
@@ -64,7 +67,10 @@ const PublicProfile = () => {
         throw new Error("Save failed");
       }
 
-      // 🔥 Move to next onboarding step
+      // 🔥 CRITICAL FIX: sync user context
+      const updatedUser = await getMe();
+      setUser(updatedUser);
+
       navigate("/dashboard/profile/professional");
     } catch (err) {
       console.error("Public profile save failed:", err);
@@ -80,7 +86,6 @@ const PublicProfile = () => {
 
       <h2>Public Profile</h2>
 
-      {/* Avatar Section */}
       <div className="avatar-section">
         <div
           className="avatar-circle"
@@ -117,7 +122,6 @@ const PublicProfile = () => {
         />
       </div>
 
-      {/* Form */}
       <div className="public-form">
         <div className="row">
           <div className="field">
