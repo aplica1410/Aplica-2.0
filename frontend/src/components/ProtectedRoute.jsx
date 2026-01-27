@@ -46,10 +46,11 @@ const ProtectedRoute = () => {
     return <div>Checking authentication...</div>;
   }
 
-  // ❌ Auth resolved and user missing
-  if (user === null) {
-    return <Navigate to="/auth" replace />;
-  }
+ // 🚨 IMPORTANT: do NOT redirect immediately on first null
+if (user === null && location.pathname !== "/auth") {
+  return <Navigate to="/auth" replace />;
+}
+
 
   // 🔒 Onboarding enforcement (safe + final)
   const isOnboardingIncomplete =
