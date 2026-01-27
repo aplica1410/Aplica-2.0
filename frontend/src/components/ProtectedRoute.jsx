@@ -12,9 +12,9 @@ const ProtectedRoute = () => {
     const checkAuth = async () => {
       try {
         const me = await getMe();
-        setUser(me); // ✅ authenticated
+        setUser(me);
       } catch {
-        setUser(null); // ❌ not authenticated
+        setUser(null);
       } finally {
         setLoading(false);
       }
@@ -23,23 +23,19 @@ const ProtectedRoute = () => {
     checkAuth();
   }, [setUser]);
 
-  // ⏳ IMPORTANT: while checking, do NOTHING
   if (loading) {
     return <div>Checking authentication...</div>;
   }
 
-  // ❌ Only redirect AFTER loading is false
   if (!user) {
     return <Navigate to="/auth" replace />;
   }
 
-  // 🔒 Onboarding enforcement
-  if (
-    user.profileComplete === false &&
-    user.onboardingStep &&
-    user.onboardingStep !== "done"
-  ) {
-    const correctPath = `/dashboard/profile/${user.onboardingStep}`;
+  // 🔒 FINAL onboarding enforcement
+  if (user.profileComplete !== true) {
+    const step = user.onboardingStep || "public";
+    const correctPath = `/dashboard/profile/${step}`;
+
     if (location.pathname !== correctPath) {
       return <Navigate to={correctPath} replace />;
     }
