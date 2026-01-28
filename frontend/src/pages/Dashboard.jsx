@@ -7,9 +7,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Only handle dashboard routing logic
   useEffect(() => {
-    // If user lands on /dashboard, redirect to /dashboard/home
     if (location.pathname === "/dashboard") {
       navigate("/dashboard/home", { replace: true });
     }
