@@ -5,6 +5,9 @@ import Auth from "./pages/Auth";
 
 import Dashboard from "./pages/Dashboard";
 import DashboardHome from "./pages/DashboardHome";
+import Apply from "./pages/Apply";
+import Applications from "./pages/Applications";
+import Settings from "./pages/Settings";
 
 import ProfileSetupLayout from "./pages/setup/ProfileSetupLayout";
 import PublicProfile from "./pages/setup/PublicProfile";
@@ -23,12 +26,15 @@ function App() {
 
       {/* 🔐 EVERYTHING BELOW REQUIRES AUTH */}
       <Route element={<ProtectedRoute />}>
-        {/* Dashboard */}
+        {/* Dashboard layout */}
         <Route path="/dashboard" element={<Dashboard />}>
           <Route path="home" element={<DashboardHome />} />
+          <Route path="apply" element={<Apply />} />
+          <Route path="applications" element={<Applications />} />
+          <Route path="settings" element={<Settings />} />
         </Route>
 
-        {/* ✅ Profile Setup MUST ALSO BE PROTECTED */}
+        {/* Profile setup (also protected) */}
         <Route path="/dashboard/profile" element={<ProfileSetupLayout />}>
           <Route path="public" element={<PublicProfile />} />
           <Route path="professional" element={<ProfessionalInfo />} />
