@@ -7,10 +7,7 @@ const router = express.Router();
 
 /* =====================================
    🔍 GET: Logged-in user's full profile
-   Used for Profile View page
-===================================== */
-/* =====================================
-   GET COMPLETE PROFILE (VIEW MODE)
+   Used for Personal Information / View
 ===================================== */
 router.get("/me", auth, async (req, res) => {
   try {
@@ -29,9 +26,38 @@ router.get("/me", auth, async (req, res) => {
   }
 });
 
+/* =====================================
+   STEP 1: Public Profile
+===================================== */
+router.post("/public", auth, async (req, res) => {
+  try {
+    const { firstName, lastName, location, avatar } = req.body;
+
+    if (!firstName || !lastName || !location) {
+      return res.status(400).json({
+        message: "Missing public profile fields",
+      });
+    }
+
+    await User.findByIdAndUpdate(req.user._id, {
+      publicProfile: {
+        firstName,
+        lastName,
+        location,
+        avatar: avatar || null,
+      },
+      onboardingStep: "professional",
+    });
+
+    res.json({ success: true });
+  } catch (err) {
+    console.error("Public profile save failed:", err);
+    res.status(500).json({ message: "Failed to save public profile" });
+  }
+});
 
 /* =====================================
-   STEP 1: Professional Information
+   STEP 2: Professional Information
 ===================================== */
 router.post("/professional", auth, async (req, res) => {
   try {
@@ -72,7 +98,7 @@ router.post("/professional", auth, async (req, res) => {
 });
 
 /* =====================================
-   STEP 2: Portfolio & Socials
+   STEP 3: Portfolio & Socials
 ===================================== */
 router.post("/portfolio", auth, async (req, res) => {
   try {
@@ -107,7 +133,8 @@ router.post("/portfolio", auth, async (req, res) => {
 });
 
 /* =====================================
-   STEP 3: Attachments (Optional)
+   STEP 4: Attachments (FINAL STEP)
+   🚨 NO "done" ROUTE EVER
 ===================================== */
 router.post(
   "/attachments",
@@ -123,7 +150,8 @@ router.post(
           size: req.file?.size || null,
           note: req.body?.note || "",
         },
-        onboardingStep: "done",
+        profileComplete: true,
+        onboardingStep: null, // 🔥 IMPORTANT
       });
 
       res.json({ success: true });
@@ -135,37 +163,7 @@ router.post(
 );
 
 /* =====================================
-   STEP 4: Public Profile
-===================================== */
-router.post("/public", auth, async (req, res) => {
-  try {
-    const { firstName, lastName, location, avatar } = req.body;
-
-    if (!firstName || !lastName || !location) {
-      return res.status(400).json({
-        message: "Missing public profile fields",
-      });
-    }
-
-    await User.findByIdAndUpdate(req.user._id, {
-      publicProfile: {
-        firstName,
-        lastName,
-        location,
-        avatar: avatar || null,
-      },
-      onboardingStep: "professional",
-    });
-
-    res.json({ success: true });
-  } catch (err) {
-    console.error("Public profile save failed:", err);
-    res.status(500).json({ message: "Failed to save public profile" });
-  }
-});
-
-/* =====================================
-   STEP 5: Complete Profile (Safety Net)
+   STEP 5: Safety Net (Optional)
 ===================================== */
 router.post("/complete", auth, async (req, res) => {
   try {

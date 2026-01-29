@@ -31,7 +31,7 @@ const ProtectedRoute = () => {
     return <Navigate to="/auth" replace />;
   }
 
-  /* ✅ PROFILE COMPLETE → FULL ACCESS */
+  /* ✅ PROFILE COMPLETE USERS */
   if (user.profileComplete === true) {
     if (location.pathname.startsWith("/dashboard/profile")) {
       return <Navigate to="/dashboard/home" replace />;
@@ -39,7 +39,7 @@ const ProtectedRoute = () => {
     return <Outlet />;
   }
 
-  /* 🧭 ONBOARDING IN PROGRESS */
+  /* 🧭 ONBOARDING USERS */
   const step = user.onboardingStep || "public";
   const allowedPath = `/dashboard/profile/${step}`;
 

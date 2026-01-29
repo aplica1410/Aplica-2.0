@@ -15,7 +15,6 @@ const Attachments = () => {
     import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
   const fileInputRef = useRef(null);
-
   const [file, setFile] = useState(null);
   const [note, setNote] = useState("");
   const [saving, setSaving] = useState(false);
@@ -31,7 +30,7 @@ const Attachments = () => {
     const allowedTypes = [
       "application/pdf",
       "application/msword",
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     ];
 
     if (!allowedTypes.includes(selected.type)) {
@@ -60,7 +59,7 @@ const Attachments = () => {
         {
           method: "POST",
           credentials: "include",
-          body: formData,
+          body: formData
         }
       );
 
@@ -68,11 +67,11 @@ const Attachments = () => {
         throw new Error("Failed to complete onboarding");
       }
 
-      // 🔥 SYNC USER STATE AFTER COMPLETION
+      // 🔥 SYNC USER STATE
       const updatedUser = await getMe();
       setUser(updatedUser);
 
-      // ✅ FORCE REDIRECT TO DASHBOARD
+      // ✅ ALWAYS GO TO DASHBOARD
       navigate("/dashboard/home", { replace: true });
     } catch (err) {
       console.error("Finish setup failed:", err);
