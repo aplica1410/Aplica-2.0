@@ -10,6 +10,7 @@ import Applications from "./pages/Applications";
 import Settings from "./pages/Settings";
 
 import ProfileSetupLayout from "./pages/setup/ProfileSetupLayout";
+import ProfileView from "./pages/setup/ProfileView"; // 👈 NEW
 import PublicProfile from "./pages/setup/PublicProfile";
 import ProfessionalInfo from "./pages/setup/ProfessionalInfo";
 import PortfolioSocials from "./pages/setup/PortfolioSocials";
@@ -20,11 +21,11 @@ import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
   return (
     <Routes>
-      {/* Public */}
+      {/* 🌍 Public routes */}
       <Route path="/" element={<Landing />} />
       <Route path="/auth" element={<Auth />} />
 
-      {/* 🔐 EVERYTHING BELOW REQUIRES AUTH */}
+      {/* 🔐 Protected routes */}
       <Route element={<ProtectedRoute />}>
         {/* Dashboard layout */}
         <Route path="/dashboard" element={<Dashboard />}>
@@ -34,8 +35,12 @@ function App() {
           <Route path="settings" element={<Settings />} />
         </Route>
 
-        {/* Profile setup (also protected) */}
+        {/* 👤 Profile (view + setup/edit) */}
         <Route path="/dashboard/profile" element={<ProfileSetupLayout />}>
+          {/* 🔍 Profile VIEW */}
+          <Route index element={<ProfileView />} />
+
+          {/* ✏️ Profile SETUP / EDIT */}
           <Route path="public" element={<PublicProfile />} />
           <Route path="professional" element={<ProfessionalInfo />} />
           <Route path="portfolio" element={<PortfolioSocials />} />

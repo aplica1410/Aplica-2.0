@@ -6,13 +6,31 @@ import User from "../models/User.js";
 const router = express.Router();
 
 /* =====================================
+   🔍 GET: Logged-in user's full profile
+   Used for Profile View page
+===================================== */
+router.get("/me", auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).select("-password");
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json(user);
+  } catch (err) {
+    console.error("🔥 Fetch profile failed:", err);
+    res.status(500).json({ message: "Failed to fetch profile" });
+  }
+});
+
+/* =====================================
    STEP 1: Professional Information
 ===================================== */
 router.post("/professional", auth, async (req, res) => {
   try {
     const { role, experience, headline } = req.body;
 
-    // 🔒 Validation
     if (
       !role ||
       !headline?.trim() ||
@@ -21,13 +39,13 @@ router.post("/professional", auth, async (req, res) => {
       typeof experience.months !== "number"
     ) {
       return res.status(400).json({
-        message: "Role, headline, and valid experience are required"
+        message: "Role, headline, and valid experience are required",
       });
     }
 
     if (experience.months < 0 || experience.months > 11) {
       return res.status(400).json({
-        message: "Experience months must be between 0 and 11"
+        message: "Experience months must be between 0 and 11",
       });
     }
 
@@ -35,9 +53,9 @@ router.post("/professional", auth, async (req, res) => {
       professionalInfo: {
         role,
         experience,
-        headline: headline.trim()
+        headline: headline.trim(),
       },
-      onboardingStep: "portfolio"
+      onboardingStep: "portfolio",
     });
 
     res.json({ success: true });
@@ -59,7 +77,7 @@ router.post("/portfolio", auth, async (req, res) => {
       dribbble = null,
       behance = null,
       instagram = null,
-      twitter = null
+      twitter = null,
     } = req.body;
 
     await User.findByIdAndUpdate(req.user._id, {
@@ -70,9 +88,9 @@ router.post("/portfolio", auth, async (req, res) => {
         dribbble,
         behance,
         instagram,
-        twitter
+        twitter,
       },
-      onboardingStep: "attachments"
+      onboardingStep: "attachments",
     });
 
     res.json({ success: true });
@@ -88,7 +106,7 @@ router.post("/portfolio", auth, async (req, res) => {
 router.post(
   "/attachments",
   auth,
-  upload.single("file"), // MUST match FormData key
+  upload.single("file"),
   async (req, res) => {
     try {
       await User.findByIdAndUpdate(req.user._id, {
@@ -97,9 +115,9 @@ router.post(
           originalName: req.file?.originalname || null,
           mimeType: req.file?.mimetype || null,
           size: req.file?.size || null,
-          note: req.body?.note || ""
+          note: req.body?.note || "",
         },
-        onboardingStep: "done"
+        onboardingStep: "done",
       });
 
       res.json({ success: true });
@@ -119,7 +137,7 @@ router.post("/public", auth, async (req, res) => {
 
     if (!firstName || !lastName || !location) {
       return res.status(400).json({
-        message: "Missing public profile fields"
+        message: "Missing public profile fields",
       });
     }
 
@@ -128,9 +146,9 @@ router.post("/public", auth, async (req, res) => {
         firstName,
         lastName,
         location,
-        avatar: avatar || null
+        avatar: avatar || null,
       },
-      onboardingStep: "professional"
+      onboardingStep: "professional",
     });
 
     res.json({ success: true });
@@ -147,7 +165,7 @@ router.post("/complete", auth, async (req, res) => {
   try {
     await User.findByIdAndUpdate(req.user._id, {
       profileComplete: true,
-      onboardingStep: "done"
+      onboardingStep: "done",
     });
 
     res.json({ success: true });
