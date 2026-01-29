@@ -10,7 +10,7 @@ import Applications from "./pages/Applications";
 import Settings from "./pages/Settings";
 
 import ProfileSetupLayout from "./pages/setup/ProfileSetupLayout";
-import ProfileView from "./pages/setup/ProfileView"; // 👈 profile read-only view
+import ProfileView from "./pages/setup/ProfileView";
 import PublicProfile from "./pages/setup/PublicProfile";
 import ProfessionalInfo from "./pages/setup/ProfessionalInfo";
 import PortfolioSocials from "./pages/setup/PortfolioSocials";
@@ -21,30 +21,27 @@ import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
   return (
     <Routes>
-      {/* 🌍 Public routes */}
+      {/* Public */}
       <Route path="/" element={<Landing />} />
       <Route path="/auth" element={<Auth />} />
 
-      {/* 🔐 Protected routes */}
+      {/* Protected */}
       <Route element={<ProtectedRoute />}>
-        {/* 📊 Dashboard layout */}
+        {/* ALL dashboard pages live here */}
         <Route path="/dashboard" element={<Dashboard />}>
           <Route path="home" element={<DashboardHome />} />
           <Route path="apply" element={<Apply />} />
           <Route path="applications" element={<Applications />} />
           <Route path="settings" element={<Settings />} />
-        </Route>
 
-        {/* 👤 Profile (view + setup/edit) */}
-        <Route path="/dashboard/profile" element={<ProfileSetupLayout />}>
-          {/* 👁 Default profile view */}
-          <Route index element={<ProfileView />} />
-
-          {/* ✏️ Profile setup / edit */}
-          <Route path="public" element={<PublicProfile />} />
-          <Route path="professional" element={<ProfessionalInfo />} />
-          <Route path="portfolio" element={<PortfolioSocials />} />
-          <Route path="attachments" element={<Attachments />} />
+          {/* 🔥 PROFILE MUST BE NESTED HERE */}
+          <Route path="profile" element={<ProfileSetupLayout />}>
+            <Route index element={<ProfileView />} />
+            <Route path="public" element={<PublicProfile />} />
+            <Route path="professional" element={<ProfessionalInfo />} />
+            <Route path="portfolio" element={<PortfolioSocials />} />
+            <Route path="attachments" element={<Attachments />} />
+          </Route>
         </Route>
       </Route>
     </Routes>
