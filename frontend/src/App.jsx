@@ -9,12 +9,7 @@ import Apply from "./pages/Apply";
 import Applications from "./pages/Applications";
 import Settings from "./pages/Settings";
 
-import ProfileSetupLayout from "./pages/setup/ProfileSetupLayout";
-import ProfileView from "./pages/setup/ProfileView";
-import PublicProfile from "./pages/setup/PublicProfile";
-import ProfessionalInfo from "./pages/setup/ProfessionalInfo";
-import PortfolioSocials from "./pages/setup/PortfolioSocials";
-import Attachments from "./pages/setup/Attachments";
+import PersonalInformation from "./pages/PersonalInformation"; // 👈 NEW
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -27,21 +22,17 @@ function App() {
 
       {/* Protected */}
       <Route element={<ProtectedRoute />}>
-        {/* ALL dashboard pages live here */}
         <Route path="/dashboard" element={<Dashboard />}>
           <Route path="home" element={<DashboardHome />} />
           <Route path="apply" element={<Apply />} />
           <Route path="applications" element={<Applications />} />
           <Route path="settings" element={<Settings />} />
 
-          {/* 🔥 PROFILE MUST BE NESTED HERE */}
-          <Route path="profile" element={<ProfileSetupLayout />}>
-            <Route index element={<ProfileView />} />
-            <Route path="public" element={<PublicProfile />} />
-            <Route path="professional" element={<ProfessionalInfo />} />
-            <Route path="portfolio" element={<PortfolioSocials />} />
-            <Route path="attachments" element={<Attachments />} />
-          </Route>
+          {/* ✅ NEW PERSONAL INFO PAGE */}
+          <Route
+            path="personal-information"
+            element={<PersonalInformation />}
+          />
         </Route>
       </Route>
     </Routes>
