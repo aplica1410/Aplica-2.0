@@ -9,20 +9,26 @@ const router = express.Router();
    🔍 GET: Logged-in user's full profile
    Used for Profile View page
 ===================================== */
+/* =====================================
+   GET COMPLETE PROFILE (VIEW MODE)
+===================================== */
 router.get("/me", auth, async (req, res) => {
   try {
-    const user = await User.findById(req.user._id).select("-password");
+    const user = await User.findById(req.user._id).select(
+      "publicProfile professionalInfo portfolio attachment profileComplete onboardingStep"
+    );
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    res.status(200).json(user);
+    res.json(user);
   } catch (err) {
-    console.error("🔥 Fetch profile failed:", err);
+    console.error("Fetch profile failed:", err);
     res.status(500).json({ message: "Failed to fetch profile" });
   }
 });
+
 
 /* =====================================
    STEP 1: Professional Information

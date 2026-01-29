@@ -28,41 +28,57 @@ const ProfileView = () => {
   if (loading) return <p>Loading profile...</p>;
   if (!profile) return <p>No profile data found.</p>;
 
+  const { publicProfile, professionalInfo, portfolio, attachment } = profile;
+
   return (
     <div className="profile-view">
       <h1>Your Profile</h1>
 
-      {/* Public */}
+      {/* Public Profile */}
       <section>
         <h2>Public Profile</h2>
-        <p><b>Name:</b> {profile.name}</p>
-        <p><b>Headline:</b> {profile.headline}</p>
+        <p>
+          <b>Name:</b> {publicProfile?.firstName} {publicProfile?.lastName}
+        </p>
+        <p>
+          <b>Location:</b> {publicProfile?.location}
+        </p>
         <button onClick={() => navigate("public")}>Edit</button>
       </section>
 
-      {/* Professional */}
+      {/* Professional Info */}
       <section>
         <h2>Professional Info</h2>
-        <p><b>Role:</b> {profile.role}</p>
-        <p><b>Experience:</b> {profile.experience}</p>
+        <p>
+          <b>Role:</b> {professionalInfo?.role}
+        </p>
+        <p>
+          <b>Headline:</b> {professionalInfo?.headline}
+        </p>
+        <p>
+          <b>Experience:</b>{" "}
+          {professionalInfo?.experience?.years}y{" "}
+          {professionalInfo?.experience?.months}m
+        </p>
         <button onClick={() => navigate("professional")}>Edit</button>
       </section>
 
       {/* Portfolio */}
       <section>
         <h2>Portfolio & Socials</h2>
-        <p><b>LinkedIn:</b> {profile.linkedin}</p>
-        <p><b>Portfolio:</b> {profile.portfolio}</p>
+        <p><b>Portfolio:</b> {portfolio?.portfolio}</p>
+        <p><b>LinkedIn:</b> {portfolio?.linkedin}</p>
+        <p><b>GitHub:</b> {portfolio?.github}</p>
         <button onClick={() => navigate("portfolio")}>Edit</button>
       </section>
 
       {/* Attachments */}
       <section>
         <h2>Attachments</h2>
-        {profile.resume && (
-          <a href={profile.resume} target="_blank" rel="noreferrer">
-            View Resume
-          </a>
+        {attachment?.filename ? (
+          <p>{attachment.originalName}</p>
+        ) : (
+          <p>No attachment uploaded</p>
         )}
         <button onClick={() => navigate("attachments")}>Edit</button>
       </section>
