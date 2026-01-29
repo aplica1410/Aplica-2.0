@@ -13,8 +13,7 @@ const ProtectedRoute = () => {
       try {
         const me = await getMe();
         setUser(me);
-      } catch (err) {
-        console.error("Auth check failed", err);
+      } catch {
         setUser(null);
       } finally {
         setLoading(false);
@@ -24,30 +23,23 @@ const ProtectedRoute = () => {
     checkAuth();
   }, [setUser]);
 
-  /* ⏳ Wait for auth check */
   if (loading) {
-    return (
-      <div style={{ color: "white", padding: "20px" }}>
-        Checking authentication...
-      </div>
-    );
+    return <div style={{ color: "white", padding: 20 }}>Checking authentication…</div>;
   }
 
-  /* 🔒 Not logged in */
   if (!user) {
     return <Navigate to="/auth" replace />;
   }
 
-  /* ✅ PROFILE COMPLETE USERS */
+  /* ✅ PROFILE COMPLETE → FULL ACCESS */
   if (user.profileComplete === true) {
-    // 🚫 Never allow profile setup routes again
     if (location.pathname.startsWith("/dashboard/profile")) {
       return <Navigate to="/dashboard/home" replace />;
     }
     return <Outlet />;
   }
 
-  /* 🆕 INCOMPLETE PROFILE → FORCE ONBOARDING */
+  /* 🧭 ONBOARDING IN PROGRESS */
   const step = user.onboardingStep || "public";
   const allowedPath = `/dashboard/profile/${step}`;
 
