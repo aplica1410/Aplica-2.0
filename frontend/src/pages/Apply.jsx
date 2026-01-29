@@ -1,6 +1,7 @@
 import ApplyHeader from "../components/apply/ApplyHeader";
 import JobDescription from "../components/apply/JobDescription";
 import EmailPreview from "../components/apply/EmailPreview";
+import "../styles/apply.css";
 
 const Apply = () => {
   return (
@@ -8,8 +9,13 @@ const Apply = () => {
       <ApplyHeader />
 
       <div className="apply-grid">
-        <JobDescription />
-        <EmailPreview />
+        <div className="apply-left">
+          <JobDescription />
+        </div>
+
+        <div className="apply-right">
+          <EmailPreview />
+        </div>
       </div>
     </div>
   );

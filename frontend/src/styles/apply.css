@@ -1,115 +1,79 @@
 .apply-page {
   padding: 24px;
   color: #fff;
-}
-
-.apply-header h2 span {
-  color: #4da3ff;
-}
-
-.apply-card {
-  background: #1e1f22;
-  border-radius: 12px;
-  padding: 24px;
-  margin-top: 20px;
-}
-
-.job-link {
-  display: flex;
-  gap: 12px;
-}
-
-.job-link input {
-  flex: 1;
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid #333;
-  background: #111;
-  color: #fff;
-}
-
-.job-description textarea {
   width: 100%;
-  margin-top: 20px;
-  padding: 12px;
-  border-radius: 8px;
-  background: #111;
-  color: #fff;
-  border: 1px solid #333;
 }
 
-.primary-btn {
-  background: #4da3ff;
-  color: white;
-  padding: 10px 18px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-}
-
-.bottom-btn {
-  margin-top: 16px;
-}
-
-.divider {
-  text-align: center;
-  margin: 16px 0;
-  color: #777;
-}
-
-.apply-page {
-  padding: 24px;
-  color: #fff;
-}
-
+/* 🔥 FORCE LEFT–RIGHT LAYOUT */
 .apply-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
   margin-top: 20px;
+  align-items: stretch;
 }
 
+/* Left: JD */
+.apply-left,
+.apply-right {
+  width: 100%;
+}
+
+/* Cards */
 .job-description,
 .email-preview {
   background: #1c1f24;
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 20px;
+  height: 100%;
 }
 
-label {
+/* Labels */
+.job-description label,
+.email-preview label {
   display: block;
   font-size: 13px;
-  color: #aaa;
+  color: #9aa4b2;
   margin-bottom: 6px;
 }
 
-textarea,
-input {
+/* Inputs */
+.job-description textarea,
+.email-preview textarea,
+.email-preview input {
   width: 100%;
-  background: #111;
-  border: 1px solid #2a2d33;
-  border-radius: 8px;
-  padding: 10px;
+  background: #0f1115;
+  border: 1px solid #2a2f3a;
+  border-radius: 10px;
+  padding: 12px;
   color: #fff;
+  font-size: 14px;
 }
 
-textarea {
+/* Textarea sizing */
+.job-description textarea {
+  min-height: 420px;
   resize: none;
 }
 
-.field {
+.email-preview textarea {
+  min-height: 260px;
+  resize: none;
+}
+
+/* Fields spacing */
+.email-preview .field {
   margin-bottom: 14px;
 }
 
+/* Button */
 .primary-btn {
-  width: 120px;
-  margin-top: 10px;
   background: #3da9fc;
-  border: none;
-  padding: 10px;
-  border-radius: 8px;
   color: #000;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 10px;
   font-weight: 600;
   cursor: pointer;
+  width: fit-content;
 }
-
