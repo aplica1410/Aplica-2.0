@@ -12,15 +12,6 @@ const Sidebar = () => {
       <NavLink to="/dashboard/applications">Applications</NavLink>
       <NavLink to="/dashboard/settings">Settings</NavLink>
 
-      <NavLink
-  to="/dashboard/profile"
-  className={({ isActive }) =>
-    isActive ? "sidebar-link active" : "sidebar-link"
-  }
->
-  Profile
-</NavLink>
-
 
       {!user.profileComplete && (
         <button
