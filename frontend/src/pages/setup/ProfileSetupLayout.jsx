@@ -1,9 +1,11 @@
 import { Outlet } from "react-router-dom";
 
 const ProfileSetupLayout = () => {
+  console.log("🔥 ProfileSetupLayout mounted");
+
   return (
-    <div className="profile-setup-layout">
-      {/* Optional: header / stepper / title */}
+    <div style={{ color: "white", padding: "20px" }}>
+      <h1>PROFILE LAYOUT</h1>
       <Outlet />
     </div>
   );
