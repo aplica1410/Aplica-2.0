@@ -34,7 +34,7 @@ const Sidebar = () => {
           to="/dashboard/profile"
           className={({ isActive }) => (isActive ? "active" : "")}
         >
-          Profile
+          Personal Information
         </NavLink>
 
         <NavLink
