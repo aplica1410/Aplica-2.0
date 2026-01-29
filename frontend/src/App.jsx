@@ -10,7 +10,7 @@ import Applications from "./pages/Applications";
 import Settings from "./pages/Settings";
 
 import ProfileSetupLayout from "./pages/setup/ProfileSetupLayout";
-import ProfileView from "./pages/setup/ProfileView"; // 👈 NEW
+import ProfileView from "./pages/setup/ProfileView"; // 👈 profile read-only view
 import PublicProfile from "./pages/setup/PublicProfile";
 import ProfessionalInfo from "./pages/setup/ProfessionalInfo";
 import PortfolioSocials from "./pages/setup/PortfolioSocials";
@@ -27,7 +27,7 @@ function App() {
 
       {/* 🔐 Protected routes */}
       <Route element={<ProtectedRoute />}>
-        {/* Dashboard layout */}
+        {/* 📊 Dashboard layout */}
         <Route path="/dashboard" element={<Dashboard />}>
           <Route path="home" element={<DashboardHome />} />
           <Route path="apply" element={<Apply />} />
@@ -37,10 +37,10 @@ function App() {
 
         {/* 👤 Profile (view + setup/edit) */}
         <Route path="/dashboard/profile" element={<ProfileSetupLayout />}>
-          {/* 🔍 Profile VIEW */}
+          {/* 👁 Default profile view */}
           <Route index element={<ProfileView />} />
 
-          {/* ✏️ Profile SETUP / EDIT */}
+          {/* ✏️ Profile setup / edit */}
           <Route path="public" element={<PublicProfile />} />
           <Route path="professional" element={<ProfessionalInfo />} />
           <Route path="portfolio" element={<PortfolioSocials />} />
