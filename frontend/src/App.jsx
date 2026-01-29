@@ -31,7 +31,7 @@ function App() {
         {/* Dashboard layout */}
         <Route path="/dashboard" element={<Dashboard />}>
           <Route path="home" element={<DashboardHome />} />
-        {/* <Route path="apply" element={<Apply />} /> */}
+         <Route path="apply" element={<Apply />} />
           <Route path="applications" element={<Applications />} />
           <Route path="settings" element={<Settings />} />
           <Route path="personal-information" element={<PersonalInformation />} />
