@@ -26,7 +26,11 @@ const ProtectedRoute = () => {
 
   /* ⏳ Wait for auth check */
   if (loading) {
-    return <div style={{ color: "white", padding: "20px" }}>Checking authentication...</div>;
+    return (
+      <div style={{ color: "white", padding: "20px" }}>
+        Checking authentication...
+      </div>
+    );
   }
 
   /* 🔒 Not logged in */
@@ -34,26 +38,23 @@ const ProtectedRoute = () => {
     return <Navigate to="/auth" replace />;
   }
 
-  /**
-   * 🧠 ONBOARDING LOGIC (FIXED)
-   *
-   * Rules:
-   * 1. If profile NOT complete → allow ONLY /dashboard/profile/*
-   * 2. If profile complete → allow dashboard, personal-info, etc
-   */
-
-  // 🆕 User still onboarding
-  if (!user.profileComplete) {
-    const step = user.onboardingStep || "public";
-    const allowedPath = `/dashboard/profile/${step}`;
-
-    // 🚫 Block everything except profile setup
-    if (!location.pathname.startsWith("/dashboard/profile")) {
-      return <Navigate to={allowedPath} replace />;
+  /* ✅ PROFILE COMPLETE USERS */
+  if (user.profileComplete === true) {
+    // 🚫 Never allow profile setup routes again
+    if (location.pathname.startsWith("/dashboard/profile")) {
+      return <Navigate to="/dashboard/home" replace />;
     }
+    return <Outlet />;
   }
 
-  // ✅ Profile complete users: no restriction
+  /* 🆕 INCOMPLETE PROFILE → FORCE ONBOARDING */
+  const step = user.onboardingStep || "public";
+  const allowedPath = `/dashboard/profile/${step}`;
+
+  if (!location.pathname.startsWith("/dashboard/profile")) {
+    return <Navigate to={allowedPath} replace />;
+  }
+
   return <Outlet />;
 };
 

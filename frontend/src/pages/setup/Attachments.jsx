@@ -31,7 +31,7 @@ const Attachments = () => {
     const allowedTypes = [
       "application/pdf",
       "application/msword",
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
     ];
 
     if (!allowedTypes.includes(selected.type)) {
@@ -52,19 +52,15 @@ const Attachments = () => {
       setSaving(true);
 
       const formData = new FormData();
-      if (file) {
-        formData.append("file", file); // MUST be "file"
-      }
-      if (note.trim()) {
-        formData.append("note", note.trim());
-      }
+      if (file) formData.append("file", file);
+      if (note.trim()) formData.append("note", note.trim());
 
       const res = await fetch(
         `${BACKEND_URL}/api/profile-setup/attachments`,
         {
           method: "POST",
           credentials: "include",
-          body: formData
+          body: formData,
         }
       );
 
@@ -72,10 +68,11 @@ const Attachments = () => {
         throw new Error("Failed to complete onboarding");
       }
 
-      // 🔥 FINAL CRITICAL FIX: sync user context
+      // 🔥 SYNC USER STATE AFTER COMPLETION
       const updatedUser = await getMe();
       setUser(updatedUser);
 
+      // ✅ FORCE REDIRECT TO DASHBOARD
       navigate("/dashboard/home", { replace: true });
     } catch (err) {
       console.error("Finish setup failed:", err);
