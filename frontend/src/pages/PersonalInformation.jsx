@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import "../styles/personal-information.css";
 
 const PersonalInformation = () => {
   const [user, setUser] = useState(null);
@@ -23,49 +24,79 @@ const PersonalInformation = () => {
     fetchUser();
   }, []);
 
-  if (loading) return <p>Loading personal information...</p>;
-  if (!user) return <p>No data found.</p>;
+  if (loading) return <p className="loading-text">Loading...</p>;
+  if (!user) return <p className="loading-text">No data found</p>;
+
+  const { publicProfile, professionalInfo, portfolio, attachment } = user;
 
   return (
-    <div style={{ color: "#fff", maxWidth: "900px" }}>
-      <h1>Personal Information</h1>
+    <div className="personal-info-wrapper">
+      <div className="personal-info-card">
+        {/* Avatar */}
+        <div className="avatar-section">
+          <div className="avatar-circle">
+            <span>📷</span>
+          </div>
+          <div className="avatar-actions">
+            <button className="btn-primary">Change Picture</button>
+            <button className="btn-secondary">Delete Picture</button>
+          </div>
+        </div>
 
-      {/* PUBLIC */}
-      <section>
-        <h3>Public Profile</h3>
-        <p><b>Name:</b> {user.publicProfile?.firstName} {user.publicProfile?.lastName}</p>
-        <p><b>Location:</b> {user.publicProfile?.location}</p>
-      </section>
+        {/* Public Info */}
+        <div className="form-section">
+          <div className="form-row">
+            <input value={publicProfile?.firstName || ""} disabled />
+            <input value={publicProfile?.lastName || ""} disabled />
+          </div>
+          <input value={publicProfile?.location || ""} disabled />
+        </div>
 
-      {/* PROFESSIONAL */}
-      <section>
-        <h3>Professional Info</h3>
-        <p><b>Role:</b> {user.professionalInfo?.role}</p>
-        <p>
-          <b>Experience:</b>{" "}
-          {user.professionalInfo?.experience?.years}y{" "}
-          {user.professionalInfo?.experience?.months}m
-        </p>
-        <p><b>Headline:</b> {user.professionalInfo?.headline}</p>
-      </section>
+        {/* Professional */}
+        <div className="form-section">
+          <input value={professionalInfo?.role || ""} disabled />
+          <div className="form-row">
+            <input
+              value={professionalInfo?.experience?.years || 0}
+              disabled
+            />
+            <input
+              value={professionalInfo?.experience?.months || 0}
+              disabled
+            />
+          </div>
+          <input value={professionalInfo?.headline || ""} disabled />
+        </div>
 
-      {/* PORTFOLIO */}
-      <section>
-        <h3>Portfolio & Socials</h3>
-        <p><b>Portfolio:</b> {user.portfolio?.portfolio}</p>
-        <p><b>LinkedIn:</b> {user.portfolio?.linkedin}</p>
-        <p><b>GitHub:</b> {user.portfolio?.github}</p>
-      </section>
+        {/* Portfolio */}
+        <div className="form-section">
+          <input value={portfolio?.portfolio || ""} disabled />
+          <div className="social-grid">
+            <input value={portfolio?.github || ""} disabled />
+            <input value={portfolio?.linkedin || ""} disabled />
+            <input value={portfolio?.dribbble || ""} disabled />
+            <input value={portfolio?.behance || ""} disabled />
+            <input value={portfolio?.instagram || ""} disabled />
+            <input value={portfolio?.twitter || ""} disabled />
+          </div>
+        </div>
 
-      {/* ATTACHMENT */}
-      <section>
-        <h3>Attachment</h3>
-        {user.attachment?.originalName ? (
-          <p>{user.attachment.originalName}</p>
-        ) : (
-          <p>No attachment uploaded</p>
-        )}
-      </section>
+        {/* Attachment */}
+        <div className="form-section">
+          <div className="attachment-box">
+            {attachment?.originalName
+              ? attachment.originalName
+              : "No attachment uploaded"}
+          </div>
+          <textarea placeholder="Optional note..." disabled />
+        </div>
+
+        {/* Actions */}
+        <div className="action-row">
+          <button className="btn-primary">Save Changes</button>
+          <button className="btn-secondary">Discard</button>
+        </div>
+      </div>
     </div>
   );
 };
