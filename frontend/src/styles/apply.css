@@ -56,3 +56,60 @@
   margin: 16px 0;
   color: #777;
 }
+
+.apply-page {
+  padding: 24px;
+  color: #fff;
+}
+
+.apply-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.job-description,
+.email-preview {
+  background: #1c1f24;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+label {
+  display: block;
+  font-size: 13px;
+  color: #aaa;
+  margin-bottom: 6px;
+}
+
+textarea,
+input {
+  width: 100%;
+  background: #111;
+  border: 1px solid #2a2d33;
+  border-radius: 8px;
+  padding: 10px;
+  color: #fff;
+}
+
+textarea {
+  resize: none;
+}
+
+.field {
+  margin-bottom: 14px;
+}
+
+.primary-btn {
+  width: 120px;
+  margin-top: 10px;
+  background: #3da9fc;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  color: #000;
+  font-weight: 600;
+  cursor: pointer;
+}
+

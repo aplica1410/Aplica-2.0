@@ -1,19 +1,11 @@
-const JobDescription = ({ value, onChange, onCompose }) => {
+const JobDescription = () => {
   return (
     <div className="job-description">
+      <label>JD</label>
       <textarea
-        placeholder="Paste Job Description"
-        rows="10"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
+        placeholder="Paste job description or freelance work details"
+        rows="18"
       />
-
-      <button
-        className="primary-btn bottom-btn"
-        onClick={onCompose}
-      >
-        Compose New Mail
-      </button>
     </div>
   );
 };

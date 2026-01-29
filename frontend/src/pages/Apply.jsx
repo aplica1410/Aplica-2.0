@@ -1,14 +1,16 @@
 import ApplyHeader from "../components/apply/ApplyHeader";
-import JobLinkInput from "../components/apply/JobLinkInput";
 import JobDescription from "../components/apply/JobDescription";
+import EmailPreview from "../components/apply/EmailPreview";
 
 const Apply = () => {
   return (
     <div className="apply-page">
       <ApplyHeader />
-      <JobLinkInput />
-      <div className="or-divider">OR</div>
-      <JobDescription />
+
+      <div className="apply-grid">
+        <JobDescription />
+        <EmailPreview />
+      </div>
     </div>
   );
 };
