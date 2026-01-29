@@ -31,7 +31,7 @@ const Sidebar = () => {
 
         {/* ✅ NEW PROFILE LINK */}
         <NavLink
-          to="/dashboard/profile"
+          to="/dashboard/personal-information"
           className={({ isActive }) => (isActive ? "active" : "")}
         >
           Personal Information
