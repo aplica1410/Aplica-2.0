@@ -34,3 +34,8 @@
   background-color: #1e1f22;
   color: #4da3ff;
 }
+
+.sidebar a {
+  transition: background 0.2s, color 0.2s;
+}
+

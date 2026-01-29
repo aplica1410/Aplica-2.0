@@ -7,10 +7,41 @@ const Sidebar = () => {
       <h2 className="logo">A↗</h2>
 
       <nav>
-        <NavLink to="/dashboard/home">Dashboard</NavLink>
-        <NavLink to="/dashboard/apply">Apply</NavLink>
-        <NavLink to="/dashboard/applications">Applications</NavLink>
-        <NavLink to="/dashboard/settings">Settings</NavLink>
+        <NavLink
+          to="/dashboard/home"
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
+          Dashboard
+        </NavLink>
+
+        <NavLink
+          to="/dashboard/apply"
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
+          Apply
+        </NavLink>
+
+        <NavLink
+          to="/dashboard/applications"
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
+          Applications
+        </NavLink>
+
+        {/* ✅ NEW PROFILE LINK */}
+        <NavLink
+          to="/dashboard/profile"
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
+          Profile
+        </NavLink>
+
+        <NavLink
+          to="/dashboard/settings"
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
+          Settings
+        </NavLink>
       </nav>
     </aside>
   );
