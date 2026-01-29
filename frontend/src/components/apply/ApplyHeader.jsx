@@ -50,4 +50,4 @@ const Apply = () => {
   );
 };
 
-export default ApplyHeader;
+export default Apply;
