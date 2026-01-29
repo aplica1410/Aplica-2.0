@@ -1,10 +1,12 @@
-const JobDescription = () => {
+const JobDescription = ({ jdText, setJdText }) => {
   return (
     <div className="job-description">
       <label>JD</label>
+
       <textarea
         placeholder="Paste job description or freelance work details"
-        rows="18"
+        value={jdText}
+        onChange={(e) => setJdText(e.target.value)}
       />
     </div>
   );
