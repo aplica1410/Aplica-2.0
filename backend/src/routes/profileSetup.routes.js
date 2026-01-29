@@ -171,7 +171,7 @@ router.post("/complete", auth, async (req, res) => {
   try {
     await User.findByIdAndUpdate(req.user._id, {
       profileComplete: true,
-      onboardingStep: "done",
+      onboardingStep: null,
     });
 
     res.json({ success: true });
