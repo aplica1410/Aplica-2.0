@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import "./sidebar.css";
 
 const Sidebar = () => {
+  console.log("✅ Sidebar rendered");
   return (
     <aside className="sidebar">
       <h2 className="logo">A↗</h2>
