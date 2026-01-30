@@ -1,12 +1,10 @@
 import { useState } from "react";
 import "../../styles/compose-new-mail.css";
-import axios from "../../api/axios";
+import api from "../../api/axios"; // ✅ IMPORTANT
 
 const ComposeNewMail = () => {
   const [jd, setJd] = useState("");
   const [loading, setLoading] = useState(false);
-
-  const today = new Date().toDateString();
 
   const handleCompose = async () => {
     if (!jd.trim()) {
@@ -17,14 +15,16 @@ const ComposeNewMail = () => {
     try {
       setLoading(true);
 
-      await axios.post("/applications", {
+      // ✅ CORRECT API CALL
+      await api.post("/api/applications", {
         jobDescription: jd,
       });
 
       setJd("");
       alert("JD saved successfully");
+
     } catch (err) {
-      console.error(err);
+      console.error("Save JD error:", err);
       alert("Failed to save JD");
     } finally {
       setLoading(false);
@@ -34,22 +34,21 @@ const ComposeNewMail = () => {
   return (
     <div className="compose-page">
       <h2>Apply / Compose New Mail</h2>
-      <p>Hi, Ujjwal</p>
-      <small>📅 {today}</small>
 
-      <div className="compose-card">
-        <textarea
-          placeholder="Paste Job Description (Make sure it has target email id)"
-          value={jd}
-          onChange={(e) => setJd(e.target.value)}
-        />
+      <textarea
+        className="compose-textarea"
+        placeholder="Paste Job Description (Make sure it has target email id)"
+        value={jd}
+        onChange={(e) => setJd(e.target.value)}
+      />
 
-        <div className="compose-actions">
-          <button onClick={handleCompose} disabled={loading}>
-            {loading ? "Saving..." : "Compose New Mail"}
-          </button>
-        </div>
-      </div>
+      <button
+        className="primary-btn"
+        onClick={handleCompose}
+        disabled={loading}
+      >
+        {loading ? "Saving..." : "Compose New Mail"}
+      </button>
     </div>
   );
 };
