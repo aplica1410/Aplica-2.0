@@ -6,6 +6,8 @@ const ComposeNewMail = () => {
   const [jd, setJd] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const today = new Date().toDateString();
+
   const handleCompose = async () => {
     if (!jd.trim()) {
       alert("Please paste job description");
@@ -21,7 +23,6 @@ const ComposeNewMail = () => {
 
       setJd("");
       alert("JD saved successfully");
-
     } catch (err) {
       console.error(err);
       alert("Failed to save JD");
@@ -33,17 +34,22 @@ const ComposeNewMail = () => {
   return (
     <div className="compose-page">
       <h2>Apply / Compose New Mail</h2>
+      <p>Hi, Ujjwal</p>
+      <small>📅 {today}</small>
 
-      <textarea
-        className="compose-textarea"
-        placeholder="Paste Job Description (Make sure it has target email id)"
-        value={jd}
-        onChange={(e) => setJd(e.target.value)}
-      />
+      <div className="compose-card">
+        <textarea
+          placeholder="Paste Job Description (Make sure it has target email id)"
+          value={jd}
+          onChange={(e) => setJd(e.target.value)}
+        />
 
-      <button onClick={handleCompose} disabled={loading}>
-        {loading ? "Saving..." : "Compose New Mail"}
-      </button>
+        <div className="compose-actions">
+          <button onClick={handleCompose} disabled={loading}>
+            {loading ? "Saving..." : "Compose New Mail"}
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
