@@ -89,12 +89,90 @@
 }
 
 .compose-actions button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
-  opacity: 0.95;
+  transform: translateY(-1px);a/* PAGE */
+.compose-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 28px 24px;
+  color: #ffffff;
 }
 
-.compose-actions button:active {
-  transform: translateY(0);
+/* HEADER */
+.compose-page h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.compose-page p {
+  margin: 0;
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+.compose-page small {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  opacity: 0.7;
+  margin-top: 4px;
+}
+
+/* CARD */
+.compose-card {
+  margin-top: 20px;
+  background: #1b1f26;
+  border-radius: 14px;
+  padding: 20px;
+  border: 1px solid #2a2f3a;
+}
+
+/* TEXTAREA */
+.compose-card textarea {
+  width: 100%;
+  min-height: 300px;
+  resize: none;
+  padding: 14px 16px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #ffffff;
+  background: #14181f;
+  border-radius: 12px;
+  border: 1px solid #2a2f3a;
+  outline: none;
+}
+
+.compose-card textarea::placeholder {
+  color: #9aa3b2;
+}
+
+.compose-card textarea:focus {
+  border-color: #3b82f6;
+}
+
+/* ACTIONS */
+.compose-actions {
+  margin-top: 14px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* BUTTON */
+.compose-actions button {
+  background: #3b82f6;
+  color: #ffffff;
+  border: none;
+  padding: 9px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.compose-actions button:hover {
+  background: #2563eb;
+}
+
   box-shadow: none;
 }
