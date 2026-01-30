@@ -1,0 +1,105 @@
+/* PAGE WRAPPER */
+.compose-page {
+  max-width: 900px;
+  margin-top: 20px;
+}
+
+/* CARD */
+.compose-card {
+  background: linear-gradient(180deg, #1a1f25, #14181d);
+  border: 1px solid #222a33;
+  border-radius: 14px;
+  padding: 22px;
+}
+
+/* TOP ROW (LINK INPUT + BUTTON) */
+.compose-top {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.compose-top input {
+  flex: 1;
+  height: 44px;
+  background: #0f1115;
+  border: 1px solid #2a2f3a;
+  border-radius: 10px;
+  padding: 0 14px;
+  color: #fff;
+  font-size: 14px;
+}
+
+.compose-top input::placeholder {
+  color: #6b7280;
+}
+
+.compose-top button {
+  height: 44px;
+  padding: 0 18px;
+  border-radius: 10px;
+  background: #3b82f6;
+  color: #fff;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.compose-top button:hover {
+  background: #2563eb;
+}
+
+/* OR DIVIDER */
+.compose-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 14px 0;
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.compose-divider::before,
+.compose-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #2a2f3a;
+}
+
+/* JD TEXTAREA */
+.compose-textarea {
+  width: 100%;
+  min-height: 360px;
+  resize: none;
+  background: #0f1115;
+  border: 1px solid #2a2f3a;
+  border-radius: 12px;
+  padding: 14px;
+  color: #fff;
+  font-size: 14px;
+  outline: none;
+}
+
+.compose-textarea::placeholder {
+  color: #6b7280;
+}
+
+/* BOTTOM ACTION */
+.compose-bottom {
+  margin-top: 14px;
+}
+
+.compose-bottom button {
+  padding: 10px 20px;
+  border-radius: 10px;
+  background: #3b82f6;
+  color: #fff;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.compose-bottom button:hover {
+  background: #2563eb;
+}
