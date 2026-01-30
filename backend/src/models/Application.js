@@ -1,19 +1,33 @@
-// models/Application.js
 import mongoose from "mongoose";
 
 const applicationSchema = new mongoose.Schema(
   {
-    userId: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
+
     jobDescription: {
       type: String,
       required: true,
     },
-    extractedEmail: String,
-    generatedEmail: String,
+
+    extractedEmail: {
+      type: String,
+      default: null,
+    },
+
+    subject: {
+      type: String,
+      default: null,
+    },
+
+    emailBody: {
+      type: String,
+      default: null,
+    },
+
     status: {
       type: String,
       enum: ["draft", "preview", "sent"],

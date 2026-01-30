@@ -10,6 +10,7 @@ import { fileURLToPath } from "url";
 import connectDB from "./db/mongoose.js";
 import authRoutes from "./routes/auth.routes.js";
 import profileSetupRoutes from "./routes/profileSetup.routes.js";
+import applicationRoutes from "./routes/application.routes.js";
 
 /* ===============================
    ENV SETUP
@@ -57,6 +58,7 @@ connectDB();
 ================================ */
 app.use("/auth", authRoutes);
 app.use("/api/profile-setup", profileSetupRoutes);
+app.use("/api/applications", applicationRoutes);
 app.use("/api/applications", applicationRoutes);
 
 /* ===============================
