@@ -9,7 +9,7 @@ import Apply from "./pages/Apply";
 import Applications from "./pages/Applications";
 import Settings from "./pages/Settings";
 import PersonalInformation from "./pages/PersonalInformation";
-import ComposeNewMail from "./pages/ComposeNewMail";
+import ComposeNewMail from "./components/dashboard/ComposeNewMail";
 
 
 import ProfileSetupLayout from "./pages/setup/ProfileSetupLayout";
