@@ -1,40 +1,49 @@
+import { useState } from "react";
 import "../../styles/compose-new-mail.css";
+import axios from "../../api/axios"; // assuming axios instance
 
 const ComposeNewMail = () => {
-  const today = new Date().toDateString();
+  const [jd, setJd] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleCompose = async () => {
+    if (!jd.trim()) {
+      alert("Please paste job description");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      await axios.post("/applications", {
+        jobDescription: jd,
+      });
+
+      setJd(""); // clear textarea after save
+      alert("JD saved successfully");
+
+    } catch (err) {
+      console.error(err);
+      alert("Failed to save JD");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="compose-page">
-      {/* Header */}
       <h2>Apply / Compose New Mail</h2>
-      <p>Hi, Ujjwal</p>
-      <small>📅 {today}</small>
 
-      {/* Card */}
-      <div className="compose-card">
-        {/* Top input row
-        <div className="compose-top">
-          <input
-            type="text"
-            placeholder="Paste Post Link"
-          />
-          <button>Compose New Mail</button>
-        </div> 
+      <textarea
+        className="compose-textarea"
+        placeholder="Paste Job Description (Make sure it has target email id)"
+        value={jd}
+        onChange={(e) => setJd(e.target.value)}
+      />
 
-        {/* OR divider 
-        <div className="compose-divider">OR</div> */}
-
-        {/* JD textarea */}
-        <textarea
-          className="compose-textarea"
-          placeholder="Paste Job Description (Make sure it has target email id)"
-        />
-
-        {/* Bottom button */}
-        <div className="compose-bottom">
-          <button>Compose New Mail</button>
-        </div>
-      </div>
+      <button onClick={handleCompose} disabled={loading}>
+        {loading ? "Saving..." : "Compose New Mail"}
+      </button>
     </div>
   );
 };
