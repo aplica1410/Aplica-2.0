@@ -1,6 +1,6 @@
 import { useState } from "react";
-import "../../styles/compose-new-mail.css";
-import axios from "../../api/axios"; // assuming axios instance
+import "../../../styles/compose-new-mail.css";
+import axios from "../../../api/axios";
 
 const ComposeNewMail = () => {
   const [jd, setJd] = useState("");
@@ -19,7 +19,7 @@ const ComposeNewMail = () => {
         jobDescription: jd,
       });
 
-      setJd(""); // clear textarea after save
+      setJd("");
       alert("JD saved successfully");
 
     } catch (err) {
