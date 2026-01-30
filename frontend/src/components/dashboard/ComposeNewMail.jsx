@@ -19,10 +19,10 @@ const ComposeNewMail = () => {
             placeholder="Paste Post Link"
           />
           <button>Compose New Mail</button>
-        </div> */}
+        </div> 
 
-        {/* OR divider */}
-        <div className="compose-divider">OR</div>
+        {/* OR divider 
+        <div className="compose-divider">OR</div> */}
 
         {/* JD textarea */}
         <textarea
