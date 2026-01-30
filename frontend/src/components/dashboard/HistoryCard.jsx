@@ -4,7 +4,7 @@ const HistoryCard = () => {
   const navigate = useNavigate();
 
   const handleCompose = () => {
-    navigate("/dashboard/apply");
+    navigate("/dashboard/compose");
   };
 
   const rows = Array.from({ length: 7 }, (_, i) => ({

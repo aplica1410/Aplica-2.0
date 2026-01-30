@@ -9,6 +9,8 @@ import Apply from "./pages/Apply";
 import Applications from "./pages/Applications";
 import Settings from "./pages/Settings";
 import PersonalInformation from "./pages/PersonalInformation";
+import ComposeNewMail from "./pages/ComposeNewMail";
+
 
 import ProfileSetupLayout from "./pages/setup/ProfileSetupLayout";
 import PublicProfile from "./pages/setup/PublicProfile";
@@ -31,6 +33,7 @@ function App() {
         {/* Dashboard layout */}
         <Route path="/dashboard" element={<Dashboard />}>
           <Route path="home" element={<DashboardHome />} />
+          <Route path="compose" element={<ComposeNewMail />} />
          <Route path="apply" element={<Apply />} />
           <Route path="applications" element={<Applications />} />
           <Route path="settings" element={<Settings />} />
