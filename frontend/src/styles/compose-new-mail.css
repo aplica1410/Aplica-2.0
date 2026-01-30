@@ -1,105 +1,100 @@
 /* PAGE WRAPPER */
 .compose-page {
   max-width: 900px;
-  margin-top: 20px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  color: #ffffff;
+}
+
+/* HEADER */
+.compose-page h2 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.compose-page p {
+  margin: 0;
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+.compose-page small {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  opacity: 0.7;
+  margin-top: 4px;
 }
 
 /* CARD */
 .compose-card {
-  background: linear-gradient(180deg, #1a1f25, #14181d);
-  border: 1px solid #222a33;
+  margin-top: 24px;
+  background: linear-gradient(
+    180deg,
+    rgba(40, 45, 55, 0.9),
+    rgba(20, 24, 30, 0.95)
+  );
   border-radius: 14px;
-  padding: 22px;
+  padding: 24px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05),
+              0 20px 50px rgba(0, 0, 0, 0.6);
 }
 
-/* TOP ROW (LINK INPUT + BUTTON) */
-.compose-top {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 16px;
-}
-
-.compose-top input {
-  flex: 1;
-  height: 44px;
-  background: #0f1115;
-  border: 1px solid #2a2f3a;
-  border-radius: 10px;
-  padding: 0 14px;
-  color: #fff;
-  font-size: 14px;
-}
-
-.compose-top input::placeholder {
-  color: #6b7280;
-}
-
-.compose-top button {
-  height: 44px;
-  padding: 0 18px;
-  border-radius: 10px;
-  background: #3b82f6;
-  color: #fff;
-  border: none;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.compose-top button:hover {
-  background: #2563eb;
-}
-
-/* OR DIVIDER */
-.compose-divider {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 14px 0;
-  color: #6b7280;
-  font-size: 12px;
-}
-
-.compose-divider::before,
-.compose-divider::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: #2a2f3a;
-}
-
-/* JD TEXTAREA */
-.compose-textarea {
+/* TEXTAREA */
+.compose-card textarea {
   width: 100%;
-  min-height: 360px;
+  min-height: 260px;
   resize: none;
+  padding: 14px 16px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #ffffff;
   background: #0f1115;
-  border: 1px solid #2a2f3a;
   border-radius: 12px;
-  padding: 14px;
-  color: #fff;
-  font-size: 14px;
+  border: 1px solid #2a2f3a;
   outline: none;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
 }
 
-.compose-textarea::placeholder {
-  color: #6b7280;
+.compose-card textarea::placeholder {
+  color: #9aa3b2;
 }
 
-/* BOTTOM ACTION */
-.compose-bottom {
-  margin-top: 14px;
+.compose-card textarea:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
 }
 
-.compose-bottom button {
-  padding: 10px 20px;
-  border-radius: 10px;
-  background: #3b82f6;
-  color: #fff;
+/* ACTIONS */
+.compose-actions {
+  margin-top: 18px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* BUTTON */
+.compose-actions button {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: #ffffff;
   border: none;
+  padding: 10px 18px;
   font-size: 14px;
+  font-weight: 500;
+  border-radius: 8px;
   cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease,
+              opacity 0.15s ease;
 }
 
-.compose-bottom button:hover {
-  background: #2563eb;
+.compose-actions button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
+  opacity: 0.95;
+}
+
+.compose-actions button:active {
+  transform: translateY(0);
+  box-shadow: none;
 }
