@@ -1,4 +1,4 @@
-import "../styles/compose-new-mail.css";
+import "../../styles/compose-new-mail.css";
 
 const ComposeNewMail = () => {
   const today = new Date().toDateString();
