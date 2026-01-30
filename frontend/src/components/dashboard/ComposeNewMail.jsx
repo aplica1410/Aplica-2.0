@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "../../../styles/compose-new-mail.css";
-import axios from "../../../api/axios";
+import axios from "../../api/axios";
 
 const ComposeNewMail = () => {
   const [jd, setJd] = useState("");
