@@ -12,14 +12,14 @@ const ComposeNewMail = () => {
 
       {/* Card */}
       <div className="compose-card">
-        {/* Top input row */}
+        {/* Top input row
         <div className="compose-top">
           <input
             type="text"
             placeholder="Paste Post Link"
           />
           <button>Compose New Mail</button>
-        </div>
+        </div> */}
 
         {/* OR divider */}
         <div className="compose-divider">OR</div>
