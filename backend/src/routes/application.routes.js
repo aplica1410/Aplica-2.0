@@ -7,10 +7,7 @@ import {
 
 const router = express.Router();
 
-// Save JD
 router.post("/", requireAuth, createApplication);
-
-// Generate email using AI
 router.post("/:id/generate", requireAuth, generateEmailForApplication);
 
 export default router;

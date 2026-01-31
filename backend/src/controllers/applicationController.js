@@ -1,47 +1,39 @@
 import Application from "../models/Application.js";
 import { generateEmailFromJD } from "../services/gemini.service.js";
 
-/* ===============================
-   SAVE JD (ALREADY WORKING)
-================================ */
+// SAVE JD
 export const createApplication = async (req, res) => {
   try {
     const { jobDescription } = req.body;
 
     if (!jobDescription) {
-      return res.status(400).json({ message: "JD is required" });
+      return res.status(400).json({ message: "Job description required" });
     }
 
     const emailMatch = jobDescription.match(
-      /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,}/
+      /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/
     );
 
-    if (!emailMatch) {
-      return res.status(400).json({ message: "No email found in JD" });
-    }
+    const extractedEmail = emailMatch ? emailMatch[0] : null;
 
     const application = await Application.create({
       user: req.user._id,
       jobDescription,
-      extractedEmail: emailMatch[0],
+      extractedEmail,
       status: "draft",
     });
 
-    res.status(201).json(application);
+    res.status(201).json({ application });
   } catch (err) {
-    console.error("🔥 JD Save Error:", err);
+    console.error(err);
     res.status(500).json({ message: "Failed to save JD" });
   }
 };
 
-/* ===============================
-   GENERATE EMAIL USING AI
-================================ */
-export const generateEmail = async (req, res) => {
+// ⚠️ THIS EXPORT NAME MUST MATCH ROUTES
+export const generateEmailForApplication = async (req, res) => {
   try {
-    const { id } = req.params;
-
-    const application = await Application.findById(id);
+    const application = await Application.findById(req.params.id);
 
     if (!application) {
       return res.status(404).json({ message: "Application not found" });
@@ -54,13 +46,13 @@ export const generateEmail = async (req, res) => {
 
     application.subject = aiResult.subject;
     application.emailBody = aiResult.body;
-    application.status = "ready_for_preview";
+    application.status = "generated";
 
     await application.save();
 
-    res.json(application);
+    res.json({ application });
   } catch (err) {
-    console.error("🔥 AI Generate Error:", err);
-    res.status(500).json({ message: "Email generation failed" });
+    console.error(err);
+    res.status(500).json({ message: "Failed to generate email" });
   }
 };
