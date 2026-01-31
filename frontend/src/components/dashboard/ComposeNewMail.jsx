@@ -17,15 +17,22 @@ const ComposeNewMail = () => {
     try {
       setLoading(true);
 
-      await axios.post("/api/applications", {
+      // 1️⃣ SAVE JD
+      const saveRes = await axios.post("/api/applications", {
         jobDescription: jd,
       });
 
+      const applicationId = saveRes.data.application._id;
+
+      // 2️⃣ GENERATE EMAIL
+      await axios.post(`/api/applications/${applicationId}/generate`);
+
       setJd("");
-      alert("JD saved successfully");
+      alert("Email generated and added to preview");
+
     } catch (err) {
       console.error(err);
-      alert("Failed to save JD");
+      alert("Failed to process JD");
     } finally {
       setLoading(false);
     }
@@ -46,7 +53,7 @@ const ComposeNewMail = () => {
 
         <div className="compose-actions">
           <button onClick={handleCompose} disabled={loading}>
-            {loading ? "Saving..." : "Compose New Mail"}
+            {loading ? "Generating..." : "Compose New Mail"}
           </button>
         </div>
       </div>

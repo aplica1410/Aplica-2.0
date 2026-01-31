@@ -59,7 +59,6 @@ connectDB();
 app.use("/auth", authRoutes);
 app.use("/api/profile-setup", profileSetupRoutes);
 app.use("/api/applications", applicationRoutes);
-app.use("/api/applications", applicationRoutes);
 
 /* ===============================
    HEALTH CHECK

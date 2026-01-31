@@ -1,10 +1,10 @@
 import express from "express";
 import auth from "../middlewares/auth.middleware.js";
+import Application from "../models/Application.js";
 import {
   createApplication,
-  generateEmailDraft,
-} from "../controllers/applicationController.js";
-import Application from "../models/Application.js";
+  generateEmailFromJD,
+} from "../controllers/application.controller.js";
 
 const router = express.Router();
 
@@ -47,5 +47,8 @@ router.post(
   auth,
   generateEmailDraft
 );
+
+router.post("/:id/generate", protect, generateEmailFromJD);
+
 
 export default router;
