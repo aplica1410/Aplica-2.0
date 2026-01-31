@@ -9,12 +9,16 @@ import Application from "../models/Application.js";
 const router = express.Router();
 
 /* =====================================
-   CREATE APPLICATION (SAVE JD)
+   CREATE APPLICATION
+   - Saves JD
+   - Extracts email
+   - Auto generates AI email (preview)
 ===================================== */
 router.post("/", auth, createApplication);
 
 /* =====================================
    GET USER APPLICATIONS
+   - draft / preview / sent
 ===================================== */
 router.get("/", auth, async (req, res) => {
   try {
@@ -22,9 +26,12 @@ router.get("/", auth, async (req, res) => {
       user: req.user._id,
     }).sort({ createdAt: -1 });
 
-    res.json(applications);
-  } catch (err) {
-    console.error("Fetch applications failed:", err);
+    res.status(200).json({
+      success: true,
+      applications,
+    });
+  } catch (error) {
+    console.error("Fetch applications failed:", error);
     res.status(500).json({
       message: "Failed to fetch applications",
     });
@@ -33,6 +40,7 @@ router.get("/", auth, async (req, res) => {
 
 /* =====================================
    GENERATE EMAIL VIA AI (GEMINI)
+   - Manual regenerate / retry
 ===================================== */
 router.post(
   "/:applicationId/generate",
