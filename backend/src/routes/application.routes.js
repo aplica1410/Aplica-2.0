@@ -1,5 +1,8 @@
 import express from "express";
 import auth from "../middlewares/auth.middleware.js";
+import {
+  createApplication,
+} from "../controllers/applicationController.js";
 import Application from "../models/Application.js";
 
 const router = express.Router();
@@ -7,36 +10,10 @@ const router = express.Router();
 /* =====================================
    CREATE APPLICATION (SAVE JD)
 ===================================== */
-router.post("/", auth, async (req, res) => {
-  try {
-    const { jobDescription } = req.body;
-
-    if (!jobDescription || !jobDescription.trim()) {
-      return res.status(400).json({
-        message: "Job description is required",
-      });
-    }
-
-    const application = await Application.create({
-      user: req.user._id,
-      jobDescription,
-      status: "draft",
-    });
-
-    res.status(201).json({
-      success: true,
-      application,
-    });
-  } catch (err) {
-    console.error("Save JD failed:", err);
-    res.status(500).json({
-      message: "Failed to save job description",
-    });
-  }
-});
+router.post("/", auth, createApplication);
 
 /* =====================================
-   GET USER APPLICATIONS (DRAFT / PREVIEW)
+   GET USER APPLICATIONS
 ===================================== */
 router.get("/", auth, async (req, res) => {
   try {
