@@ -22,16 +22,22 @@ const ComposeNewMail = () => {
         jobDescription: jd,
       });
 
-      const applicationId = saveRes.data.application._id;
+      // ✅ backend returns the document directly
+      const applicationId = saveRes.data._id;
 
-      // 2️⃣ GENERATE EMAIL
-      await axios.post(`/api/applications/${applicationId}/generate`);
+      // 2️⃣ GENERATE EMAIL USING AI
+      await axios.post(
+        `/api/applications/${applicationId}/generate`
+      );
 
       setJd("");
       alert("Email generated and added to preview");
 
+      // 🔜 next step (later)
+      // navigate(`/dashboard/applications/${applicationId}`);
+
     } catch (err) {
-      console.error(err);
+      console.error("Compose Error:", err);
       alert("Failed to process JD");
     } finally {
       setLoading(false);

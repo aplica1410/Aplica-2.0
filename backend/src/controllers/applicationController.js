@@ -1,69 +1,66 @@
 import Application from "../models/Application.js";
-import { generateEmailFromJD } from "../utils/gemini.js";
+import { generateEmailFromJD } from "../services/gemini.service.js";
 
-/**
- * Simple email regex (first valid email wins)
- */
-const EMAIL_REGEX =
-  /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/;
-
-/* =====================================
-   CREATE APPLICATION
-   - Save JD
-   - Extract target email
-   - Generate subject + body via Gemini
-   - Store in PREVIEW queue
-===================================== */
+/* ===============================
+   SAVE JD (ALREADY WORKING)
+================================ */
 export const createApplication = async (req, res) => {
   try {
     const { jobDescription } = req.body;
 
-    if (!jobDescription || !jobDescription.trim()) {
-      return res.status(400).json({
-        message: "Job description is required",
-      });
+    if (!jobDescription) {
+      return res.status(400).json({ message: "JD is required" });
     }
 
-    // 🔍 Extract first email from JD
-    const emailMatch = jobDescription.match(EMAIL_REGEX);
-    const extractedEmail = emailMatch ? emailMatch[0] : null;
+    const emailMatch = jobDescription.match(
+      /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,}/
+    );
 
-    if (!extractedEmail) {
-      return res.status(400).json({
-        message: "No target email found in job description",
-      });
+    if (!emailMatch) {
+      return res.status(400).json({ message: "No email found in JD" });
     }
 
-    // 🤖 Generate email using Gemini (single prompt)
-    const aiResult = await generateEmailFromJD({
-      jobDescription,
-      extractedEmail,
-    });
-
-    if (!aiResult?.subject || !aiResult?.emailBody) {
-      return res.status(500).json({
-        message: "AI failed to generate email content",
-      });
-    }
-
-    // 💾 Save application with preview-ready content
     const application = await Application.create({
       user: req.user._id,
       jobDescription,
-      extractedEmail,
-      subject: aiResult.subject,
-      emailBody: aiResult.emailBody,
-      status: "preview",
+      extractedEmail: emailMatch[0],
+      status: "draft",
     });
 
-    res.status(201).json({
-      success: true,
-      application,
-    });
-  } catch (error) {
-    console.error("Create application failed:", error);
-    res.status(500).json({
-      message: "Failed to process application",
-    });
+    res.status(201).json(application);
+  } catch (err) {
+    console.error("🔥 JD Save Error:", err);
+    res.status(500).json({ message: "Failed to save JD" });
+  }
+};
+
+/* ===============================
+   GENERATE EMAIL USING AI
+================================ */
+export const generateEmail = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const application = await Application.findById(id);
+
+    if (!application) {
+      return res.status(404).json({ message: "Application not found" });
+    }
+
+    const aiResult = await generateEmailFromJD(
+      application.jobDescription,
+      application.extractedEmail
+    );
+
+    application.subject = aiResult.subject;
+    application.emailBody = aiResult.body;
+    application.status = "ready_for_preview";
+
+    await application.save();
+
+    res.json(application);
+  } catch (err) {
+    console.error("🔥 AI Generate Error:", err);
+    res.status(500).json({ message: "Email generation failed" });
   }
 };
