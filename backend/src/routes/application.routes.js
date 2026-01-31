@@ -1,14 +1,16 @@
 import express from "express";
+import requireAuth from "../middlewares/requireAuth.js";
 import {
   createApplication,
-  generateEmail,
+  generateEmailForApplication,
 } from "../controllers/applicationController.js";
-
-import requireAuth from "../middlewares/requireAuth.js";
 
 const router = express.Router();
 
+// Save JD
 router.post("/", requireAuth, createApplication);
-router.post("/:id/generate", requireAuth, generateEmail);
+
+// Generate email using AI
+router.post("/:id/generate", requireAuth, generateEmailForApplication);
 
 export default router;

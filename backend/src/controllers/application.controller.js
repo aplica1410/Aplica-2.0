@@ -1,33 +1,59 @@
 import Application from "../models/Application.js";
-import generateEmailFromJD from "../services/ai.service.js";
+import { generateEmailFromJD } from "../services/gemini.service.js";
 
-export const generateEmail = async (req, res) => {
+// 1️⃣ Save JD
+export const createApplication = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { jobDescription } = req.body;
 
-    const application = await Application.findById(id);
+    if (!jobDescription) {
+      return res.status(400).json({ message: "Job description required" });
+    }
+
+    // extract email from JD
+    const emailMatch = jobDescription.match(
+      /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/
+    );
+
+    const extractedEmail = emailMatch ? emailMatch[0] : null;
+
+    const application = await Application.create({
+      user: req.user._id,
+      jobDescription,
+      extractedEmail,
+      status: "draft",
+    });
+
+    res.status(201).json({ application });
+  } catch (err) {
+    console.error("Create application error:", err);
+    res.status(500).json({ message: "Failed to save JD" });
+  }
+};
+
+// 2️⃣ Generate email via AI
+export const generateEmailForApplication = async (req, res) => {
+  try {
+    const application = await Application.findById(req.params.id);
+
     if (!application) {
       return res.status(404).json({ message: "Application not found" });
     }
 
-    // 🧠 Call AI
-    const { subject, body } = await generateEmailFromJD(
+    const aiResult = await generateEmailFromJD(
       application.jobDescription,
       application.extractedEmail
     );
 
-    application.subject = subject;
-    application.emailBody = body;
-    application.status = "ready_for_preview";
+    application.subject = aiResult.subject;
+    application.emailBody = aiResult.body;
+    application.status = "generated";
 
     await application.save();
 
-    res.json({
-      message: "Email generated successfully",
-      application,
-    });
+    res.json({ application });
   } catch (err) {
-    console.error("🔥 Generate Error:", err);
+    console.error("Generate email error:", err);
     res.status(500).json({ message: "Failed to generate email" });
   }
 };
