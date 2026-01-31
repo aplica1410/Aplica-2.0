@@ -2,6 +2,7 @@ import express from "express";
 import auth from "../middlewares/auth.middleware.js";
 import {
   createApplication,
+  generateEmailDraft,
 } from "../controllers/applicationController.js";
 import Application from "../models/Application.js";
 
@@ -29,5 +30,14 @@ router.get("/", auth, async (req, res) => {
     });
   }
 });
+
+/* =====================================
+   GENERATE EMAIL VIA AI (GEMINI)
+===================================== */
+router.post(
+  "/:applicationId/generate",
+  auth,
+  generateEmailDraft
+);
 
 export default router;
