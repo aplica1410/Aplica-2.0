@@ -2,13 +2,17 @@ import Application from "../models/Application.js";
 import { generateEmailFromJD } from "../utils/gemini.js";
 
 /**
- * Simple email regex
+ * Simple email regex (first valid email wins)
  */
 const EMAIL_REGEX =
   /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/;
 
 /* =====================================
-   CREATE APPLICATION (SAVE JD)
+   CREATE APPLICATION
+   - Save JD
+   - Extract target email
+   - Generate subject + body via Gemini
+   - Store in PREVIEW queue
 ===================================== */
 export const createApplication = async (req, res) => {
   try {
@@ -20,15 +24,36 @@ export const createApplication = async (req, res) => {
       });
     }
 
-    // 🔥 Extract first email from JD
+    // 🔍 Extract first email from JD
     const emailMatch = jobDescription.match(EMAIL_REGEX);
     const extractedEmail = emailMatch ? emailMatch[0] : null;
 
+    if (!extractedEmail) {
+      return res.status(400).json({
+        message: "No target email found in job description",
+      });
+    }
+
+    // 🤖 Generate email using Gemini (single prompt)
+    const aiResult = await generateEmailFromJD({
+      jobDescription,
+      extractedEmail,
+    });
+
+    if (!aiResult?.subject || !aiResult?.emailBody) {
+      return res.status(500).json({
+        message: "AI failed to generate email content",
+      });
+    }
+
+    // 💾 Save application with preview-ready content
     const application = await Application.create({
       user: req.user._id,
       jobDescription,
       extractedEmail,
-      status: "draft",
+      subject: aiResult.subject,
+      emailBody: aiResult.emailBody,
+      status: "preview",
     });
 
     res.status(201).json({
@@ -38,49 +63,7 @@ export const createApplication = async (req, res) => {
   } catch (error) {
     console.error("Create application failed:", error);
     res.status(500).json({
-      message: "Failed to save JD",
-    });
-  }
-};
-
-/* =====================================
-   GENERATE EMAIL (AI – GEMINI)
-===================================== */
-export const generateEmailDraft = async (req, res) => {
-  try {
-    const { applicationId } = req.params;
-
-    const application = await Application.findOne({
-      _id: applicationId,
-      user: req.user._id,
-    });
-
-    if (!application) {
-      return res.status(404).json({
-        message: "Application not found",
-      });
-    }
-
-    // 🔥 Call Gemini
-    const aiResult = await generateEmailFromJD(
-      application.jobDescription
-    );
-
-    application.subject = aiResult.subject;
-    application.emailBody = aiResult.emailBody;
-    application.status = "preview";
-
-    await application.save();
-
-    res.json({
-      success: true,
-      subject: application.subject,
-      emailBody: application.emailBody,
-    });
-  } catch (error) {
-    console.error("AI email generation failed:", error);
-    res.status(500).json({
-      message: "Failed to generate email",
+      message: "Failed to process application",
     });
   }
 };
