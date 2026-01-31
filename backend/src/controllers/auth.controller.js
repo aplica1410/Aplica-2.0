@@ -18,7 +18,6 @@ export const googleLogin = async (req, res) => {
     });
 
     const payload = ticket.getPayload();
-
     const { sub, email, name, picture } = payload;
 
     let user = await User.findOne({ email });
@@ -40,10 +39,19 @@ export const googleLogin = async (req, res) => {
       { expiresIn: "7d" }
     );
 
+    // ✅ SET COOKIE (THIS WAS MISSING)
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,        // REQUIRED on Render/Vercel
+      sameSite: "none",    // REQUIRED for cross-domain
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    // send user only (token already in cookie)
     res.json({
-      token,
       user,
     });
+
   } catch (err) {
     console.error("Google auth error:", err);
     res.status(401).json({ message: "Google authentication failed" });
