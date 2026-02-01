@@ -18,15 +18,16 @@ const ComposeNewMail = () => {
       setLoading(true);
 
       // 1️⃣ SAVE JD
-      const saveRes = await api.post("/api/applications", {
-        jobDescription: jd,
-      });
+const saveRes = await axios.post("/api/applications", {
+  jobDescription: jd,
+});
 
-      // ✅ CORRECT RESPONSE PATH
-      const applicationId = saveRes.data.application._id;
+// ✅ FIX HERE
+const applicationId = saveRes.data.application._id;
 
-      // 2️⃣ GENERATE EMAIL
-      await api.post(`/api/applications/${applicationId}/generate`);
+// Generate email
+await axios.post(`/api/applications/${applicationId}/generate`);
+
 
       setJd("");
       alert("Email generated successfully");
