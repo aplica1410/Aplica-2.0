@@ -1,12 +1,14 @@
 import Application from "../models/Application.js";
 import { generateEmailFromJD } from "../services/gemini.service.js";
 
-// 1️⃣ Save JD
+/**
+ * 1️⃣ SAVE JD
+ */
 export const createApplication = async (req, res) => {
   try {
     const { jobDescription } = req.body;
 
-    if (!jobDescription) {
+    if (!jobDescription?.trim()) {
       return res.status(400).json({ message: "Job description required" });
     }
 
@@ -31,10 +33,15 @@ export const createApplication = async (req, res) => {
   }
 };
 
-// 2️⃣ Generate email via AI
+/**
+ * 2️⃣ GENERATE EMAIL USING AI
+ */
 export const generateEmailForApplication = async (req, res) => {
   try {
-    const application = await Application.findById(req.params.id);
+    const application = await Application.findOne({
+      _id: req.params.id,
+      user: req.user._id, // ✅ OWNERSHIP CHECK
+    });
 
     if (!application) {
       return res.status(404).json({ message: "Application not found" });
@@ -45,9 +52,13 @@ export const generateEmailForApplication = async (req, res) => {
       application.extractedEmail
     );
 
+    if (!aiResult?.subject || !aiResult?.body) {
+      return res.status(500).json({ message: "AI generation failed" });
+    }
+
     application.subject = aiResult.subject;
     application.emailBody = aiResult.body;
-    application.status = "generated";
+    application.status = "preview"; // ✅ VALID ENUM
 
     await application.save();
 

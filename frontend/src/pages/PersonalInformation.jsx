@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import api from "../api/axios";
 import axios from "axios";
 import "../styles/personal-information.css";
 

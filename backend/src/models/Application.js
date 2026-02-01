@@ -30,7 +30,7 @@ const applicationSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["draft", "preview", "sent"],
+      enum: ["draft", "preview", "sent"], // ✅ MATCH CONTROLLER
       default: "draft",
     },
   },

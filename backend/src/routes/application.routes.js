@@ -3,7 +3,7 @@ import requireAuth from "../middlewares/requireAuth.js";
 import {
   createApplication,
   generateEmailForApplication,
-} from "../controllers/applicationController.js";
+} from "../controllers/application.controller.js"; // ✅ FIXED
 
 const router = express.Router();
 

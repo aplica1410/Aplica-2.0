@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "../../styles/compose-new-mail.css";
-import axios from "../../api/axios";
+import api from "../../api/axios"; // ✅ USE API INSTANCE
 
 const ComposeNewMail = () => {
   const [jd, setJd] = useState("");
@@ -18,23 +18,18 @@ const ComposeNewMail = () => {
       setLoading(true);
 
       // 1️⃣ SAVE JD
-      const saveRes = await axios.post("/api/applications", {
+      const saveRes = await api.post("/api/applications", {
         jobDescription: jd,
       });
 
-      // ✅ backend returns the document directly
-      const applicationId = saveRes.data._id;
+      // ✅ CORRECT RESPONSE PATH
+      const applicationId = saveRes.data.application._id;
 
-      // 2️⃣ GENERATE EMAIL USING AI
-      await axios.post(
-        `/api/applications/${applicationId}/generate`
-      );
+      // 2️⃣ GENERATE EMAIL
+      await api.post(`/api/applications/${applicationId}/generate`);
 
       setJd("");
-      alert("Email generated and added to preview");
-
-      // 🔜 next step (later)
-      // navigate(`/dashboard/applications/${applicationId}`);
+      alert("Email generated successfully");
 
     } catch (err) {
       console.error("Compose Error:", err);
