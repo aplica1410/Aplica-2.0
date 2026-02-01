@@ -33,25 +33,22 @@ export const googleLogin = async (req, res) => {
       });
     }
 
+    // ✅ STANDARD PAYLOAD
     const token = jwt.sign(
-      { userId: user._id },
+      { id: user._id },
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );
 
-    // ✅ SET COOKIE (THIS WAS MISSING)
-    res.cookie("token", token, {
+    // ✅ STANDARD COOKIE NAME
+    res.cookie("aplica_token", token, {
       httpOnly: true,
-      secure: true,        // REQUIRED on Render/Vercel
-      sameSite: "none",    // REQUIRED for cross-domain
+      secure: true,
+      sameSite: "none",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    // send user only (token already in cookie)
-    res.json({
-      user,
-    });
-
+    res.json({ user });
   } catch (err) {
     console.error("Google auth error:", err);
     res.status(401).json({ message: "Google authentication failed" });

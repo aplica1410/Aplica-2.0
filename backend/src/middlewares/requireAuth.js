@@ -3,7 +3,7 @@ import User from "../models/User.js";
 
 const requireAuth = async (req, res, next) => {
   try {
-    const token = req.cookies?.token;
+    const token = req.cookies?.aplica_token;
 
     if (!token) {
       return res.status(401).json({ message: "Not authenticated" });
