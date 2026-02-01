@@ -4,11 +4,11 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 export const generateEmailFromJD = async (jobDescription, extractedEmail) => {
   const model = genAI.getGenerativeModel({
-    model: "gemini-1.5-flash", // ✅ FIXED MODEL
+    model: "models/gemini-1.5-flash",
   });
 
   const prompt = `
-You are an expert job application assistant.
+Write a professional job application email.
 
 Job Description:
 ${jobDescription}
@@ -16,11 +16,7 @@ ${jobDescription}
 Target Email:
 ${extractedEmail || "Not provided"}
 
-Generate:
-1. A professional email subject
-2. A concise, confident email body
-
-Respond in JSON only like:
+Return JSON:
 {
   "subject": "...",
   "body": "..."
@@ -30,8 +26,5 @@ Respond in JSON only like:
   const result = await model.generateContent(prompt);
   const text = result.response.text();
 
-  // Gemini sometimes returns markdown — normalize
-  const cleaned = text.replace(/```json|```/g, "").trim();
-
-  return JSON.parse(cleaned);
+  return JSON.parse(text.replace(/```json|```/g, "").trim());
 };

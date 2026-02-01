@@ -1,18 +1,15 @@
 import Application from "../models/Application.js";
 import { generateEmailFromJD } from "../services/gemini.service.js";
 
-/**
- * 1️⃣ SAVE JD
- */
+// SAVE JD
 export const createApplication = async (req, res) => {
   try {
     const { jobDescription } = req.body;
 
-    if (!jobDescription?.trim()) {
+    if (!jobDescription) {
       return res.status(400).json({ message: "Job description required" });
     }
 
-    // extract email from JD
     const emailMatch = jobDescription.match(
       /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/
     );
@@ -26,22 +23,17 @@ export const createApplication = async (req, res) => {
       status: "draft",
     });
 
-    res.status(201).json({ application });
+    res.status(201).json(application);
   } catch (err) {
-    console.error("Create application error:", err);
+    console.error(err);
     res.status(500).json({ message: "Failed to save JD" });
   }
 };
 
-/**
- * 2️⃣ GENERATE EMAIL USING AI
- */
+// GENERATE EMAIL
 export const generateEmailForApplication = async (req, res) => {
   try {
-    const application = await Application.findOne({
-      _id: req.params.id,
-      user: req.user._id, // ✅ OWNERSHIP CHECK
-    });
+    const application = await Application.findById(req.params.id);
 
     if (!application) {
       return res.status(404).json({ message: "Application not found" });
@@ -52,19 +44,15 @@ export const generateEmailForApplication = async (req, res) => {
       application.extractedEmail
     );
 
-    if (!aiResult?.subject || !aiResult?.body) {
-      return res.status(500).json({ message: "AI generation failed" });
-    }
-
     application.subject = aiResult.subject;
     application.emailBody = aiResult.body;
-    application.status = "preview"; // ✅ VALID ENUM
+    application.status = "preview";
 
     await application.save();
 
-    res.json({ application });
+    res.json(application);
   } catch (err) {
-    console.error("Generate email error:", err);
+    console.error(err);
     res.status(500).json({ message: "Failed to generate email" });
   }
 };
