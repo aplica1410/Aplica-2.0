@@ -2,6 +2,8 @@ import { useState } from "react";
 import "../../styles/compose-new-mail.css";
 import axios from "../../api/axios";
 
+console.log("🔥 ComposeNewMail LOADED FROM:", import.meta.url);
+
 const ComposeNewMail = () => {
   const [jd, setJd] = useState("");
   const [loading, setLoading] = useState(false);
@@ -19,11 +21,20 @@ const ComposeNewMail = () => {
 
       // 1️⃣ SAVE JD
       const saveRes = await axios.post("/api/applications", {
-        jobDescription: jd,
-      });
+  jobDescription: jd,
+});
+
+console.log("RAW SAVE RESPONSE:", saveRes.data);
 
       // ✅ FIXED: read ID from correct location
-      const applicationId = saveRes.data.application._id;
+      const application =
+  saveRes.data?.application ?? saveRes.data;
+  
+if (!application || !application._id) {
+  throw new Error("Application ID missing from backend response");
+}
+
+const applicationId = application._id;
 
       // 2️⃣ GENERATE EMAIL (AI)
       await axios.post(`/api/applications/${applicationId}/generate`);
