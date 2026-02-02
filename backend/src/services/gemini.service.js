@@ -1,31 +1,64 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import axios from "axios";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
-export const generateEmailFromJD = async (jd, email) => {
-  const model = genAI.getGenerativeModel({
-    model: "gemini-pro", // ✅ FREE + STABLE
-  });
+const GEMINI_URL =
+  "https://generativelanguage.googleapis.com/v1/models/gemini-1.0-pro:generateContent";
 
-  const prompt = `
-Write a professional job application email.
+/**
+ * Generate email from Job Description
+ */
+export const generateEmailFromJD = async (jobDescription, targetEmail) => {
+  try {
+    const prompt = `
+You are an expert job application assistant.
+
+Write a professional cold email based on the following job description.
 
 Job Description:
-${jd}
+${jobDescription}
 
-Recipient Email:
-${email || "Not provided"}
+Target Email:
+${targetEmail || "Not provided"}
 
-Return:
-- Subject
-- Email body
+Return JSON only in this format:
+{
+  "subject": "...",
+  "body": "..."
+}
 `;
 
-  const result = await model.generateContent(prompt);
-  const text = result.response.text();
+    const response = await axios.post(
+      `${GEMINI_URL}?key=${GEMINI_API_KEY}`,
+      {
+        contents: [
+          {
+            parts: [{ text: prompt }],
+          },
+        ],
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
-  return {
-    subject: "Application for Opportunity",
-    body: text,
-  };
+    const text =
+      response.data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+    if (!text) {
+      throw new Error("Empty Gemini response");
+    }
+
+    // Gemini returns text → parse JSON safely
+    const jsonStart = text.indexOf("{");
+    const jsonEnd = text.lastIndexOf("}");
+    const cleanJson = text.substring(jsonStart, jsonEnd + 1);
+
+    return JSON.parse(cleanJson);
+  } catch (error) {
+    console.error("Gemini REST Error:", error.response?.data || error.message);
+    throw new Error("Failed to generate email using Gemini");
+  }
 };

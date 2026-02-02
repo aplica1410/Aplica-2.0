@@ -1,5 +1,7 @@
 import Application from "../models/Application.js";
 import { generateEmailFromJD } from "../services/gemini.service.js";
+import { generateEmailFromJD } from "../services/gemini.service.js";
+
 
 // SAVE JD
 export const createApplication = async (req, res) => {
@@ -50,9 +52,10 @@ export const generateEmailForApplication = async (req, res) => {
 
     await application.save();
 
-    res.json(application);
+    res.json({ application });
   } catch (err) {
-    console.error(err);
+    console.error("Generate email error:", err.message);
     res.status(500).json({ message: "Failed to generate email" });
   }
 };
+
