@@ -4,7 +4,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 export const generateEmailFromJD = async (jd, email) => {
   const model = genAI.getGenerativeModel({
-    model: "models/gemini-1.0-pro", // ✅ FREE + STABLE
+    model: "gemini-pro", // ✅ FREE + STABLE
   });
 
   const prompt = `

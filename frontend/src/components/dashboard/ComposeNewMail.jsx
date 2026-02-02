@@ -38,6 +38,7 @@ const applicationId = application._id;
 
 console.log("SAVE RESPONSE:", saveRes.data);
       console.log("APPLICATION ID:", applicationId);  
+      
 
       // 2️⃣ GENERATE EMAIL (AI)
       await axios.post(`/api/applications/${applicationId}/generate`);
