@@ -2,9 +2,9 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-export async function generateEmailFromJD(jd, extractedEmail) {
+export const generateEmailFromJD = async (jd, email) => {
   const model = genAI.getGenerativeModel({
-    model: "models/gemini-1.5-flash",
+    model: "models/gemini-1.0-pro", // ✅ FREE + STABLE
   });
 
   const prompt = `
@@ -13,18 +13,19 @@ Write a professional job application email.
 Job Description:
 ${jd}
 
-Target Email:
-${extractedEmail || "Not provided"}
+Recipient Email:
+${email || "Not provided"}
 
-Return JSON with:
-{
-  "subject": "...",
-  "body": "..."
-}
+Return:
+- Subject
+- Email body
 `;
 
   const result = await model.generateContent(prompt);
   const text = result.response.text();
 
-  return JSON.parse(text);
-}
+  return {
+    subject: "Application for Opportunity",
+    body: text,
+  };
+};
