@@ -1,9 +1,9 @@
 import Application from "../models/Application.js";
 import { generateEmailFromJD } from "../services/gemini.service.js";
-import { generateEmailFromJD } from "../services/gemini.service.js";
 
-
-// SAVE JD
+/**
+ * Save JD
+ */
 export const createApplication = async (req, res) => {
   try {
     const { jobDescription } = req.body;
@@ -25,14 +25,16 @@ export const createApplication = async (req, res) => {
       status: "draft",
     });
 
-    res.status(201).json(application);
+    res.status(201).json({ application });
   } catch (err) {
-    console.error(err);
+    console.error("Create application error:", err);
     res.status(500).json({ message: "Failed to save JD" });
   }
 };
 
-// GENERATE EMAIL
+/**
+ * Generate email
+ */
 export const generateEmailForApplication = async (req, res) => {
   try {
     const application = await Application.findById(req.params.id);
@@ -58,4 +60,3 @@ export const generateEmailForApplication = async (req, res) => {
     res.status(500).json({ message: "Failed to generate email" });
   }
 };
-
