@@ -26,13 +26,17 @@ const Applications = () => {
     fetchApplications();
   }, []);
 
-  const previewApplications = applications.filter(
-    (app) => app.status === "draft" || app.status === "preview"
-  );
+const previewApplications = applications.filter(
+  (app) =>
+    app.status === "draft" ||
+    app.status === "preview" ||
+    !app.status // ✅ IMPORTANT FIX
+);
 
-  const sentApplications = applications.filter(
-    (app) => app.status === "sent"
-  );
+const sentApplications = applications.filter(
+  (app) => app.status === "sent"
+);
+
 
   if (loading) {
     return <p style={{ padding: "20px" }}>Loading applications...</p>;
