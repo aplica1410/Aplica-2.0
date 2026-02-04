@@ -1,12 +1,16 @@
 import { useState } from "react";
 import "../../styles/compose-new-mail.css";
 import axios from "../../api/axios";
+import EmailGenerationModal from "../modals/EmailGenerationModal";
 
 console.log("🔥 ComposeNewMail LOADED FROM:", import.meta.url);
 
 const ComposeNewMail = () => {
   const [jd, setJd] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // Modal + stage state
+  const [showModal, setShowModal] = useState(false);
   const [stage, setStage] = useState("idle");
   // idle | parsed | analysing | generating | done
 
@@ -20,6 +24,7 @@ const ComposeNewMail = () => {
 
     try {
       setLoading(true);
+      setShowModal(true);
 
       /* ===============================
          STAGE 1 — JD PARSED
@@ -27,7 +32,7 @@ const ComposeNewMail = () => {
       setStage("parsed");
       console.log("📄 JD Parsed");
 
-      // 1️⃣ SAVE JD
+      // 1️⃣ Save JD
       const saveRes = await axios.post("/api/applications", {
         jobDescription: jd,
       });
@@ -48,7 +53,7 @@ const ComposeNewMail = () => {
       setStage("analysing");
       console.log("🧠 Analysing JD");
 
-      // Artificial delay for UX smoothness
+      // UX delay (intentional)
       await new Promise((res) => setTimeout(res, 800));
 
       /* ===============================
@@ -68,13 +73,16 @@ const ComposeNewMail = () => {
       // Clear JD for next input
       setJd("");
 
-      // Reset stage after short delay (modal later)
+      // Auto-close modal after success
       setTimeout(() => {
+        setShowModal(false);
         setStage("idle");
-      }, 1000);
+      }, 1200);
     } catch (err) {
       console.error("❌ Compose Error:", err);
       alert("Failed to process JD");
+
+      setShowModal(false);
       setStage("idle");
     } finally {
       setLoading(false);
@@ -82,25 +90,31 @@ const ComposeNewMail = () => {
   };
 
   return (
-    <div className="compose-page">
-      <h2>Apply / Compose New Mail</h2>
-      <p>Hi, Ujjwal</p>
-      <small>📅 {today}</small>
+    <>
+      <div className="compose-page">
+        <h2>Apply / Compose New Mail</h2>
+        <p>Hi, Ujjwal</p>
+        <small>📅 {today}</small>
 
-      <div className="compose-card">
-        <textarea
-          placeholder="Paste job description or freelance work details"
-          value={jd}
-          onChange={(e) => setJd(e.target.value)}
-        />
+        <div className="compose-card">
+          <textarea
+            placeholder="Paste job description or freelance work details"
+            value={jd}
+            onChange={(e) => setJd(e.target.value)}
+            disabled={loading}
+          />
 
-        <div className="compose-actions">
-          <button onClick={handleCompose} disabled={loading}>
-            {loading ? "Generating..." : "Compose New Mail"}
-          </button>
+          <div className="compose-actions">
+            <button onClick={handleCompose} disabled={loading}>
+              {loading ? "Generating..." : "Compose New Mail"}
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+
+      {/* 🔔 Email Generation Modal */}
+      <EmailGenerationModal isOpen={showModal} stage={stage} />
+    </>
   );
 };
 
