@@ -3,11 +3,18 @@ import requireAuth from "../middlewares/requireAuth.js";
 import {
   createApplication,
   generateEmailForApplication,
-} from "../controllers/application.controller.js"; // ✅ FIXED
+  getApplications, // 👈 ADD THIS
+} from "../controllers/application.controller.js";
 
 const router = express.Router();
 
+/* Save JD */
 router.post("/", requireAuth, createApplication);
+
+/* Generate Email */
 router.post("/:id/generate", requireAuth, generateEmailForApplication);
+
+/* ✅ Fetch all applications for logged-in user */
+router.get("/", requireAuth, getApplications);
 
 export default router;
