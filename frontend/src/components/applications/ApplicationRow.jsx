@@ -2,22 +2,20 @@ const ApplicationRow = ({ application, onClick }) => {
   return (
     <div
       className="application-row"
-      onClick={() => onClick?.(application._id)}
-      style={{ cursor: onClick ? "pointer" : "default" }}
+      onClick={() => onClick?.(application)}
+      style={{ cursor: "pointer" }}
     >
       <span className="name">
         {application.extractedEmail || "Unknown"}
       </span>
 
       <span className="content">
-        <strong>{application.subject || "Untitled"}</strong> –{" "}
-        {application.emailBody
-          ? application.emailBody.slice(0, 40) + "..."
-          : "No content"}
+        <strong>{application.subject || "No subject"}</strong> –{" "}
+        {application.emailBody?.slice(0, 40)}...
       </span>
 
       <span className="date">
-        {new Date(application.updatedAt).toDateString()}
+        {new Date(application.createdAt).toLocaleDateString()}
       </span>
     </div>
   );
