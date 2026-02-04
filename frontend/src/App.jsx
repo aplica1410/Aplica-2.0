@@ -28,17 +28,17 @@ function App() {
 
       {/* 🔐 Protected Routes */}
       <Route element={<ProtectedRoute />}>
-        
+
         {/* 🧭 Dashboard Layout */}
         <Route path="/dashboard" element={<Dashboard />}>
-          
+
           {/* Default redirect */}
           <Route index element={<Navigate to="home" replace />} />
 
           <Route path="home" element={<DashboardHome />} />
           <Route path="compose" element={<ComposeNewMail />} />
 
-          {/* ✅ APPLY / PREVIEW PAGE (WITH ID) */}
+          {/* ✅ Apply / Preview page */}
           <Route path="apply/:id" element={<Apply />} />
 
           <Route path="applications" element={<Applications />} />
@@ -49,7 +49,7 @@ function App() {
           />
         </Route>
 
-        {/* 🧭 PROFILE SETUP FLOW */}
+        {/* 🧭 Profile Setup Flow */}
         <Route path="/dashboard/profile" element={<ProfileSetupLayout />}>
           <Route index element={<PublicProfile />} />
           <Route path="public" element={<PublicProfile />} />

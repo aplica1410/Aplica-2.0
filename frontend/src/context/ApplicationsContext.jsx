@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from "../api/axios";
 
-const ApplicationsContext = createContext();
+const ApplicationsContext = createContext(null);
 
 export const ApplicationsProvider = ({ children }) => {
   const [applications, setApplications] = useState([]);
@@ -11,9 +11,10 @@ export const ApplicationsProvider = ({ children }) => {
     try {
       setLoading(true);
       const res = await axios.get("/api/applications");
-      setApplications(res.data.applications || res.data);
+      setApplications(res.data?.applications || res.data || []);
     } catch (err) {
       console.error("Failed to fetch applications", err);
+      setApplications([]);
     } finally {
       setLoading(false);
     }
@@ -32,4 +33,12 @@ export const ApplicationsProvider = ({ children }) => {
   );
 };
 
-export const useApplications = () => useContext(ApplicationsContext);
+export const useApplications = () => {
+  const context = useContext(ApplicationsContext);
+  if (!context) {
+    throw new Error(
+      "useApplications must be used within ApplicationsProvider"
+    );
+  }
+  return context;
+};

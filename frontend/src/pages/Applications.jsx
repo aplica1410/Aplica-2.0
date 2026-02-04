@@ -7,7 +7,7 @@ import ApplicationsSection from "../components/applications/ApplicationsSection"
 
 const Applications = () => {
   const navigate = useNavigate();
-  const { applications, loading } = useApplications();
+  const { applications = [], loading } = useApplications();
 
   if (loading) {
     return (
