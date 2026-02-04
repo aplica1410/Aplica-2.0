@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import Landing from "./pages/Landing";
 import Auth from "./pages/Auth";
@@ -11,7 +11,6 @@ import Settings from "./pages/Settings";
 import PersonalInformation from "./pages/PersonalInformation";
 import ComposeNewMail from "./components/dashboard/ComposeNewMail";
 
-
 import ProfileSetupLayout from "./pages/setup/ProfileSetupLayout";
 import PublicProfile from "./pages/setup/PublicProfile";
 import ProfessionalInfo from "./pages/setup/ProfessionalInfo";
@@ -23,24 +22,34 @@ import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
   return (
     <Routes>
-      {/* 🌍 Public */}
+      {/* 🌍 Public Routes */}
       <Route path="/" element={<Landing />} />
       <Route path="/auth" element={<Auth />} />
 
-      {/* 🔐 Protected */}
+      {/* 🔐 Protected Routes */}
       <Route element={<ProtectedRoute />}>
-
-        {/* Dashboard layout */}
+        
+        {/* 🧭 Dashboard Layout */}
         <Route path="/dashboard" element={<Dashboard />}>
+          
+          {/* Default redirect */}
+          <Route index element={<Navigate to="home" replace />} />
+
           <Route path="home" element={<DashboardHome />} />
           <Route path="compose" element={<ComposeNewMail />} />
-         <Route path="apply" element={<Apply />} />
+
+          {/* ✅ APPLY / PREVIEW PAGE (WITH ID) */}
+          <Route path="apply/:id" element={<Apply />} />
+
           <Route path="applications" element={<Applications />} />
           <Route path="settings" element={<Settings />} />
-          <Route path="personal-information" element={<PersonalInformation />} />
+          <Route
+            path="personal-information"
+            element={<PersonalInformation />}
+          />
         </Route>
 
-        {/* 🧭 PROFILE SETUP (FIRST LOGIN FLOW) */}
+        {/* 🧭 PROFILE SETUP FLOW */}
         <Route path="/dashboard/profile" element={<ProfileSetupLayout />}>
           <Route index element={<PublicProfile />} />
           <Route path="public" element={<PublicProfile />} />

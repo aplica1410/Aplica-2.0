@@ -1,20 +1,20 @@
 import ApplicationRow from "./ApplicationRow";
 
-const dummyData = Array.from({ length: 5 }, (_, i) => ({
-  id: i,
-  name: "Rakesh",
-  subject: "UI Designer Application",
-  body: "Hi, I am fdugsjngsjfgjngf...",
-  date: "6 Jan'26",
-}));
-
-const ApplicationsSection = ({ title }) => {
+const ApplicationsSection = ({ title, applications = [], onRowClick }) => {
   return (
     <div className="applications-card">
       <h3>{title}</h3>
 
-      {dummyData.map((item) => (
-        <ApplicationRow key={item.id} data={item} />
+      {applications.length === 0 && (
+        <p className="empty-text">No applications found</p>
+      )}
+
+      {applications.map((app) => (
+        <ApplicationRow
+          key={app._id}
+          application={app}
+          onClick={onRowClick}
+        />
       ))}
     </div>
   );
