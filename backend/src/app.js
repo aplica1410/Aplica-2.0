@@ -1,19 +1,9 @@
-import "./config/passport.js";
-
-import express from "express";
-import cors from "cors";
-import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
 
-import connectDB from "./db/mongoose.js";
-import authRoutes from "./routes/auth.routes.js";
-import profileSetupRoutes from "./routes/profileSetup.routes.js";
-import applicationRoutes from "./routes/application.routes.js";
-
 /* ===============================
-   ENV SETUP
+   ENV SETUP (MUST BE FIRST)
 ================================ */
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -21,30 +11,44 @@ const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
 /* ===============================
+   NOW SAFE TO IMPORT EVERYTHING
+================================ */
+import "./config/passport.js";
+
+import express from "express";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+
+import connectDB from "./db/mongoose.js";
+import authRoutes from "./routes/auth.routes.js";
+import profileSetupRoutes from "./routes/profileSetup.routes.js";
+import applicationRoutes from "./routes/application.routes.js";
+import aiRoutes from "./routes/ai.routes.js";
+
+/* ===============================
    APP INIT
 ================================ */
 const app = express();
 
 /* ===============================
-   TRUST PROXY (REQUIRED FOR RENDER)
+   TRUST PROXY
 ================================ */
 app.set("trust proxy", 1);
 
 /* ===============================
-   CORS (ABSOLUTELY CORRECT)
+   CORS
 ================================ */
 app.use(
   cors({
-    origin: "https://aplica-2-0.vercel.app", // ❌ NO trailing slash
+    origin: "https://aplica-2-0.vercel.app",
     credentials: true,
   })
 );
 
 /* ===============================
-   BODY & COOKIE PARSERS
+   PARSERS
 ================================ */
 app.use(cookieParser());
-
 app.use(express.json({ limit: "25mb" }));
 app.use(express.urlencoded({ limit: "25mb", extended: true }));
 
@@ -59,6 +63,7 @@ connectDB();
 app.use("/auth", authRoutes);
 app.use("/api/profile-setup", profileSetupRoutes);
 app.use("/api/applications", applicationRoutes);
+app.use("/api/ai", aiRoutes);
 
 /* ===============================
    HEALTH CHECK
@@ -70,9 +75,6 @@ app.get("/health", (req, res) => {
   });
 });
 
-/* ===============================
-   BASIC ROOT CHECK
-================================ */
 app.get("/", (req, res) => {
   res.send("🚀 Aplica Backend is running");
 });
@@ -84,9 +86,7 @@ app.use((err, req, res, next) => {
   console.error("🔥 Global Error:", err);
 
   if (err.type === "entity.too.large") {
-    return res.status(413).json({
-      message: "Payload too large (max 25MB)",
-    });
+    return res.status(413).json({ message: "Payload too large (max 25MB)" });
   }
 
   res.status(err.status || 500).json({

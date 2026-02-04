@@ -1,43 +1,27 @@
-const OpenAI = require('openai');
+import Application from "../models/Application.js";
+import { generateFreelanceEmail } from "./openai.service.js";
 
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-});
+export const generateEmailFromJD = async (applicationId) => {
+  const application = await Application.findById(applicationId);
 
-async function generateEmail({ jobDescription, tone }) {
-  const prompt = `
-You are an experienced freelancer applying for a job.
+  if (!application) {
+    throw new Error("Application not found");
+  }
 
-Job Description:
-"""
-${jobDescription}
-"""
+  const { jobDescription } = application;
 
-Instructions:
-- Write a ${tone} job application email
-- Sound human and natural
-- Do NOT use generic phrases
-- Do NOT repeat sentences
-- Keep it concise (150–200 words)
-- End politely
-
-Return JSON strictly in this format:
-{
-  "subject": "...",
-  "email": "..."
-}
-`;
-
-  const response = await client.chat.completions.create({
-    model: 'gpt-4o-mini',
-    messages: [
-      { role: 'system', content: 'You write human-like job application emails.' },
-      { role: 'user', content: prompt }
-    ],
-    temperature: 0.9
+  const { subject, emailBody } = await generateFreelanceEmail({
+    jobDescription,
   });
 
-  return JSON.parse(response.choices[0].message.content);
-}
+  application.subject = subject;
+  application.emailBody = emailBody;
+  application.status = "draft";
 
-module.exports = { generateEmail };
+  await application.save();
+
+  return {
+    subject,
+    emailBody,
+  };
+};

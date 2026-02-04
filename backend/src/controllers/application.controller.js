@@ -1,5 +1,5 @@
 import Application from "../models/Application.js";
-import { generateEmailFromJD } from "../services/gemini.service.js";
+import { generateEmailFromJD } from "../services/aiEmail.service.js";
 
 /**
  * Save JD
@@ -33,30 +33,25 @@ export const createApplication = async (req, res) => {
 };
 
 /**
- * Generate email
+ * Generate email using OpenAI (from JD)
  */
 export const generateEmailForApplication = async (req, res) => {
   try {
-    const application = await Application.findById(req.params.id);
+    const { id } = req.params;
 
-    if (!application) {
-      return res.status(404).json({ message: "Application not found" });
-    }
+    // 🔥 Single responsibility:
+    // Service handles AI + DB update
+    const result = await generateEmailFromJD(id);
 
-    const aiResult = await generateEmailFromJD(
-      application.jobDescription,
-      application.extractedEmail
-    );
-
-    application.subject = aiResult.subject;
-    application.emailBody = aiResult.body;
-    application.status = "preview";
-
-    await application.save();
-
-    res.json({ application });
+    res.status(200).json({
+      success: true,
+      data: result,
+    });
   } catch (err) {
-    console.error("Generate email error:", err.message);
-    res.status(500).json({ message: "Failed to generate email" });
+    console.error("Generate email error:", err);
+    res.status(500).json({
+      success: false,
+      message: err.message || "Failed to generate email",
+    });
   }
 };
