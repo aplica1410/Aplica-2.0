@@ -18,29 +18,29 @@ import PortfolioSocials from "./pages/setup/PortfolioSocials";
 import Attachments from "./pages/setup/Attachments";
 
 import ProtectedRoute from "./components/ProtectedRoute";
+import { ApplicationsProvider } from "./context/ApplicationsContext";
 
 function App() {
   return (
     <Routes>
-      {/* 🌍 Public Routes */}
+      {/* 🌍 Public */}
       <Route path="/" element={<Landing />} />
       <Route path="/auth" element={<Auth />} />
 
-      {/* 🔐 Protected Routes */}
+      {/* 🔐 Protected */}
       <Route element={<ProtectedRoute />}>
-
-        {/* 🧭 Dashboard Layout */}
-        <Route path="/dashboard" element={<Dashboard />}>
-
-          {/* Default redirect */}
+        <Route
+          path="/dashboard"
+          element={
+            <ApplicationsProvider>
+              <Dashboard />
+            </ApplicationsProvider>
+          }
+        >
           <Route index element={<Navigate to="home" replace />} />
-
           <Route path="home" element={<DashboardHome />} />
           <Route path="compose" element={<ComposeNewMail />} />
-
-          {/* ✅ Apply / Preview page */}
           <Route path="apply/:id" element={<Apply />} />
-
           <Route path="applications" element={<Applications />} />
           <Route path="settings" element={<Settings />} />
           <Route
@@ -49,7 +49,7 @@ function App() {
           />
         </Route>
 
-        {/* 🧭 Profile Setup Flow */}
+        {/* Profile setup */}
         <Route path="/dashboard/profile" element={<ProfileSetupLayout />}>
           <Route index element={<PublicProfile />} />
           <Route path="public" element={<PublicProfile />} />
@@ -57,7 +57,6 @@ function App() {
           <Route path="portfolio" element={<PortfolioSocials />} />
           <Route path="attachments" element={<Attachments />} />
         </Route>
-
       </Route>
     </Routes>
   );
