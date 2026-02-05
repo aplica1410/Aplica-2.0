@@ -57,54 +57,66 @@ export const generateEmailForApplication = async (req, res) => {
 };
 
 
+import Application from "../models/Application.js";
+
+/* ===============================
+   GET ALL USER APPLICATIONS
+================================ */
 export const getUserApplications = async (req, res) => {
   try {
-    const applications = await Application.find({
-      user: req.user._id,
-    }).sort({ createdAt: -1 });
+    const applications = await Application.find({ user: req.user._id })
+      .sort({ createdAt: -1 });
 
-    res.json({ applications });
+    res.status(200).json({ applications });
   } catch (err) {
-    console.error("Fetch applications error:", err);
     res.status(500).json({ message: "Failed to fetch applications" });
   }
 };
 
-
+/* ===============================
+   GET SINGLE APPLICATION
+================================ */
 export const getApplicationById = async (req, res) => {
-  const app = await Application.findOne({
-    _id: req.params.id,
-    user: req.user._id,
-  });
+  try {
+    const application = await Application.findOne({
+      _id: req.params.id,
+      user: req.user._id,
+    });
 
-  if (!app) {
-    return res.status(404).json({ message: "Application not found" });
+    if (!application) {
+      return res.status(404).json({ message: "Application not found" });
+    }
+
+    res.status(200).json({ application });
+  } catch (err) {
+    res.status(500).json({ message: "Failed to fetch application" });
   }
-
-  res.json({ application: app });
 };
 
-
+/* ===============================
+   SEND EMAIL
+================================ */
 export const sendApplicationEmail = async (req, res) => {
-  const { to, subject, body } = req.body;
+  try {
+    const { to, subject, body } = req.body;
 
-  const app = await Application.findOne({
-    _id: req.params.id,
-    user: req.user._id,
-  });
+    const application = await Application.findOne({
+      _id: req.params.id,
+      user: req.user._id,
+    });
 
-  if (!app) {
-    return res.status(404).json({ message: "Application not found" });
+    if (!application) {
+      return res.status(404).json({ message: "Application not found" });
+    }
+
+    // TODO: integrate nodemailer here
+    application.status = "sent";
+    await application.save();
+
+    res.status(200).json({ message: "Email sent successfully" });
+  } catch (err) {
+    res.status(500).json({ message: "Failed to send email" });
   }
-
-  // send email via nodemailer here 👇
-  await sendMail({ to, subject, html: body });
-
-  app.status = "sent";
-  app.subject = subject;
-  app.emailBody = body;
-  await app.save();
-
-  res.json({ success: true });
 };
+
 

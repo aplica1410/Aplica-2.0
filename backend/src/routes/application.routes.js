@@ -1,18 +1,27 @@
 import express from "express";
 import requireAuth from "../middlewares/requireAuth.js";
+
 import {
   createApplication,
   generateEmailForApplication,
-  getApplicationById,
-  sendApplicationEmail,
+  getUserApplications,          // ✅ ADD THIS
+  getApplicationById,            // ✅ ADD THIS
+  sendApplicationEmail           // ✅ ADD THIS
 } from "../controllers/application.controller.js";
 
 const router = express.Router();
 
-router.get("/", requireAuth, getUserApplications); // ✅ ADD THIS
+// 📌 CREATE + LIST
 router.post("/", requireAuth, createApplication);
-router.post("/:id/generate", requireAuth, generateEmailForApplication);
+router.get("/", requireAuth, getUserApplications);
+
+// 📌 PREVIEW
 router.get("/:id", requireAuth, getApplicationById);
+
+// 📌 AI GENERATE
+router.post("/:id/generate", requireAuth, generateEmailForApplication);
+
+// 📌 SEND EMAIL
 router.post("/:id/send", requireAuth, sendApplicationEmail);
 
 export default router;
