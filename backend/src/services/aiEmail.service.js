@@ -8,20 +8,14 @@ export const generateEmailFromJD = async (applicationId) => {
     throw new Error("Application not found");
   }
 
-  const { jobDescription } = application;
+  // AI result (example)
+  const aiResult = await generateFromOpenAI(application.jobDescription);
 
-  const { subject, emailBody } = await generateFreelanceEmail({
-    jobDescription,
-  });
-
-  application.subject = subject;
-  application.emailBody = emailBody;
+  application.subject = aiResult.subject;
+  application.body = aiResult.body;
   application.status = "draft";
 
   await application.save();
 
-  return {
-    subject,
-    emailBody,
-  };
+  return application;
 };

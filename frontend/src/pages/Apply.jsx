@@ -32,11 +32,15 @@ const Apply = () => {
         const app = res.data.application;
 
         setApplication(app);
+
+        // LEFT
         setJdText(app.jobDescription || "");
 
+        // RIGHT
         setTo(app.extractedEmail || "");
         setSubject(app.subject || "");
-        setBody(app.emailBody || "");
+        setBody(app.body || ""); // ✅ FIXED (THIS WAS THE BUG)
+
       } catch (err) {
         console.error("❌ Failed to load application", err);
       } finally {
@@ -75,7 +79,10 @@ const Apply = () => {
       <div className="apply-grid">
         {/* LEFT — JD */}
         <div className="apply-left">
-          <JobDescription jdText={jdText} setJdText={setJdText} />
+          <JobDescription
+            jdText={jdText}
+            setJdText={setJdText}
+          />
         </div>
 
         {/* RIGHT — EMAIL */}
