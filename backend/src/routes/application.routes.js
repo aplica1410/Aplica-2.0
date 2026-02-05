@@ -24,4 +24,7 @@ router.post("/:id/generate", requireAuth, generateEmailForApplication);
 // 📌 SEND EMAIL
 router.post("/:id/send", requireAuth, sendApplicationEmail);
 
+//DASHBOARD ROUTES
+router.get("/stats", requireAuth, getDashboardStats);
+
 export default router;

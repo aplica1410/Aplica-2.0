@@ -101,3 +101,30 @@ export const sendApplicationEmail = async (req, res) => {
     res.status(500).json({ message: "Failed to send email" });
   }
 };
+
+
+export const getDashboardStats = async (req, res) => {
+  try {
+    const total = await Application.countDocuments({
+      user: req.user._id,
+    });
+
+    const sent = await Application.countDocuments({
+      user: req.user._id,
+      status: "sent",
+    });
+
+    const draft = await Application.countDocuments({
+      user: req.user._id,
+      status: "draft",
+    });
+
+    res.json({
+      sent,
+      draft,
+      remaining: 100 - sent, // your quota logic
+    });
+  } catch (err) {
+    res.status(500).json({ message: "Failed to load dashboard stats" });
+  }
+};

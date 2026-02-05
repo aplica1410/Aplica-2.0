@@ -8,7 +8,7 @@ const Sidebar = () => {
   return (
     <aside className="sidebar">
       <NavLink to="/dashboard/home">Dashboard</NavLink>
-<NavLink to="/dashboard/apply">Apply</NavLink>
+<NavLink to="/dashboard/compose">Apply</NavLink>
 <NavLink to="/dashboard/applications">Applications</NavLink>
 <NavLink to="/dashboard/personal-information">
   Personal Information
