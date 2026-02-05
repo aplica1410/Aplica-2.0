@@ -57,7 +57,7 @@ export const generateEmailForApplication = async (req, res) => {
 };
 
 
-export const getApplications = async (req, res) => {
+export const getUserApplications = async (req, res) => {
   try {
     const applications = await Application.find({
       user: req.user._id,
@@ -66,8 +66,7 @@ export const getApplications = async (req, res) => {
     res.json({ applications });
   } catch (err) {
     console.error("Fetch applications error:", err);
-    res.status(500).json({
-      message: "Failed to fetch applications",
-    });
+    res.status(500).json({ message: "Failed to fetch applications" });
   }
 };
+
