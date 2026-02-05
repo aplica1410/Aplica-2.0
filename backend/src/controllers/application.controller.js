@@ -1,9 +1,9 @@
 import Application from "../models/Application.js";
 import { generateEmailFromJD } from "../services/aiEmail.service.js";
 
-/**
- * Save JD
- */
+/* ===============================
+   SAVE JD
+================================ */
 export const createApplication = async (req, res) => {
   try {
     const { jobDescription } = req.body;
@@ -32,15 +32,14 @@ export const createApplication = async (req, res) => {
   }
 };
 
-/**
- * Generate email using OpenAI (from JD)
- */
+/* ===============================
+   GENERATE EMAIL USING AI
+================================ */
 export const generateEmailForApplication = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // 🔥 Single responsibility:
-    // Service handles AI + DB update
+    // service handles AI + DB update
     const result = await generateEmailFromJD(id);
 
     res.status(200).json({
@@ -56,16 +55,14 @@ export const generateEmailForApplication = async (req, res) => {
   }
 };
 
-
-import Application from "../models/Application.js";
-
 /* ===============================
    GET ALL USER APPLICATIONS
 ================================ */
 export const getUserApplications = async (req, res) => {
   try {
-    const applications = await Application.find({ user: req.user._id })
-      .sort({ createdAt: -1 });
+    const applications = await Application.find({
+      user: req.user._id,
+    }).sort({ createdAt: -1 });
 
     res.status(200).json({ applications });
   } catch (err) {
@@ -109,7 +106,7 @@ export const sendApplicationEmail = async (req, res) => {
       return res.status(404).json({ message: "Application not found" });
     }
 
-    // TODO: integrate nodemailer here
+    // TODO: nodemailer integration
     application.status = "sent";
     await application.save();
 
@@ -118,5 +115,3 @@ export const sendApplicationEmail = async (req, res) => {
     res.status(500).json({ message: "Failed to send email" });
   }
 };
-
-
