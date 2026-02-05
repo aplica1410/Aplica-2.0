@@ -1,7 +1,9 @@
-// services/aiEmail.service.js
 import Application from "../models/Application.js";
-import openai from "./openai.service.js";
+import { generateFreelanceEmail } from "./openai.service.js";
 
+/**
+ * Generate email from JD and save it to application
+ */
 export const generateEmailFromJD = async (applicationId) => {
   const application = await Application.findById(applicationId);
 
@@ -9,36 +11,20 @@ export const generateEmailFromJD = async (applicationId) => {
     throw new Error("Application not found");
   }
 
-  const prompt = `
-Generate a professional job application email.
+  // ✅ Call the CORRECT OpenAI service
+  const aiResult = await generateFreelanceEmail(
+    application.jobDescription
+  );
 
-Job Description:
-${application.jobDescription}
-
-Return JSON:
-{
-  "subject": "...",
-  "emailBody": "..."
-}
-`;
-
-  const completion = await openai.chat.completions.create({
-    model: "gpt-4o-mini",
-    messages: [{ role: "user", content: prompt }],
-  });
-
-  const raw = completion.choices[0].message.content;
-
-  const parsed = JSON.parse(raw);
-
-  // 🔥 GUARANTEED SAVE (THIS WAS MISSING / INCONSISTENT)
-  application.subject = parsed.subject;
-  application.emailBody = parsed.emailBody;
+  // ✅ Save generated content
+  application.subject = aiResult.subject;
+  application.emailBody = aiResult.body; // IMPORTANT: match frontend field
+  application.status = "draft";
 
   await application.save();
 
   return {
-    subject: parsed.subject,
-    emailBody: parsed.emailBody,
+    subject: application.subject,
+    body: application.emailBody,
   };
 };
