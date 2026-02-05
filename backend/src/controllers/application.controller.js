@@ -36,24 +36,10 @@ export const createApplication = async (req, res) => {
    GENERATE EMAIL USING AI
 ================================ */
 export const generateEmailForApplication = async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    // service handles AI + DB update
-    const result = await generateEmailFromJD(id);
-
-    res.status(200).json({
-      success: true,
-      data: result,
-    });
-  } catch (err) {
-    console.error("Generate email error:", err);
-    res.status(500).json({
-      success: false,
-      message: err.message || "Failed to generate email",
-    });
-  }
+  const data = await generateEmailFromJD(req.params.id);
+  res.json({ success: true, data });
 };
+
 
 /* ===============================
    GET ALL USER APPLICATIONS

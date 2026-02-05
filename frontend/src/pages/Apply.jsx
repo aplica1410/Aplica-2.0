@@ -38,8 +38,9 @@ const Apply = () => {
 
         // RIGHT
         setTo(app.extractedEmail || "");
-        setSubject(app.subject || "");
-        setBody(app.body || ""); // ✅ FIXED (THIS WAS THE BUG)
+setSubject(app.subject || "");
+setBody(app.emailBody || "");
+ // ✅ FIXED (THIS WAS THE BUG)
 
       } catch (err) {
         console.error("❌ Failed to load application", err);
