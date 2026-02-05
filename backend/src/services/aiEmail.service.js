@@ -11,20 +11,20 @@ export const generateEmailFromJD = async (applicationId) => {
     throw new Error("Application not found");
   }
 
-  // ✅ Call the CORRECT OpenAI service
-  const aiResult = await generateFreelanceEmail(
-    application.jobDescription
-  );
+  // ✅ Always pass object (matches OpenAI service signature)
+  const aiResult = await generateFreelanceEmail({
+    jobDescription: application.jobDescription,
+  });
 
-  // ✅ Save generated content
+  // 🔐 SINGLE SOURCE OF TRUTH
   application.subject = aiResult.subject;
-  application.emailBody = aiResult.body; // IMPORTANT: match frontend field
+  application.emailBody = aiResult.emailBody;
   application.status = "draft";
 
   await application.save();
 
   return {
     subject: application.subject,
-    body: application.emailBody,
+    emailBody: application.emailBody,
   };
 };

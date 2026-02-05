@@ -15,22 +15,20 @@ const applicationSchema = new mongoose.Schema(
 
     extractedEmail: {
       type: String,
-      default: null,
     },
 
     subject: {
       type: String,
-      default: null,
     },
 
+    // 🔐 SINGLE SOURCE OF TRUTH
     emailBody: {
       type: String,
-      default: null,
     },
 
     status: {
       type: String,
-      enum: ["draft", "preview", "sent"], // ✅ MATCH CONTROLLER
+      enum: ["draft", "sent"],
       default: "draft",
     },
   },
