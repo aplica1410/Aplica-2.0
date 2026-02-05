@@ -27,3 +27,27 @@
   background: #1e1f22;
   color: #4da3ff;
 }
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sidebar-link {
+  padding: 10px 14px;
+  border-radius: 8px;
+  color: #b0b0b0;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.sidebar-link:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-link.active {
+  background: rgba(0, 136, 255, 0.15);
+  color: #4da3ff;
+}
+

@@ -62,7 +62,8 @@ const ComposeNewMail = () => {
       setStage("generating");
       console.log("✍️ Generating Email");
 
-      await axios.post(`/api/ai/generate-email/${applicationId}`);
+      await axios.post(`/api/applications/${applicationId}/generate`);
+
 
       /* ===============================
          STAGE 4 — DONE
