@@ -1,17 +1,15 @@
-const ApplicationRow = ({ application, onClick }) => {
+const ApplicationRow = ({ application }) => {
   return (
-    <div
-      className="application-row"
-      onClick={() => onClick?.(application)}
-      style={{ cursor: "pointer" }}
-    >
+    <div className="application-row">
       <span className="name">
         {application.extractedEmail || "Unknown"}
       </span>
 
       <span className="content">
-        <strong>{application.subject || "No subject"}</strong> –{" "}
-        {application.emailBody?.slice(0, 40)}...
+        <strong>{application.subject || "Draft Application"}</strong> –{" "}
+        {(application.emailBody || application.jobDescription || "")
+          .slice(0, 40)}
+        ...
       </span>
 
       <span className="date">

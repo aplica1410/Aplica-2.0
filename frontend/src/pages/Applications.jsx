@@ -7,40 +7,35 @@ import ApplicationsSection from "../components/applications/ApplicationsSection"
 
 const Applications = () => {
   const [applications, setApplications] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchApplications = async () => {
       try {
         const res = await axios.get("/api/applications");
-        console.log("📦 Applications from backend:", res.data);
+
+        console.log("🟢 RAW API RESPONSE:", res.data);
+        console.log("🟢 APPLICATION ARRAY:", res.data.applications);
 
         setApplications(res.data.applications || []);
       } catch (err) {
-        console.error("❌ Failed to fetch applications:", err);
-      } finally {
-        setLoading(false);
+        console.error("❌ Fetch error:", err);
       }
     };
 
     fetchApplications();
   }, []);
 
-const previewApplications = applications.filter(
-  (app) =>
-    app.status === "draft" ||
-    app.status === "preview" ||
-    !app.status // ✅ IMPORTANT FIX
-);
+  const previewApplications = applications.filter(
+    (app) =>
+      !app.status || app.status === "draft" || app.status === "preview"
+  );
 
-const sentApplications = applications.filter(
-  (app) => app.status === "sent"
-);
+  const sentApplications = applications.filter(
+    (app) => app.status === "sent"
+  );
 
-
-  if (loading) {
-    return <p style={{ padding: "20px" }}>Loading applications...</p>;
-  }
+  console.log("🟣 Preview count:", previewApplications.length);
+  console.log("🟣 Sent count:", sentApplications.length);
 
   return (
     <div className="applications-page">
