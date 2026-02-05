@@ -6,7 +6,8 @@ import {
   generateEmailForApplication,
   getUserApplications,          // ✅ ADD THIS
   getApplicationById,            // ✅ ADD THIS
-  sendApplicationEmail           // ✅ ADD THIS
+  sendApplicationEmail,
+  getDashboardStats,         // ✅ ADD THIS
 } from "../controllers/application.controller.js";
 
 const router = express.Router();
@@ -25,6 +26,6 @@ router.post("/:id/generate", requireAuth, generateEmailForApplication);
 router.post("/:id/send", requireAuth, sendApplicationEmail);
 
 //DASHBOARD ROUTES
-router.get("/stats", requireAuth, getDashboardStats);
+router.get("/stats/dashboard", requireAuth, getDashboardStats);
 
 export default router;

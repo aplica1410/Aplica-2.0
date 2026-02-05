@@ -1,4 +1,6 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "../api/axios";
 import { useUser } from "../context/UserContext";
 
 import "../styles/dashboard-home.css";
@@ -11,8 +13,33 @@ const DashboardHome = () => {
   const navigate = useNavigate();
   const { user } = useUser();
 
-  // Safety: user should already exist because Dashboard.jsx handled auth
-  if (!user) {
+  const [stats, setStats] = useState({
+    sent: 0,
+    remaining: 0,
+    toPreview: 0,
+  });
+
+  const [loading, setLoading] = useState(true);
+
+  /* ===============================
+     FETCH DASHBOARD STATS
+  ================================ */
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const res = await axios.get("/api/applications/stats/dashboard");
+        setStats(res.data);
+      } catch (err) {
+        console.error("Failed to load dashboard stats", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStats();
+  }, []);
+
+  if (!user || loading) {
     return <div>Loading dashboard...</div>;
   }
 
@@ -24,15 +51,12 @@ const DashboardHome = () => {
 
       {/* Stats */}
       <div className="stats-grid">
-        <StatCard title="Email Sent" value={user?.stats?.sent || 0} />
+        <StatCard title="Email Sent" value={stats.sent} />
         <StatCard
           title="Email Remaining"
-          value={user?.stats?.remaining || "0/100"}
+          value={`${stats.remaining}/${stats.limit ?? 100}`}
         />
-        <StatCard
-          title="Left To Preview"
-          value={user?.stats?.toPreview || 0}
-        />
+        <StatCard title="Left To Preview" value={stats.toPreview} />
       </div>
 
       {/* Profile CTA */}
@@ -50,10 +74,10 @@ const DashboardHome = () => {
         </div>
       )}
 
-      {/* Bottom cards */}
+      {/* Bottom cards (can be wired next) */}
       <div className="dashboard-bottom">
-        <HistoryCard items={[]} />
-        <PreviewCard items={[]} />
+        <HistoryCard />
+        <PreviewCard />
       </div>
     </div>
   );
