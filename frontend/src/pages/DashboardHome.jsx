@@ -13,30 +13,38 @@ const DashboardHome = () => {
   const navigate = useNavigate();
   const { user } = useUser();
 
+  const [loading, setLoading] = useState(true);
+
   const [stats, setStats] = useState({
     sent: 0,
     remaining: 0,
     toPreview: 0,
+    limit: 100,
   });
 
-  const [loading, setLoading] = useState(true);
+  const [applications, setApplications] = useState([]);
 
   /* ===============================
-     FETCH DASHBOARD STATS
+     FETCH DASHBOARD DATA
   ================================ */
   useEffect(() => {
-    const fetchStats = async () => {
+    const fetchDashboardData = async () => {
       try {
-        const res = await axios.get("/api/applications/stats/dashboard");
-        setStats(res.data);
+        const [statsRes, appsRes] = await Promise.all([
+          axios.get("/api/applications/stats/dashboard"),
+          axios.get("/api/applications"),
+        ]);
+
+        setStats(statsRes.data);
+        setApplications(appsRes.data.applications || []);
       } catch (err) {
-        console.error("Failed to load dashboard stats", err);
+        console.error("❌ Failed to load dashboard data", err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchStats();
+    fetchDashboardData();
   }, []);
 
   if (!user || loading) {
@@ -45,21 +53,39 @@ const DashboardHome = () => {
 
   const isProfileIncomplete = user.profileComplete === false;
 
+  // Split applications
+  const previewItems = applications.filter(
+    (app) => app.status === "draft"
+  );
+
+  const historyItems = applications.filter(
+    (app) => app.status === "sent"
+  );
+
   return (
     <div className="dashboard-home">
       <DashboardHeader user={user} />
 
-      {/* Stats */}
+      {/* ===============================
+          STATS
+      ================================ */}
       <div className="stats-grid">
         <StatCard title="Email Sent" value={stats.sent} />
+
         <StatCard
           title="Email Remaining"
-          value={`${stats.remaining}/${stats.limit ?? 100}`}
+          value={`${stats.remaining}/${stats.limit}`}
         />
-        <StatCard title="Left To Preview" value={stats.toPreview} />
+
+        <StatCard
+          title="Left To Preview"
+          value={stats.toPreview}
+        />
       </div>
 
-      {/* Profile CTA */}
+      {/* ===============================
+          PROFILE CTA
+      ================================ */}
       {isProfileIncomplete && (
         <div className="profile-warning">
           <p>Your profile is incomplete.</p>
@@ -74,10 +100,12 @@ const DashboardHome = () => {
         </div>
       )}
 
-      {/* Bottom cards (can be wired next) */}
+      {/* ===============================
+          PREVIEW & HISTORY
+      ================================ */}
       <div className="dashboard-bottom">
-        <HistoryCard />
-        <PreviewCard />
+        <HistoryCard items={historyItems} />
+        <PreviewCard items={previewItems} />
       </div>
     </div>
   );

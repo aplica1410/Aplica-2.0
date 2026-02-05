@@ -1,34 +1,24 @@
-import { useNavigate } from "react-router-dom";
-
-const HistoryCard = () => {
-  const navigate = useNavigate();
-
-  const handleCompose = () => {
-    navigate("/dashboard/compose");
-  };
-
-  const rows = Array.from({ length: 7 }, (_, i) => ({
-    id: i,
-    name: "Rakesh",
-    role: "UI Designer Application",
-  }));
-
+const HistoryCard = ({ items = [] }) => {
   return (
     <div className="dashboard-card">
       <h3>History</h3>
 
-      {rows.map((row) => (
-        <div key={row.id} className="dashboard-row">
-          <span className="name">{row.name}</span>
-          <span className="role">{row.role}</span>
+      {items.length === 0 && (
+        <p className="empty-text">No emails sent yet</p>
+      )}
+
+      {items.slice(0, 6).map((item) => (
+        <div key={item._id} className="list-row">
+          <span className="name">
+            {item.extractedEmail || "Unknown"}
+          </span>
+          <span className="subject">
+            {item.subject || "Email Sent"}
+          </span>
         </div>
       ))}
 
       <div className="card-actions">
-        <button className="primary-btn" onClick={handleCompose}>
-          Compose New Mail
-        </button>
-
         <button className="secondary-btn">
           View Full History
         </button>
