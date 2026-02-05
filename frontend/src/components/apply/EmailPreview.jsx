@@ -8,34 +8,32 @@ const EmailPreview = ({
   onSend,
 }) => {
   return (
-    <div className="email-preview-card">
-      <h3>Reply</h3>
+    <div className="email-card">
+      <h4 className="email-title">Reply</h4>
 
-      {/* TO */}
+      <label>To</label>
       <input
         type="email"
-        placeholder="To"
         value={to}
         onChange={(e) => setTo(e.target.value)}
+        placeholder="recipient@email.com"
       />
 
-      {/* SUBJECT */}
+      <label>Subject</label>
       <input
         type="text"
-        placeholder="Subject"
         value={subject}
         onChange={(e) => setSubject(e.target.value)}
+        placeholder="Email subject"
       />
 
-      {/* BODY */}
+      <label>Reply</label>
       <textarea
-        placeholder="Email body"
         value={body}
         onChange={(e) => setBody(e.target.value)}
-        rows={12}
+        placeholder="Write or edit email content"
       />
 
-      {/* SEND */}
       <button className="send-btn" onClick={onSend}>
         Send
       </button>
