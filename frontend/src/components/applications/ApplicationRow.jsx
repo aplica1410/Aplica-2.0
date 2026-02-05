@@ -1,20 +1,27 @@
+import { useNavigate } from "react-router-dom";
+
 const ApplicationRow = ({ application }) => {
+  const navigate = useNavigate();
+
   return (
     <div className="application-row">
-      <span className="name">
-        {application.extractedEmail || "Unknown"}
-      </span>
+      <span className="name">{application.extractedEmail}</span>
 
       <span className="content">
-        <strong>{application.subject || "Draft Application"}</strong> –{" "}
-        {(application.emailBody || application.jobDescription || "")
-          .slice(0, 40)}
-        ...
+        <strong>{application.subject}</strong> –{" "}
+        {application.emailBody?.slice(0, 60)}...
       </span>
 
       <span className="date">
         {new Date(application.createdAt).toLocaleDateString()}
       </span>
+
+      <button
+        className="preview-btn"
+        onClick={() => navigate(`/dashboard/apply/${application._id}`)}
+      >
+        Preview
+      </button>
     </div>
   );
 };

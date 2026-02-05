@@ -70,3 +70,41 @@ export const getUserApplications = async (req, res) => {
   }
 };
 
+
+export const getApplicationById = async (req, res) => {
+  const app = await Application.findOne({
+    _id: req.params.id,
+    user: req.user._id,
+  });
+
+  if (!app) {
+    return res.status(404).json({ message: "Application not found" });
+  }
+
+  res.json({ application: app });
+};
+
+
+export const sendApplicationEmail = async (req, res) => {
+  const { to, subject, body } = req.body;
+
+  const app = await Application.findOne({
+    _id: req.params.id,
+    user: req.user._id,
+  });
+
+  if (!app) {
+    return res.status(404).json({ message: "Application not found" });
+  }
+
+  // send email via nodemailer here 👇
+  await sendMail({ to, subject, html: body });
+
+  app.status = "sent";
+  app.subject = subject;
+  app.emailBody = body;
+  await app.save();
+
+  res.json({ success: true });
+};
+
