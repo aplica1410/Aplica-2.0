@@ -15,7 +15,7 @@ router.get(
     scope: [
       "profile",
       "email",
-      "https://www.googleapis.com/auth/gmail.send"
+      "https://www.googleapis.com/auth/gmail.send",
     ],
     accessType: "offline",
     prompt: "consent",
@@ -52,11 +52,13 @@ router.get(
           profileComplete: false,
           accessToken,
           refreshToken,
+          gmailConnected: true, // 🔥 FIXED
         });
       } else {
         user.googleId = googleId;
         user.avatar = avatar;
         user.accessToken = accessToken;
+        user.gmailConnected = true; // 🔥 FIXED
 
         // refreshToken only comes first time unless forced
         if (refreshToken) {

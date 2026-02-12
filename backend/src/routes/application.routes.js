@@ -1,5 +1,6 @@
 import express from "express";
 import requireAuth from "../middlewares/requireAuth.js";
+import { sendEmail } from "../controllers/sendEmail.controller.js";
 
 import {
   createApplication,
@@ -27,5 +28,8 @@ router.post("/:id/send", requireAuth, sendApplicationEmail);
 
 //DASHBOARD ROUTES
 router.get("/stats/dashboard", requireAuth, getDashboardStats);
+
+// SEND EMAIL
+router.post("/send", requireAuth, sendEmail);
 
 export default router;
