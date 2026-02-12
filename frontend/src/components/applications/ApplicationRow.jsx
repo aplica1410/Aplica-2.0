@@ -16,12 +16,14 @@ const ApplicationRow = ({ application }) => {
         {new Date(application.createdAt).toLocaleDateString()}
       </span>
 
-      <button
-        className="preview-btn"
-        onClick={() => navigate(`/dashboard/apply/${application._id}`)}
-      >
-        Preview
-      </button>
+<button
+  className="secondary-btn small-btn preview-action-btn"
+  onClick={() => navigate(`/dashboard/apply/${item._id}`)}
+>
+  Preview →
+</button>
+
+
     </div>
   );
 };

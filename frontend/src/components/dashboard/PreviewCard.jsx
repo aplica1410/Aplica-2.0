@@ -47,10 +47,10 @@ const PreviewCard = ({ items = [] }) => {
           className="primary-btn"
           disabled={items.length === 0}
           onClick={() =>
-            navigate(`/dashboard/apply/${items[0]?._id}`)
+            navigate("/dashboard/applications")
           }
         >
-          Preview
+          View All Drafts
         </button>
       </div>
     </div>

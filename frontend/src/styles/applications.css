@@ -51,3 +51,19 @@
   font-size: 12px;
   white-space: nowrap;
 }
+
+.small-btn {
+  padding: 6px 12px;
+  font-size: 13px;
+  border-radius: 6px;
+}
+
+.preview-action-btn {
+  transition: all 0.2s ease;
+}
+
+.preview-action-btn:hover {
+  transform: translateX(2px);
+}
+
+
