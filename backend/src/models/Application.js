@@ -28,8 +28,12 @@ const applicationSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["draft", "sent"],
+      enum: ["draft", "generated", "sent"],
       default: "draft",
+    },
+
+    sentAt: {
+      type: Date,
     },
   },
   { timestamps: true }
