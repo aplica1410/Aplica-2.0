@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useUser } from "../../context/UserContext";
 import "../../styles/compose-new-mail.css";
 import axios from "../../api/axios";
 import EmailGenerationModal from "../modals/EmailGenerationModal";
@@ -6,6 +7,8 @@ import EmailGenerationModal from "../modals/EmailGenerationModal";
 console.log("🔥 ComposeNewMail LOADED FROM:", import.meta.url);
 
 const ComposeNewMail = () => {
+  const { user } = useUser();
+
   const [jd, setJd] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -53,7 +56,6 @@ const ComposeNewMail = () => {
       setStage("analysing");
       console.log("🧠 Analysing JD");
 
-      // UX delay (intentional)
       await new Promise((res) => setTimeout(res, 800));
 
       /* ===============================
@@ -64,17 +66,14 @@ const ComposeNewMail = () => {
 
       await axios.post(`/api/applications/${applicationId}/generate`);
 
-
       /* ===============================
          STAGE 4 — DONE
       ================================ */
       setStage("done");
       console.log("✅ Email Generated");
 
-      // Clear JD for next input
       setJd("");
 
-      // Auto-close modal after success
       setTimeout(() => {
         setShowModal(false);
         setStage("idle");
@@ -94,7 +93,14 @@ const ComposeNewMail = () => {
     <>
       <div className="compose-page">
         <h2>Apply / Compose New Mail</h2>
-        <p>Hi, Ujjwal</p>
+
+        <p>
+          Hi,{" "}
+          {user?.publicProfile?.firstName ||
+            user?.email?.split("@")[0] ||
+            "User"}
+        </p>
+
         <small>📅 {today}</small>
 
         <div className="compose-card">
