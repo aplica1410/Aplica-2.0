@@ -17,11 +17,14 @@ const ApplicationRow = ({ application }) => {
       </span>
 
 <button
-  className="secondary-btn small-btn preview-action-btn"
-  onClick={() => navigate(`/dashboard/apply/${item._id}`)}
+  className="secondary-btn small-btn"
+  onClick={() =>
+    navigate(`/dashboard/apply/${item._id}`)
+  }
 >
   Preview →
 </button>
+
 
 
     </div>
