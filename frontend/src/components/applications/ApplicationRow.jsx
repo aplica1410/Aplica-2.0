@@ -5,7 +5,9 @@ const ApplicationRow = ({ application }) => {
 
   return (
     <div className="application-row">
-      <span className="name">{application.extractedEmail}</span>
+      <span className="name">
+        {application.extractedEmail}
+      </span>
 
       <span className="content">
         <strong>{application.subject}</strong> –{" "}
@@ -16,17 +18,14 @@ const ApplicationRow = ({ application }) => {
         {new Date(application.createdAt).toLocaleDateString()}
       </span>
 
-<button
-  className="secondary-btn small-btn"
-  onClick={() =>
-    navigate(`/dashboard/apply/${item._id}`)
-  }
->
-  Preview →
-</button>
-
-
-
+      <button
+        className="secondary-btn small-btn"
+        onClick={() =>
+          navigate(`/dashboard/apply/${application._id}`)
+        }
+      >
+        Preview →
+      </button>
     </div>
   );
 };
