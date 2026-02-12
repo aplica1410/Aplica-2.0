@@ -1,4 +1,8 @@
+import { useNavigate } from "react-router-dom";
+
 const HistoryCard = ({ items = [] }) => {
+  const navigate = useNavigate();
+
   return (
     <div className="dashboard-card">
       <h3>History</h3>
@@ -7,19 +11,46 @@ const HistoryCard = ({ items = [] }) => {
         <p className="empty-text">No emails sent yet</p>
       )}
 
-      {items.slice(0, 6).map((item) => (
-        <div key={item._id} className="list-row">
-          <span className="name">
-            {item.extractedEmail || "Unknown"}
-          </span>
-          <span className="subject">
-            {item.subject || "Email Sent"}
-          </span>
-        </div>
-      ))}
+      <div className="dashboard-list">
+        {items.map((item) => (
+          <div
+            key={item._id}
+            className="dashboard-list-row"
+            onClick={() =>
+              navigate(`/dashboard/apply/${item._id}`)
+            }
+          >
+            <div className="row-left">
+              <span className="email">
+                {item.extractedEmail || "Unknown"}
+              </span>
+
+              <span className="subject">
+                {item.subject || "Email Sent"}
+              </span>
+
+              <span className="snippet">
+                {item.emailBody?.slice(0, 70) || ""}
+                {item.emailBody?.length > 70 && "..."}
+              </span>
+            </div>
+
+            <div className="row-right">
+              {item.sentAt
+                ? new Date(item.sentAt).toLocaleDateString()
+                : ""}
+            </div>
+          </div>
+        ))}
+      </div>
 
       <div className="card-actions">
-        <button className="secondary-btn">
+        <button
+          className="secondary-btn"
+          onClick={() =>
+            navigate("/dashboard/applications")
+          }
+        >
           View Full History
         </button>
       </div>

@@ -98,3 +98,49 @@
   border-radius: 6px;
   color: white;
 }
+
+.dashboard-list {
+  margin-top: 10px;
+}
+
+.dashboard-list-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.dashboard-list-row:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.row-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 80%;
+}
+
+.email {
+  font-size: 13px;
+  color: #4da6ff;
+}
+
+.subject {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.snippet {
+  font-size: 12px;
+  color: #aaa;
+}
+
+.row-right {
+  font-size: 12px;
+  color: #777;
+}
+

@@ -14,19 +14,14 @@ const DashboardHome = () => {
   const { user } = useUser();
 
   const [loading, setLoading] = useState(true);
-
   const [stats, setStats] = useState({
     sent: 0,
     remaining: 0,
-    toPreview: 0,
     limit: 100,
   });
 
   const [applications, setApplications] = useState([]);
 
-  /* ===============================
-     FETCH DASHBOARD DATA
-  ================================ */
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
@@ -53,7 +48,10 @@ const DashboardHome = () => {
 
   const isProfileIncomplete = user.profileComplete === false;
 
-  // Split applications
+  /* ===============================
+     SPLIT APPLICATIONS
+  ================================ */
+
   const previewItems = applications.filter(
     (app) => app.status === "draft"
   );
@@ -62,15 +60,17 @@ const DashboardHome = () => {
     (app) => app.status === "sent"
   );
 
+  const leftToPreviewCount = previewItems.length;
+
   return (
     <div className="dashboard-home">
-      <DashboardHeader user={user} />
+      <DashboardHeader />
 
       {/* ===============================
           STATS
       ================================ */}
       <div className="stats-grid">
-        <StatCard title="Email Sent" value={stats.sent} />
+        <StatCard title="Email Sent" value={historyItems.length} />
 
         <StatCard
           title="Email Remaining"
@@ -79,7 +79,7 @@ const DashboardHome = () => {
 
         <StatCard
           title="Left To Preview"
-          value={stats.toPreview}
+          value={leftToPreviewCount}
         />
       </div>
 
@@ -104,8 +104,8 @@ const DashboardHome = () => {
           PREVIEW & HISTORY
       ================================ */}
       <div className="dashboard-bottom">
-        <HistoryCard items={historyItems} />
-        <PreviewCard items={previewItems} />
+        <HistoryCard items={historyItems.slice(0, 5)} />
+        <PreviewCard items={previewItems.slice(0, 5)} />
       </div>
     </div>
   );
