@@ -17,7 +17,7 @@ const Sidebar = () => {
       </NavLink>
 
       <NavLink
-        to="/dashboard/compose"
+        tto="/dashboard/apply"
         className={({ isActive }) =>
           isActive ? "sidebar-link active" : "sidebar-link"
         }

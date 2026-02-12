@@ -39,7 +39,7 @@ function App() {
         >
           <Route index element={<Navigate to="home" replace />} />
           <Route path="home" element={<DashboardHome />} />
-          <Route path="compose" element={<ComposeNewMail />} />
+          <Route path="apply" element={<ComposeNewMail />} />
           <Route path="apply/:id" element={<Apply />} />
           <Route path="applications" element={<Applications />} />
           <Route path="settings" element={<Settings />} />
