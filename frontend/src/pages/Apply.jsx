@@ -12,12 +12,13 @@ const Apply = () => {
   const { id } = useParams();
 
   const [loading, setLoading] = useState(true);
+  const [sending, setSending] = useState(false);
   const [application, setApplication] = useState(null);
 
   // JD
   const [jdText, setJdText] = useState("");
 
-  // Email fields (editable)
+  // Email fields
   const [to, setTo] = useState("");
   const [subject, setSubject] = useState("");
   const [body, setBody] = useState("");
@@ -33,15 +34,10 @@ const Apply = () => {
 
         setApplication(app);
 
-        // LEFT
         setJdText(app.jobDescription || "");
-
-        // RIGHT
         setTo(app.extractedEmail || "");
-setSubject(app.subject || "");
-setBody(app.emailBody || "");
- // ✅ FIXED (THIS WAS THE BUG)
-
+        setSubject(app.subject || "");
+        setBody(app.emailBody || "");
       } catch (err) {
         console.error("❌ Failed to load application", err);
       } finally {
@@ -53,25 +49,42 @@ setBody(app.emailBody || "");
   }, [id]);
 
   /* ===============================
-     SEND EMAIL
+     SEND EMAIL (REAL GMAIL)
   ================================ */
   const handleSend = async () => {
+    if (!to || !subject || !body) {
+      alert("Please complete email fields before sending");
+      return;
+    }
+
     try {
-      await axios.post(`/api/applications/${id}/send`, {
+      setSending(true);
+
+      const res = await axios.post("/api/applications/send", {
+        applicationId: id,
         to,
         subject,
         body,
       });
 
-      alert("✅ Email sent successfully");
+      if (res.data?.success) {
+        alert("✅ Email sent successfully");
+      } else {
+        throw new Error("Email not sent");
+      }
     } catch (err) {
       console.error("❌ Send failed", err);
       alert("Failed to send email");
+    } finally {
+      setSending(false);
     }
   };
 
-  if (loading) return <p className="loading-text">Loading application...</p>;
-  if (!application) return <p>Application not found</p>;
+  if (loading)
+    return <p className="loading-text">Loading application...</p>;
+
+  if (!application)
+    return <p>Application not found</p>;
 
   return (
     <div className="apply-page">
@@ -96,6 +109,7 @@ setBody(app.emailBody || "");
             setSubject={setSubject}
             setBody={setBody}
             onSend={handleSend}
+            sending={sending}
           />
         </div>
       </div>

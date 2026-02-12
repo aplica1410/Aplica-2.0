@@ -12,7 +12,10 @@ const EmailPreview = () => {
         <EmailFields />
         <EmailBody />
 
-        <button className="send-btn">Send</button>
+        <button onClick={onSend} disabled={sending}>
+  {sending ? "Sending..." : "Send"}
+</button>
+
       </div>
     </div>
   );
