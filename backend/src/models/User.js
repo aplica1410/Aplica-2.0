@@ -16,6 +16,24 @@ const userSchema = new mongoose.Schema(
 
     avatar: String,
 
+    /* 🔥 NEW — Gmail OAuth Tokens */
+    accessToken: {
+      type: String,
+    },
+
+    refreshToken: {
+      type: String,
+    },
+
+    tokenExpiry: {
+      type: Date,
+    },
+
+    gmailConnected: {
+      type: Boolean,
+      default: false,
+    },
+
     onboardingStep: {
       type: String,
       enum: ["public", "professional", "portfolio", "attachments", "done"],
@@ -27,7 +45,7 @@ const userSchema = new mongoose.Schema(
       default: false,
     },
 
-    /* Step 1: Professional Info (NOT required initially) */
+    /* Step 1: Professional Info */
     professionalInfo: {
       role: { type: String },
       headline: { type: String },

@@ -12,7 +12,13 @@ const router = express.Router();
 router.get(
   "/google",
   passport.authenticate("google", {
-    scope: ["profile", "email"],
+    scope: [
+      "profile",
+      "email",
+      "https://www.googleapis.com/auth/gmail.send"
+    ],
+    accessType: "offline",
+    prompt: "consent",
     session: false,
   })
 );
@@ -28,7 +34,13 @@ router.get(
   }),
   async (req, res) => {
     try {
-      const { email, googleId, avatar } = req.user;
+      const {
+        email,
+        googleId,
+        avatar,
+        accessToken,
+        refreshToken,
+      } = req.user;
 
       let user = await User.findOne({ email });
 
@@ -38,17 +50,28 @@ router.get(
           googleId,
           avatar,
           profileComplete: false,
+          accessToken,
+          refreshToken,
         });
+      } else {
+        user.googleId = googleId;
+        user.avatar = avatar;
+        user.accessToken = accessToken;
+
+        // refreshToken only comes first time unless forced
+        if (refreshToken) {
+          user.refreshToken = refreshToken;
+        }
+
+        await user.save();
       }
 
-      // ✅ SAME PAYLOAD
       const token = jwt.sign(
         { id: user._id },
         process.env.JWT_SECRET,
         { expiresIn: "7d" }
       );
 
-      // ✅ SAME COOKIE
       res.cookie("aplica_token", token, {
         httpOnly: true,
         secure: true,
