@@ -6,7 +6,14 @@ const Navbar = () => {
 
   return (
     <nav className="navbar">
-      <div className="logo">Aplica</div>
+      <div 
+  className="logo"
+  onClick={() => navigate("/")}
+  style={{ cursor: "pointer" }}
+>
+  Aplica
+</div>
+
 
       <div className="nav-pill">
         <span>Features</span>

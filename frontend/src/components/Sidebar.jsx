@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { useUser } from "../../context/UserContext";
 import "../../styles/sidebar.css";
 
@@ -7,6 +7,12 @@ const Sidebar = () => {
 
   return (
     <aside className="sidebar">
+      
+      {/* 🔥 Add Logo Here */}
+      <Link to="/" className="sidebar-logo">
+        Aplica
+      </Link>
+
       <NavLink
         to="/dashboard/home"
         className={({ isActive }) =>
@@ -17,7 +23,7 @@ const Sidebar = () => {
       </NavLink>
 
       <NavLink
-        tto="/dashboard/apply"
+        to="/dashboard/apply"
         className={({ isActive }) =>
           isActive ? "sidebar-link active" : "sidebar-link"
         }
