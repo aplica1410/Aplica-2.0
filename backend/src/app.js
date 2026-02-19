@@ -24,6 +24,8 @@ import authRoutes from "./routes/auth.routes.js";
 import profileSetupRoutes from "./routes/profileSetup.routes.js";
 import applicationRoutes from "./routes/application.routes.js";
 import aiRoutes from "./routes/ai.routes.js";
+import userRoutes from "./routes/user.js";
+
 
 /* ===============================
    APP INIT
@@ -64,6 +66,8 @@ app.use("/auth", authRoutes);
 app.use("/api/profile-setup", profileSetupRoutes);
 app.use("/api/applications", applicationRoutes);
 app.use("/api/ai", aiRoutes);
+app.use("/api/user", userRoutes);
+
 
 /* ===============================
    HEALTH CHECK
