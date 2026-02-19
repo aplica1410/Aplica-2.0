@@ -24,7 +24,8 @@ import authRoutes from "./routes/auth.routes.js";
 import profileSetupRoutes from "./routes/profileSetup.routes.js";
 import applicationRoutes from "./routes/application.routes.js";
 import aiRoutes from "./routes/ai.routes.js";
-import userRoutes from "./routes/user.js";
+import userRoutes from "./routes/user.routes.js";
+
 
 
 /* ===============================
