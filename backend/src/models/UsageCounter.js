@@ -6,29 +6,16 @@ const usageCounterSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
-      index: true
+      unique: true, // one record per user
     },
 
-    date: {
-      type: String, // YYYY-MM-DD
-      required: true,
-      index: true
-    },
-
-    dailyCount: {
+    totalCount: {
       type: Number,
-      default: 0
+      default: 0,
     },
-
-    monthlyCount: {
-      type: Number,
-      default: 0
-    }
   },
   { timestamps: true }
 );
-
-usageCounterSchema.index({ userId: 1, date: 1 }, { unique: true });
 
 const UsageCounter = mongoose.model("UsageCounter", usageCounterSchema);
 

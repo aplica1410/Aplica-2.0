@@ -1,6 +1,9 @@
 import { google } from "googleapis";
 import User from "../models/User.js";
 import Application from "../models/Application.js";
+import UsageCounter from "../models/UsageCounter.js";
+
+const TEST_EMAIL_LIMIT = 20;
 
 export const sendEmail = async (req, res) => {
   try {
@@ -29,8 +32,28 @@ export const sendEmail = async (req, res) => {
     }
 
     /* ===============================
+       🔒 CHECK TESTING LIMIT
+    ================================ */
+
+    let usage = await UsageCounter.findOne({ userId: user._id });
+
+    if (!usage) {
+      usage = await UsageCounter.create({
+        userId: user._id,
+        totalCount: 0,
+      });
+    }
+
+    if (usage.totalCount >= TEST_EMAIL_LIMIT) {
+      return res.status(403).json({
+        message: "Testing limit of 20 emails reached.",
+      });
+    }
+
+    /* ===============================
        GMAIL SETUP
     ================================ */
+
     const oauth2Client = new google.auth.OAuth2(
       process.env.GOOGLE_CLIENT_ID,
       process.env.GOOGLE_CLIENT_SECRET
@@ -69,8 +92,16 @@ export const sendEmail = async (req, res) => {
     });
 
     /* ===============================
+       ✅ INCREMENT USAGE AFTER SUCCESS
+    ================================ */
+
+    usage.totalCount += 1;
+    await usage.save();
+
+    /* ===============================
        UPDATE APPLICATION STATUS
     ================================ */
+
     application.status = "sent";
     application.sentAt = new Date();
     await application.save();
@@ -78,6 +109,7 @@ export const sendEmail = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Email sent successfully",
+      remaining: TEST_EMAIL_LIMIT - usage.totalCount,
     });
 
   } catch (error) {
