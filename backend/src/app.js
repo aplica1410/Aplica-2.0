@@ -26,8 +26,6 @@ import applicationRoutes from "./routes/application.routes.js";
 import aiRoutes from "./routes/ai.routes.js";
 import userRoutes from "./routes/user.routes.js";
 
-
-
 /* ===============================
    APP INIT
 ================================ */
