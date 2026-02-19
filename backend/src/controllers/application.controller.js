@@ -111,19 +111,12 @@ export const getDashboardStats = async (req, res) => {
   try {
     const TEST_EMAIL_LIMIT = 20;
 
-    // 🔎 Get usage record
-    let usage = await UsageCounter.findOne({
+    // 🔎 Get usage record (DO NOT CREATE NEW ONE)
+    const usage = await UsageCounter.findOne({
       userId: req.user._id,
     });
 
-    if (!usage) {
-      usage = await UsageCounter.create({
-        userId: req.user._id,
-        totalCount: 0,
-      });
-    }
-
-    const sent = usage.totalCount;
+    const sent = usage ? usage.totalCount : 0;
     const remaining = TEST_EMAIL_LIMIT - sent;
 
     const draft = await Application.countDocuments({
@@ -137,8 +130,10 @@ export const getDashboardStats = async (req, res) => {
       remaining,
       limit: TEST_EMAIL_LIMIT,
     });
+
   } catch (err) {
     console.error("Dashboard stats error:", err);
     res.status(500).json({ message: "Failed to load dashboard stats" });
   }
 };
+

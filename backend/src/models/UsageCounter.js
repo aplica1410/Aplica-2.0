@@ -6,7 +6,7 @@ const usageCounterSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
-      unique: true, // one record per user
+      unique: true,   // 🔥 VERY IMPORTANT
     },
 
     totalCount: {
