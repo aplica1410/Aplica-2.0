@@ -7,7 +7,6 @@ import {
   generateEmailForApplication,
   getUserApplications,          // ✅ ADD THIS
   getApplicationById,            // ✅ ADD THIS
-  sendApplicationEmail,
   getDashboardStats,         // ✅ ADD THIS
 } from "../controllers/application.controller.js";
 
@@ -22,9 +21,6 @@ router.get("/:id", requireAuth, getApplicationById);
 
 // 📌 AI GENERATE
 router.post("/:id/generate", requireAuth, generateEmailForApplication);
-
-// 📌 SEND EMAIL
-router.post("/:id/send", requireAuth, sendApplicationEmail);
 
 //DASHBOARD ROUTES
 router.get("/stats/dashboard", requireAuth, getDashboardStats);
