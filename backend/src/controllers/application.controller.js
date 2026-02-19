@@ -1,4 +1,5 @@
 import Application from "../models/Application.js";
+import UsageCounter from "../models/UsageCounter.js";
 import { generateEmailFromJD } from "../services/aiEmail.service.js";
 
 /* ===============================
@@ -36,10 +37,14 @@ export const createApplication = async (req, res) => {
    GENERATE EMAIL USING AI
 ================================ */
 export const generateEmailForApplication = async (req, res) => {
-  const data = await generateEmailFromJD(req.params.id);
-  res.json({ success: true, data });
+  try {
+    const data = await generateEmailFromJD(req.params.id);
+    res.json({ success: true, data });
+  } catch (err) {
+    console.error("Generate email error:", err);
+    res.status(500).json({ message: "Failed to generate email" });
+  }
 };
-
 
 /* ===============================
    GET ALL USER APPLICATIONS
@@ -77,12 +82,10 @@ export const getApplicationById = async (req, res) => {
 };
 
 /* ===============================
-   SEND EMAIL
+   SEND EMAIL (Legacy route – optional)
 ================================ */
 export const sendApplicationEmail = async (req, res) => {
   try {
-    const { to, subject, body } = req.body;
-
     const application = await Application.findOne({
       _id: req.params.id,
       user: req.user._id,
@@ -92,7 +95,6 @@ export const sendApplicationEmail = async (req, res) => {
       return res.status(404).json({ message: "Application not found" });
     }
 
-    // TODO: nodemailer integration
     application.status = "sent";
     await application.save();
 
@@ -102,17 +104,27 @@ export const sendApplicationEmail = async (req, res) => {
   }
 };
 
-
+/* ===============================
+   DASHBOARD STATS (UPDATED)
+================================ */
 export const getDashboardStats = async (req, res) => {
   try {
-    const total = await Application.countDocuments({
-      user: req.user._id,
+    const TEST_EMAIL_LIMIT = 20;
+
+    // 🔎 Get usage record
+    let usage = await UsageCounter.findOne({
+      userId: req.user._id,
     });
 
-    const sent = await Application.countDocuments({
-      user: req.user._id,
-      status: "sent",
-    });
+    if (!usage) {
+      usage = await UsageCounter.create({
+        userId: req.user._id,
+        totalCount: 0,
+      });
+    }
+
+    const sent = usage.totalCount;
+    const remaining = TEST_EMAIL_LIMIT - sent;
 
     const draft = await Application.countDocuments({
       user: req.user._id,
@@ -122,9 +134,11 @@ export const getDashboardStats = async (req, res) => {
     res.json({
       sent,
       draft,
-      remaining: 100 - sent, // your quota logic
+      remaining,
+      limit: TEST_EMAIL_LIMIT,
     });
   } catch (err) {
+    console.error("Dashboard stats error:", err);
     res.status(500).json({ message: "Failed to load dashboard stats" });
   }
 };
