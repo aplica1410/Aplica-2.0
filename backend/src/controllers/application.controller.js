@@ -1,5 +1,6 @@
 import Application from "../models/Application.js";
 import UsageCounter from "../models/UsageCounter.js";
+import User from "../models/User.js";
 import { generateEmailFromJD } from "../services/aiEmail.service.js";
 
 /* ===============================
@@ -34,12 +35,47 @@ export const createApplication = async (req, res) => {
 };
 
 /* ===============================
-   GENERATE EMAIL USING AI
+   GENERATE EMAIL USING AI (UPDATED)
 ================================ */
 export const generateEmailForApplication = async (req, res) => {
   try {
-    const data = await generateEmailFromJD(req.params.id);
+    const application = await Application.findById(req.params.id);
+
+    if (!application) {
+      return res.status(404).json({ message: "Application not found" });
+    }
+
+    const user = await User.findById(req.user._id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const userProfile = {
+      firstName: user.publicProfile?.firstName || "",
+      lastName: user.publicProfile?.lastName || "",
+      role: user.professionalInfo?.role || "",
+      headline: user.professionalInfo?.headline || "",
+      experienceYears: user.professionalInfo?.experience?.years || 0,
+      experienceMonths: user.professionalInfo?.experience?.months || 0,
+      portfolio: user.portfolio?.portfolio || "",
+      linkedin: user.portfolio?.linkedin || "",
+      github: user.portfolio?.github || "",
+      behance: user.portfolio?.behance || "",
+      dribbble: user.portfolio?.dribbble || "",
+      instagram: user.portfolio?.instagram || "",
+      twitter: user.portfolio?.twitter || "",
+      resume: user.attachment?.filename || "",
+      additionalNote: user.attachment?.note || "",
+    };
+
+    const data = await generateEmailFromJD(
+      req.params.id,
+      userProfile
+    );
+
     res.json({ success: true, data });
+
   } catch (err) {
     console.error("Generate email error:", err);
     res.status(500).json({ message: "Failed to generate email" });
@@ -82,42 +118,17 @@ export const getApplicationById = async (req, res) => {
 };
 
 /* ===============================
-   SEND EMAIL (Legacy route – optional)
-================================ */
-export const sendApplicationEmail = async (req, res) => {
-  try {
-    const application = await Application.findOne({
-      _id: req.params.id,
-      user: req.user._id,
-    });
-
-    if (!application) {
-      return res.status(404).json({ message: "Application not found" });
-    }
-
-    application.status = "sent";
-    await application.save();
-
-    res.status(200).json({ message: "Email sent successfully" });
-  } catch (err) {
-    res.status(500).json({ message: "Failed to send email" });
-  }
-};
-
-/* ===============================
-   DASHBOARD STATS (UPDATED)
+   DASHBOARD STATS (Option A logic)
 ================================ */
 export const getDashboardStats = async (req, res) => {
   try {
     const TEST_EMAIL_LIMIT = 20;
 
-    // Count sent emails
     const sent = await Application.countDocuments({
       user: req.user._id,
       status: "sent",
     });
 
-    // Count draft emails
     const draft = await Application.countDocuments({
       user: req.user._id,
       status: "draft",
@@ -138,7 +149,3 @@ export const getDashboardStats = async (req, res) => {
     res.status(500).json({ message: "Failed to load dashboard stats" });
   }
 };
-
-
-
-
