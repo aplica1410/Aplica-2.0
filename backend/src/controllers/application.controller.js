@@ -39,12 +39,34 @@ export const createApplication = async (req, res) => {
 ================================ */
 export const generateEmailForApplication = async (req, res) => {
   try {
+    const TEST_EMAIL_LIMIT = 20;
+
     const application = await Application.findById(req.params.id);
 
     if (!application) {
       return res.status(404).json({ message: "Application not found" });
     }
 
+    // 🔒 COUNT TOTAL USED (draft + sent)
+    const sentCount = await Application.countDocuments({
+      user: req.user._id,
+      status: "sent",
+    });
+
+    const draftCount = await Application.countDocuments({
+      user: req.user._id,
+      status: "draft",
+    });
+
+    const totalUsed = sentCount + draftCount;
+
+    if (totalUsed >= TEST_EMAIL_LIMIT) {
+      return res.status(403).json({
+        message: "Testing limit of 20 emails reached.",
+      });
+    }
+
+    // 🔥 FETCH USER
     const user = await User.findById(req.user._id);
 
     if (!user) {
@@ -74,7 +96,11 @@ export const generateEmailForApplication = async (req, res) => {
       userProfile
     );
 
-    res.json({ success: true, data });
+    return res.json({
+      success: true,
+      data,
+      remaining: TEST_EMAIL_LIMIT - (totalUsed + 1),
+    });
 
   } catch (err) {
     console.error("Generate email error:", err);
