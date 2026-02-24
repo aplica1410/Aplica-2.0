@@ -15,7 +15,7 @@ const Apply = () => {
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
   const [application, setApplication] = useState(null);
-  const [isSent, setIsSent] = useState(false); // 🔥 NEW
+  const [isSent, setIsSent] = useState(false); // controls Send button visibility
 
   // JD
   const [jdText, setJdText] = useState("");
@@ -24,9 +24,6 @@ const Apply = () => {
   const [to, setTo] = useState("");
   const [subject, setSubject] = useState("");
   const [body, setBody] = useState("");
-
-  // Success modal state
-  const [showSuccess, setShowSuccess] = useState(false);
 
   /* ===============================
      FETCH APPLICATION BY ID
@@ -44,8 +41,9 @@ const Apply = () => {
         setSubject(app.subject || "");
         setBody(app.emailBody || "");
 
+        // If already sent → permanently remove Send button
         if (app.status === "sent") {
-          setIsSent(true); // 🔥 if already sent
+          setIsSent(true);
         }
       } catch (err) {
         console.error("❌ Failed to load application", err);
@@ -77,8 +75,12 @@ const Apply = () => {
       });
 
       if (res.data?.success) {
-        setIsSent(true);          // 🔥 remove send button
-        setShowSuccess(true);     // 🔥 show modal
+        setIsSent(true); // instantly remove Send button
+
+        alert("✅ Email sent successfully");
+
+        // After clicking OK → redirect
+        navigate("/dashboard/applications");
       } else {
         throw new Error("Email not sent");
       }
@@ -118,31 +120,12 @@ const Apply = () => {
             setTo={setTo}
             setSubject={setSubject}
             setBody={setBody}
-            onSend={!isSent ? handleSend : null}   // 🔥 remove send action
+            onSend={!isSent ? handleSend : null} // no send action if sent
             sending={sending}
-            isSent={isSent}                        // 🔥 pass status
+            isSent={isSent} // controls button rendering
           />
         </div>
       </div>
-
-      {/* ===============================
-         SUCCESS MODAL
-      ================================ */}
-      {showSuccess && (
-        <div className="success-modal-overlay">
-          <div className="success-modal">
-            <h3>✅ Email Sent Successfully</h3>
-            <button
-              onClick={() => {
-                setShowSuccess(false);
-                navigate("/dashboard/applications"); // 🔥 redirect
-              }}
-            >
-              OK
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
