@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "../api/axios";
 
 import ApplyHeader from "../components/apply/ApplyHeader";
@@ -10,10 +10,12 @@ import "../styles/apply.css";
 
 const Apply = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
   const [application, setApplication] = useState(null);
+  const [isSent, setIsSent] = useState(false); // 🔥 NEW
 
   // JD
   const [jdText, setJdText] = useState("");
@@ -22,6 +24,9 @@ const Apply = () => {
   const [to, setTo] = useState("");
   const [subject, setSubject] = useState("");
   const [body, setBody] = useState("");
+
+  // Success modal state
+  const [showSuccess, setShowSuccess] = useState(false);
 
   /* ===============================
      FETCH APPLICATION BY ID
@@ -38,6 +43,10 @@ const Apply = () => {
         setTo(app.extractedEmail || "");
         setSubject(app.subject || "");
         setBody(app.emailBody || "");
+
+        if (app.status === "sent") {
+          setIsSent(true); // 🔥 if already sent
+        }
       } catch (err) {
         console.error("❌ Failed to load application", err);
       } finally {
@@ -49,7 +58,7 @@ const Apply = () => {
   }, [id]);
 
   /* ===============================
-     SEND EMAIL (REAL GMAIL)
+     SEND EMAIL
   ================================ */
   const handleSend = async () => {
     if (!to || !subject || !body) {
@@ -68,7 +77,8 @@ const Apply = () => {
       });
 
       if (res.data?.success) {
-        alert("✅ Email sent successfully");
+        setIsSent(true);          // 🔥 remove send button
+        setShowSuccess(true);     // 🔥 show modal
       } else {
         throw new Error("Email not sent");
       }
@@ -108,11 +118,31 @@ const Apply = () => {
             setTo={setTo}
             setSubject={setSubject}
             setBody={setBody}
-            onSend={handleSend}
+            onSend={!isSent ? handleSend : null}   // 🔥 remove send action
             sending={sending}
+            isSent={isSent}                        // 🔥 pass status
           />
         </div>
       </div>
+
+      {/* ===============================
+         SUCCESS MODAL
+      ================================ */}
+      {showSuccess && (
+        <div className="success-modal-overlay">
+          <div className="success-modal">
+            <h3>✅ Email Sent Successfully</h3>
+            <button
+              onClick={() => {
+                setShowSuccess(false);
+                navigate("/dashboard/applications"); // 🔥 redirect
+              }}
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
