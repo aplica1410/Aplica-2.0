@@ -4,8 +4,6 @@ import "../../styles/compose-new-mail.css";
 import axios from "../../api/axios";
 import EmailGenerationModal from "../modals/EmailGenerationModal";
 
-console.log("🔥 ComposeNewMail LOADED FROM:", import.meta.url);
-
 const ComposeNewMail = () => {
   const { user } = useUser();
 
@@ -21,7 +19,7 @@ const ComposeNewMail = () => {
 
   const handleCompose = async () => {
     if (!jd.trim()) {
-      alert("Please paste job description");
+      alert("Please paste job description.");
       return;
     }
 
@@ -33,7 +31,6 @@ const ComposeNewMail = () => {
          STAGE 1 — JD PARSED
       ================================ */
       setStage("parsed");
-      console.log("📄 JD Parsed");
 
       // 1️⃣ Save JD
       const saveRes = await axios.post("/api/applications", {
@@ -48,29 +45,26 @@ const ComposeNewMail = () => {
       }
 
       const applicationId = application._id;
-      console.log("🆔 Application ID:", applicationId);
 
       /* ===============================
          STAGE 2 — ANALYSING
       ================================ */
       setStage("analysing");
-      console.log("🧠 Analysing JD");
-
       await new Promise((res) => setTimeout(res, 800));
 
       /* ===============================
          STAGE 3 — GENERATING EMAIL
       ================================ */
       setStage("generating");
-      console.log("✍️ Generating Email");
 
-      await axios.post(`/api/applications/${applicationId}/generate`);
+      await axios.post(
+        `/api/applications/${applicationId}/generate`
+      );
 
       /* ===============================
          STAGE 4 — DONE
       ================================ */
       setStage("done");
-      console.log("✅ Email Generated");
 
       setJd("");
 
@@ -78,12 +72,24 @@ const ComposeNewMail = () => {
         setShowModal(false);
         setStage("idle");
       }, 1200);
+
     } catch (err) {
       console.error("❌ Compose Error:", err);
-      alert("Failed to process JD");
 
+      // 🔒 HANDLE LIMIT EXCEEDED (403)
+      if (err.response?.status === 403) {
+        setShowModal(false);
+        setStage("idle");
+        alert(
+          "🚫 Your limit exceeded. You can generate up to 20 emails during testing."
+        );
+        return;
+      }
+
+      // Generic backend error
       setShowModal(false);
       setStage("idle");
+      alert("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -112,7 +118,10 @@ const ComposeNewMail = () => {
           />
 
           <div className="compose-actions">
-            <button onClick={handleCompose} disabled={loading}>
+            <button
+              onClick={handleCompose}
+              disabled={loading}
+            >
               {loading ? "Generating..." : "Compose New Mail"}
             </button>
           </div>
@@ -120,7 +129,10 @@ const ComposeNewMail = () => {
       </div>
 
       {/* 🔔 Email Generation Modal */}
-      <EmailGenerationModal isOpen={showModal} stage={stage} />
+      <EmailGenerationModal
+        isOpen={showModal}
+        stage={stage}
+      />
     </>
   );
 };

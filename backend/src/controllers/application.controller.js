@@ -62,7 +62,7 @@ export const generateEmailForApplication = async (req, res) => {
 
     if (totalUsed >= TEST_EMAIL_LIMIT) {
       return res.status(403).json({
-        message: "Testing limit of 20 emails reached.",
+        message: "Your limit exceeded. Maximum 20 emails allowed during testing.",
       });
     }
 
