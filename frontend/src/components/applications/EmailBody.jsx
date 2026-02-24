@@ -1,10 +1,13 @@
-const EmailBody = ({ readOnly = false }) => {
+const EmailBody = ({
+  body = "",
+  readOnly = false,
+}) => {
   return (
     <div className="email-body">
       <label>Reply</label>
       <textarea
         rows="10"
-        placeholder="Sent email content..."
+        value={body}
         readOnly={readOnly}
       />
     </div>

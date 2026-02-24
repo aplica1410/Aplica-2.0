@@ -1,11 +1,15 @@
-const EmailFields = ({ readOnly = false }) => {
+const EmailFields = ({
+  to = "",
+  subject = "",
+  readOnly = false,
+}) => {
   return (
     <>
       <div className="field">
         <label>To :</label>
         <input
           type="email"
-          placeholder="recruiter@company.com"
+          value={to}
           readOnly={readOnly}
         />
       </div>
@@ -14,7 +18,7 @@ const EmailFields = ({ readOnly = false }) => {
         <label>Subject :</label>
         <input
           type="text"
-          placeholder="Application for Software Engineer Role"
+          value={subject}
           readOnly={readOnly}
         />
       </div>
