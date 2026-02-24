@@ -1,11 +1,15 @@
 import Application from "../models/Application.js";
-import UsageCounter from "../models/UsageCounter.js";
 import User from "../models/User.js";
 import { generateEmailFromJD } from "../services/aiEmail.service.js";
 
-/* ===============================
+/* ======================================
+   CONSTANT
+====================================== */
+const TEST_EMAIL_LIMIT = 20;
+
+/* ======================================
    SAVE JD
-================================ */
+====================================== */
 export const createApplication = async (req, res) => {
   try {
     const { jobDescription } = req.body;
@@ -34,20 +38,21 @@ export const createApplication = async (req, res) => {
   }
 };
 
-/* ===============================
-   GENERATE EMAIL USING AI (UPDATED)
-================================ */
+/* ======================================
+   GENERATE EMAIL (LIMIT ENFORCED)
+====================================== */
 export const generateEmailForApplication = async (req, res) => {
   try {
-    const TEST_EMAIL_LIMIT = 20;
-
-    const application = await Application.findById(req.params.id);
+    const application = await Application.findOne({
+      _id: req.params.id,
+      user: req.user._id,
+    });
 
     if (!application) {
       return res.status(404).json({ message: "Application not found" });
     }
 
-    // 🔒 COUNT TOTAL USED (draft + sent)
+    // 🔒 Count total used (draft + sent)
     const sentCount = await Application.countDocuments({
       user: req.user._id,
       status: "sent",
@@ -62,11 +67,12 @@ export const generateEmailForApplication = async (req, res) => {
 
     if (totalUsed >= TEST_EMAIL_LIMIT) {
       return res.status(403).json({
-        message: "Your limit exceeded. Maximum 20 emails allowed during testing.",
+        message:
+          "Your limit exceeded. Maximum 20 emails allowed during testing.",
       });
     }
 
-    // 🔥 FETCH USER
+    // 🔥 Fetch user profile
     const user = await User.findById(req.user._id);
 
     if (!user) {
@@ -78,8 +84,10 @@ export const generateEmailForApplication = async (req, res) => {
       lastName: user.publicProfile?.lastName || "",
       role: user.professionalInfo?.role || "",
       headline: user.professionalInfo?.headline || "",
-      experienceYears: user.professionalInfo?.experience?.years || 0,
-      experienceMonths: user.professionalInfo?.experience?.months || 0,
+      experienceYears:
+        user.professionalInfo?.experience?.years || 0,
+      experienceMonths:
+        user.professionalInfo?.experience?.months || 0,
       portfolio: user.portfolio?.portfolio || "",
       linkedin: user.portfolio?.linkedin || "",
       github: user.portfolio?.github || "",
@@ -96,21 +104,82 @@ export const generateEmailForApplication = async (req, res) => {
       userProfile
     );
 
-    return res.json({
+    res.json({
       success: true,
       data,
       remaining: TEST_EMAIL_LIMIT - (totalUsed + 1),
     });
-
   } catch (err) {
     console.error("Generate email error:", err);
     res.status(500).json({ message: "Failed to generate email" });
   }
 };
 
-/* ===============================
+/* ======================================
+   SEND SINGLE APPLICATION
+====================================== */
+export const sendSingleApplication = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const application = await Application.findOne({
+      _id: id,
+      user: req.user._id,
+    });
+
+    if (!application) {
+      return res.status(404).json({ message: "Application not found" });
+    }
+
+    if (application.status === "sent") {
+      return res.status(400).json({ message: "Email already sent" });
+    }
+
+    // 🔥 TODO: call your Gmail sending service here
+
+    application.status = "sent";
+    await application.save();
+
+    res.json({ success: true });
+  } catch (err) {
+    console.error("Send single error:", err);
+    res.status(500).json({ message: "Failed to send email" });
+  }
+};
+
+/* ======================================
+   SEND ALL DRAFT APPLICATIONS
+====================================== */
+export const sendAllDraftApplications = async (req, res) => {
+  try {
+    const drafts = await Application.find({
+      user: req.user._id,
+      status: "draft",
+    });
+
+    if (!drafts.length) {
+      return res.status(400).json({
+        message: "No draft emails to send",
+      });
+    }
+
+    for (let app of drafts) {
+      // 🔥 TODO: call your Gmail sending service here
+
+      app.status = "sent";
+      await app.save();
+    }
+
+    res.json({ success: true });
+  } catch (err) {
+    console.error("Send all error:", err);
+    res.status(500).json({ message: "Failed to send all emails" });
+  }
+};
+
+/* ======================================
    GET ALL USER APPLICATIONS
-================================ */
+====================================== */
 export const getUserApplications = async (req, res) => {
   try {
     const applications = await Application.find({
@@ -123,9 +192,9 @@ export const getUserApplications = async (req, res) => {
   }
 };
 
-/* ===============================
+/* ======================================
    GET SINGLE APPLICATION
-================================ */
+====================================== */
 export const getApplicationById = async (req, res) => {
   try {
     const application = await Application.findOne({
@@ -143,13 +212,11 @@ export const getApplicationById = async (req, res) => {
   }
 };
 
-/* ===============================
-   DASHBOARD STATS (Option A logic)
-================================ */
+/* ======================================
+   DASHBOARD STATS
+====================================== */
 export const getDashboardStats = async (req, res) => {
   try {
-    const TEST_EMAIL_LIMIT = 20;
-
     const sent = await Application.countDocuments({
       user: req.user._id,
       status: "sent",
@@ -169,7 +236,6 @@ export const getDashboardStats = async (req, res) => {
       remaining: remaining < 0 ? 0 : remaining,
       limit: TEST_EMAIL_LIMIT,
     });
-
   } catch (err) {
     console.error("Dashboard stats error:", err);
     res.status(500).json({ message: "Failed to load dashboard stats" });
