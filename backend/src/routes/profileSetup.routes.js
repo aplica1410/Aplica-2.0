@@ -7,7 +7,6 @@ const router = express.Router();
 
 /* =====================================
    🔍 GET: Logged-in user's full profile
-   Used for Personal Information / View
 ===================================== */
 router.get("/me", auth, async (req, res) => {
   try {
@@ -23,6 +22,61 @@ router.get("/me", auth, async (req, res) => {
   } catch (err) {
     console.error("Fetch profile failed:", err);
     res.status(500).json({ message: "Failed to fetch profile" });
+  }
+});
+
+/* =====================================
+   🔥 NEW: UPDATE PROFILE (Editable Page)
+   Used by Personal Information page
+===================================== */
+router.patch("/update", auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const { publicProfile, professionalInfo, portfolio } = req.body;
+
+    // 🔹 Update public profile
+    if (publicProfile) {
+      user.publicProfile = {
+        ...user.publicProfile,
+        ...publicProfile,
+      };
+    }
+
+    // 🔹 Update professional info
+    if (professionalInfo) {
+      user.professionalInfo = {
+        ...user.professionalInfo,
+        ...professionalInfo,
+        experience: {
+          ...user.professionalInfo?.experience,
+          ...professionalInfo.experience,
+        },
+      };
+    }
+
+    // 🔹 Update portfolio
+    if (portfolio) {
+      user.portfolio = {
+        ...user.portfolio,
+        ...portfolio,
+      };
+    }
+
+    await user.save();
+
+    res.json({
+      success: true,
+      message: "Profile updated successfully",
+    });
+
+  } catch (err) {
+    console.error("Profile update failed:", err);
+    res.status(500).json({ message: "Failed to update profile" });
   }
 });
 
@@ -133,8 +187,7 @@ router.post("/portfolio", auth, async (req, res) => {
 });
 
 /* =====================================
-   STEP 4: Attachments (FINAL STEP)
-   🚨 NO "done" ROUTE EVER
+   STEP 4: Attachments
 ===================================== */
 router.post(
   "/attachments",
@@ -151,7 +204,7 @@ router.post(
           note: req.body?.note || "",
         },
         profileComplete: true,
-        onboardingStep: null, // 🔥 IMPORTANT
+        onboardingStep: null,
       });
 
       res.json({ success: true });
