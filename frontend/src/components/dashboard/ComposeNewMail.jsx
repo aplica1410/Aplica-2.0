@@ -111,7 +111,7 @@ const ComposeNewMail = () => {
 
         <div className="compose-card">
           <textarea
-            placeholder="Paste job description or freelance work details"
+            placeholder="Paste job description or freelance work details (make sure to include target email address in the description for better results)"
             value={jd}
             onChange={(e) => setJd(e.target.value)}
             disabled={loading}
