@@ -13,8 +13,8 @@ const Sidebar = () => {
   return (
     <aside className="sidebar">
 
-      {/* Logo */}
-      <Link to="/dashboard/home" className="logo-container">
+      {/* 🔥 Logo → Redirects to Landing Page */}
+      <Link to="/" className="logo-container">
         <img src={logo} alt="Aplica Logo" className="logo-img" />
       </Link>
 
