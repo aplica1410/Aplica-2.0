@@ -1,6 +1,5 @@
 import "./auth.css";
-import logo from "../assets/logo.svg"; // adjust path if needed
-import googleIcon from "../assets/google.svg"; // if you have google icon file
+import logo from "../assets/logo.svg";
 
 const Auth = () => {
   const handleGoogleLogin = () => {
@@ -20,15 +19,11 @@ const Auth = () => {
 
         <h2>Sign In To Your Account</h2>
         <p style={{ color: "#8a96a6", fontSize: "14px", marginBottom: "24px" }}>
-          Sign in via your google Account.
+          Sign in via your Google account.
         </p>
 
         <button className="google-btn" onClick={handleGoogleLogin}>
-          {googleIcon ? (
-            <img src={googleIcon} alt="Google" />
-          ) : (
-            <span style={{ fontWeight: "bold" }}>G</span>
-          )}
+          <span style={{ fontWeight: "bold", fontSize: "18px" }}>G</span>
           Continue with Google
         </button>
       </div>
