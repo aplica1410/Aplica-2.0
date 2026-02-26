@@ -1,5 +1,6 @@
 import { NavLink, Link } from "react-router-dom";
 import { useUser } from "../../context/UserContext";
+import logo from "../../assets/logo.svg";
 import "../../styles/sidebar.css";
 
 const Sidebar = () => {
@@ -8,11 +9,12 @@ const Sidebar = () => {
   return (
     <aside className="sidebar">
       
-      {/* 🔥 Add Logo Here */}
-      <Link to="/" className="sidebar-logo">
-        Aplica
+      {/* 🔥 Logo */}
+      <Link to="/dashboard/home" className="sidebar-logo">
+        <img src={logo} alt="Aplica Logo" className="logo-img" />
       </Link>
 
+      {/* Navigation Links */}
       <NavLink
         to="/dashboard/home"
         className={({ isActive }) =>
