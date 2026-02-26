@@ -14,17 +14,15 @@
 /* Logo */
 .sidebar-logo {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   margin-bottom: 30px;
-  text-decoration: none;
 }
 
 .logo-img {
-  width: 42px;
-  height: 42px;
+  width: 45px;
+  height: 45px;
   object-fit: contain;
-  transition: transform 0.2s ease;
 }
 
 .logo-img:hover {

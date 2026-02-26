@@ -1,6 +1,6 @@
 import { NavLink, Link } from "react-router-dom";
 import { useUser } from "../../context/UserContext";
-import logo from "../../assets/logo.svg";
+import logo from "../assets/logo.svg";
 import "../../styles/sidebar.css";
 
 const Sidebar = () => {
@@ -8,13 +8,12 @@ const Sidebar = () => {
 
   return (
     <aside className="sidebar">
-      
+
       {/* 🔥 Logo */}
       <Link to="/dashboard/home" className="sidebar-logo">
         <img src={logo} alt="Aplica Logo" className="logo-img" />
       </Link>
 
-      {/* Navigation Links */}
       <NavLink
         to="/dashboard/home"
         className={({ isActive }) =>
@@ -59,6 +58,7 @@ const Sidebar = () => {
       >
         Settings
       </NavLink>
+
     </aside>
   );
 };
