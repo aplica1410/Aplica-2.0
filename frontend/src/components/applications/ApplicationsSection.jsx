@@ -23,14 +23,14 @@ const ApplicationsSection = ({
       <div className="section-header">
         <h3>{title}</h3>
 
-        {showSendAll && (
+       {/*} {showSendAll && (
           <button
             className="send-all-btn"
             onClick={onSendAll}
           >
             Send All
           </button>
-        )}
+        )} */}
       </div>
 
       {/* Application Rows */}
