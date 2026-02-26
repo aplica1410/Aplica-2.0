@@ -4,14 +4,32 @@
   background-color: #121212;
   color: #fff;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
-.sidebar .logo {
-  font-size: 22px;
-  font-weight: bold;
-  margin-bottom: 24px;
+/* Logo Container */
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+  text-decoration: none;
 }
 
+/* Logo Image */
+.logo-img {
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+  transition: transform 0.2s ease;
+}
+
+.logo-img:hover {
+  transform: scale(1.05);
+}
+
+/* Navigation */
 .sidebar nav {
   display: flex;
   flex-direction: column;
@@ -23,19 +41,15 @@
   text-decoration: none;
   padding: 8px 12px;
   border-radius: 6px;
-  transition: background 0.2s;
+  transition: background 0.2s, color 0.2s;
 }
 
 .sidebar a:hover {
   background-color: #1e1f22;
+  color: #ffffff;
 }
 
 .sidebar a.active {
   background-color: #1e1f22;
   color: #4da3ff;
 }
-
-.sidebar a {
-  transition: background 0.2s, color 0.2s;
-}
-

@@ -1,11 +1,17 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
+import logo from "../assets/logo.svg";
 import "./sidebar.css";
 
 const Sidebar = () => {
   console.log("✅ Sidebar rendered");
+
   return (
     <aside className="sidebar">
-      <h2 className="logo">A↗</h2>
+
+      {/* 🔥 Logo */}
+      <Link to="/dashboard/home" className="logo-container">
+        <img src={logo} alt="Aplica Logo" className="logo-img" />
+      </Link>
 
       <nav>
         <NavLink
@@ -29,7 +35,6 @@ const Sidebar = () => {
           Applications
         </NavLink>
 
-        {/* ✅ NEW PROFILE LINK */}
         <NavLink
           to="/dashboard/personal-information"
           className={({ isActive }) => (isActive ? "active" : "")}
