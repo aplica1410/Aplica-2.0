@@ -1,4 +1,4 @@
-import "./auth.css";
+import "../styles/auth.css";
 import logo from "../assets/logo.svg";
 
 const Auth = () => {
