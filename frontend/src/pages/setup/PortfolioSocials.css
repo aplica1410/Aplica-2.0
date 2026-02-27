@@ -18,9 +18,7 @@
 .portfolio-card {
   width: 600px;
   padding: 34px 38px 36px;
-  border-radius: 18px;
   background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(12px);
 }
 
 /* =============================== */
