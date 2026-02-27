@@ -17,7 +17,7 @@
 
 .portfolio-card {
   width: 600px;
-  padding: 4px 8px 6px;
+  padding: 15px 15px 15px;
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.04);
   backdrop-filter: blur(12px);
@@ -136,6 +136,22 @@
   box-shadow: none;
 }
 
+/* Error state */
+.input-error {
+  border: 1px solid #ff4d4f !important;
+}
+
+.error-text {
+  font-size: 11px;
+  color: #ff4d4f;
+  margin-top: 4px;
+}
+
+.next-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 /* =============================== */
 /* MOBILE RESPONSIVE */
 /* =============================== */
@@ -149,4 +165,35 @@
   .grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* Wrapper for input + check */
+.input-wrapper {
+  position: relative;
+}
+
+.valid-check {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #22c55e;
+  font-size: 16px;
+  font-weight: bold;
+  animation: fadeIn 0.2s ease;
+}
+
+.input-error {
+  border: 1px solid #ff4d4f !important;
+}
+
+.error-text {
+  font-size: 11px;
+  color: #ff4d4f;
+  margin-top: 4px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-50%) scale(0.8); }
+  to { opacity: 1; transform: translateY(-50%) scale(1); }
 }
