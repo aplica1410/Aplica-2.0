@@ -50,34 +50,41 @@ const PortfolioSocials = () => {
     drive: ""
   });
 
+  const isValidURL = (value) => {
+    try {
+      new URL(value.startsWith("http") ? value : `https://${value}`);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
   const validateLink = (key, value) => {
     if (!value) return "";
 
-    try {
-      const url = new URL(value.startsWith("http") ? value : `https://${value}`);
-      const rule = domainRules[key];
+    if (!isValidURL(value)) return "Invalid URL format";
 
-      if (Array.isArray(rule)) {
-        return rule.some((domain) =>
-          url.hostname.includes(domain)
-        )
-          ? ""
-          : `Must be a valid ${key} link`;
-      }
+    if (key === "portfolio") return "";
 
-      return url.hostname.includes(rule)
+    const url = new URL(value.startsWith("http") ? value : `https://${value}`);
+    const rule = domainRules[key];
+
+    if (Array.isArray(rule)) {
+      return rule.some((domain) => url.hostname.includes(domain))
         ? ""
         : `Must be a valid ${key} link`;
-    } catch {
-      return "Invalid URL format";
     }
+
+    return url.hostname.includes(rule)
+      ? ""
+      : `Must be a valid ${key} link`;
   };
 
   useEffect(() => {
     let newErrors = {};
     let newValid = {};
 
-    Object.keys(domainRules).forEach((key) => {
+    Object.keys(links).forEach((key) => {
       const error = validateLink(key, links[key]);
 
       if (error) {
@@ -161,6 +168,28 @@ const PortfolioSocials = () => {
         <p className="subtext">
           Add links to your work or social profiles (optional)
         </p>
+
+        {/* Portfolio main field */}
+        <div className="field full">
+          <label>Portfolio / Website</label>
+
+          <div className="input-wrapper">
+            <input
+              type="url"
+              value={links.portfolio}
+              onChange={(e) => handleChange("portfolio", e.target.value)}
+              className={errors.portfolio ? "input-error" : ""}
+              placeholder="https://yourportfolio.com"
+            />
+            {validFields.portfolio && (
+              <span className="valid-check">✓</span>
+            )}
+          </div>
+
+          {errors.portfolio && (
+            <span className="error-text">{errors.portfolio}</span>
+          )}
+        </div>
 
         <div className="grid">
           <SocialInput icon={githubIcon} label="Github" keyName="github" />
