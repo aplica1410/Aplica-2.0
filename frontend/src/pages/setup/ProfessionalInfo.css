@@ -1,12 +1,23 @@
+/* Remove outer scroll */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* FULL PAGE GRADIENT */
 .professional-page {
-  min-height: 100vh;
+  height: 100vh;
+  width: 100%;
   background: radial-gradient(circle at top left, #0b1c2d, #050b14 70%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 60px;
+  justify-content: center;
 }
 
+/* Remove extra top padding */
 .setup-logo {
   width: 60px;
   margin-bottom: 30px;
@@ -20,6 +31,7 @@
   backdrop-filter: blur(12px);
 }
 
+/* Keep rest same */
 .professional-card h2 {
   color: white;
   margin-bottom: 6px;
