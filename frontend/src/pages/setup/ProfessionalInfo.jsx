@@ -63,7 +63,7 @@ const ProfessionalInfo = () => {
 
       if (!res.ok) throw new Error("Save failed");
 
-      navigate("/dashboard");
+      navigate("/dashboard/profile/portfolio");
     } catch (err) {
       console.error("Professional save failed:", err);
       alert("Failed to save professional info");
