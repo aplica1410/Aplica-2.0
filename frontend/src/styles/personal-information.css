@@ -133,3 +133,8 @@
 .error-input {
   border: 1px solid #ff4d4f !important;
 }
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

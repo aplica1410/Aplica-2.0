@@ -8,6 +8,7 @@ const PersonalInformation = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [errors, setErrors] = useState({});
+  const [isFormValid, setIsFormValid] = useState(false);
 
   /* ===============================
      VALIDATION HELPERS
@@ -75,10 +76,12 @@ const PersonalInformation = () => {
   };
 
   /* ===============================
-     VALIDATE FORM
+     VALIDATE FORM (REAL TIME)
   ================================ */
 
-  const validateForm = () => {
+  useEffect(() => {
+    if (!profile) return;
+
     let newErrors = {};
 
     const firstName = profile.publicProfile?.firstName || "";
@@ -98,13 +101,13 @@ const PersonalInformation = () => {
       newErrors.lastName = "Only alphabets allowed";
 
     if (location && !isValidText(location))
-      newErrors.location = "Invalid characters in location";
+      newErrors.location = "Invalid characters";
 
     if (role && !isValidText(role))
-      newErrors.role = "Invalid characters in role";
+      newErrors.role = "Invalid characters";
 
     if (headline && !isValidText(headline))
-      newErrors.headline = "Invalid characters in headline";
+      newErrors.headline = "Invalid characters";
 
     if (years && !isNumeric(years))
       newErrors.years = "Only numbers allowed";
@@ -113,21 +116,22 @@ const PersonalInformation = () => {
       newErrors.months = "Only numbers allowed";
 
     if (linkedin && !isValidLinkedIn(linkedin))
-      newErrors.linkedin = "Enter valid LinkedIn URL";
+      newErrors.linkedin = "Invalid LinkedIn URL";
 
     if (github && !isValidGitHub(github))
-      newErrors.github = "Enter valid GitHub URL";
+      newErrors.github = "Invalid GitHub URL";
 
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+    setIsFormValid(Object.keys(newErrors).length === 0);
+
+  }, [profile]);
 
   /* ===============================
-     SAVE CHANGES
+     SAVE
   ================================ */
 
   const handleSave = async () => {
-    if (!validateForm()) return;
+    if (!isFormValid) return;
 
     try {
       setSaving(true);
@@ -149,12 +153,11 @@ const PersonalInformation = () => {
   };
 
   /* ===============================
-     DISCARD CHANGES
+     DISCARD
   ================================ */
 
   const handleDiscard = () => {
     setProfile(originalProfile);
-    setErrors({});
   };
 
   if (loading) return <p className="loading-text">Loading...</p>;
@@ -165,6 +168,7 @@ const PersonalInformation = () => {
       <h1 className="page-title">Personal Information</h1>
 
       <div className="form-section">
+
         <div className="form-row">
           <div className="form-group">
             <label>First Name</label>
@@ -195,7 +199,6 @@ const PersonalInformation = () => {
           </div>
         </div>
 
-        {/* Location */}
         <div className="form-group">
           <label>Location</label>
           <input
@@ -210,7 +213,6 @@ const PersonalInformation = () => {
           )}
         </div>
 
-        {/* Role */}
         <div className="form-group">
           <label>Your Role</label>
           <input
@@ -223,7 +225,6 @@ const PersonalInformation = () => {
           {errors.role && <p className="error-text">{errors.role}</p>}
         </div>
 
-        {/* Experience */}
         <div className="form-row">
           <div className="form-group">
             <label>Experience (Years)</label>
@@ -262,7 +263,6 @@ const PersonalInformation = () => {
           </div>
         </div>
 
-        {/* LinkedIn & GitHub */}
         <div className="form-row">
           <div className="form-group">
             <label>LinkedIn</label>
@@ -297,7 +297,7 @@ const PersonalInformation = () => {
           <button
             className="btn-primary"
             onClick={handleSave}
-            disabled={saving}
+            disabled={saving || !isFormValid}
           >
             {saving ? "Saving..." : "Save Changes"}
           </button>
@@ -310,6 +310,7 @@ const PersonalInformation = () => {
             Discard
           </button>
         </div>
+
       </div>
     </div>
   );
