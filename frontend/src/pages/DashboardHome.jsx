@@ -5,9 +5,14 @@ import { useUser } from "../context/UserContext";
 
 import "../styles/dashboard-home.css";
 import DashboardHeader from "../components/dashboard/DashboardHeader";
-import StatCard from "../components/dashboard/StatCard";
 import HistoryCard from "../components/dashboard/HistoryCard";
 import PreviewCard from "../components/dashboard/PreviewCard";
+
+/* === ICONS === */
+import calendarIcon from "../assets/Calendar.svg";
+import sentIcon from "../assets/send.svg";
+import remainingIcon from "../assets/remaining.svg";
+import previewIcon from "../assets/preview.svg";
 
 const DashboardHome = () => {
   const navigate = useNavigate();
@@ -46,12 +51,6 @@ const DashboardHome = () => {
     return <div>Loading dashboard...</div>;
   }
 
-  const isProfileIncomplete = user.profileComplete === false;
-
-  /* ===============================
-     SPLIT APPLICATIONS
-  ================================ */
-
   const previewItems = applications.filter(
     (app) => app.status === "draft"
   );
@@ -62,51 +61,71 @@ const DashboardHome = () => {
 
   const leftToPreviewCount = previewItems.length;
 
+  const today = new Date().toDateString();
+
   return (
     <div className="dashboard-home">
-      <DashboardHeader />
 
-      {/* ===============================
-          STATS
-      ================================ */}
-      <div className="stats-grid">
-        <StatCard title="Email Sent" value={historyItems.length} />
+      {/* ===== HEADER ===== */}
+      <div className="dashboard-top">
+        <div>
+          <h2>
+            Dashboard <span>/ Overview</span>
+          </h2>
+          <p className="welcome">Hi, {user.name}</p>
 
-        <StatCard
-          title="Email Remaining"
-          value={`${stats.remaining}/${stats.limit}`}
-        />
+          <div className="date-row">
+            <img src={calendarIcon} alt="calendar" />
+            <span>{today}</span>
+          </div>
+        </div>
 
-        <StatCard
-          title="Left To Preview"
-          value={leftToPreviewCount}
-        />
+        <button
+          className="compose-btn"
+          onClick={() => navigate("/dashboard/apply")}
+        >
+          Compose New Mail
+        </button>
       </div>
 
-      {/* ===============================
-          PROFILE CTA
-      ================================ */}
-      {isProfileIncomplete && (
-        <div className="profile-warning">
-          <p>Your profile is incomplete.</p>
-          <button
-            className="primary-btn"
-            onClick={() =>
-              navigate("/dashboard/profile/professional")
-            }
-          >
-            Update Your Profile
-          </button>
-        </div>
-      )}
+      {/* ===== DIVIDER ===== */}
+      <div className="dashboard-divider" />
 
-      {/* ===============================
-          PREVIEW & HISTORY
-      ================================ */}
+      {/* ===== STATS ===== */}
+      <div className="stats-grid">
+
+        <div className="stat-card">
+          <div className="stat-top">
+            <img src={sentIcon} alt="sent" />
+            <span>Email Sent</span>
+          </div>
+          <h3>{historyItems.length}</h3>
+        </div>
+
+        <div className="stat-card">
+          <div className="stat-top">
+            <img src={remainingIcon} alt="remaining" />
+            <span>Email Remaining</span>
+          </div>
+          <h3>{stats.remaining}/{stats.limit}</h3>
+        </div>
+
+        <div className="stat-card">
+          <div className="stat-top">
+            <img src={previewIcon} alt="preview" />
+            <span>Left To Preview</span>
+          </div>
+          <h3>{leftToPreviewCount}</h3>
+        </div>
+
+      </div>
+
+      {/* ===== HISTORY & PREVIEW ===== */}
       <div className="dashboard-bottom">
         <HistoryCard items={historyItems.slice(0, 5)} />
         <PreviewCard items={previewItems.slice(0, 5)} />
       </div>
+
     </div>
   );
 };
