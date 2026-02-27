@@ -72,9 +72,9 @@ const ProfessionalInfo = () => {
 
   return (
     <div className="professional-page">
-      <img src={logo} alt="Applica" className="setup-logo" />
 
       <div className="professional-card">
+        <img src={logo} alt="Applica" className="card-logo" />
         <h2>Professional Information</h2>
         <p className="subtext">What Best Describes Your Field</p>
 

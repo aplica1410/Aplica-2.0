@@ -10,12 +10,10 @@
 }
 
 /* Logo */
-.setup-logo {
-  position: absolute;
-  top: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 55px;
+.card-logo {
+  width: 48px;
+  display: block;
+  margin: 0 auto 18px auto;
 }
 
 /* Card reduced to fit full screen */
