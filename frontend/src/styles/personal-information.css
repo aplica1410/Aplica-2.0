@@ -123,3 +123,13 @@
   text-align: center;
   color: #aaa;
 }
+
+.error-text {
+  color: #ff4d4f;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.error-input {
+  border: 1px solid #ff4d4f !important;
+}
