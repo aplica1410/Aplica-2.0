@@ -1,44 +1,57 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "../../context/UserContext";
-import { getMe } from "../../api/auth";
 import "./ProfessionalInfo.css";
+
+import logo from "../../assets/logo.svg";
+
+import Designer from "../../assets/Designer.svg";
+import Developer from "../../assets/Developer.svg";
+import Writer from "../../assets/Writer.svg";
+import Editor from "../../assets/Editor.svg";
+import Marketer from "../../assets/Marketer.svg";
+import Other from "../../assets/Other.svg";
+
+const rolesData = [
+  { name: "Designer", icon: Designer },
+  { name: "Developer", icon: Developer },
+  { name: "Writer", icon: Writer },
+  { name: "Editor", icon: Editor },
+  { name: "Marketer", icon: Marketer },
+  { name: "Other", icon: Other },
+];
 
 const ProfessionalInfo = () => {
   const navigate = useNavigate();
-  const { setUser } = useUser();
 
-  const BACKEND_URL =
-    import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
-
-  const [role, setRole] = useState("");
+  const [selectedRole, setSelectedRole] = useState("");
+  const [customRole, setCustomRole] = useState("");
   const [years, setYears] = useState("");
   const [months, setMonths] = useState("");
   const [headline, setHeadline] = useState("");
-  const [saving, setSaving] = useState(false);
+
+  const isValid =
+    selectedRole &&
+    customRole.trim() &&
+    years !== "" &&
+    months !== "";
+
+  const handleSelectRole = (role) => {
+    setSelectedRole(role);
+    setCustomRole(role);
+  };
 
   const handleNext = async () => {
-    if (!role.trim()) return alert("Role is required");
-    if (years === "" || months === "")
-      return alert("Please enter your experience");
-    if (Number(months) > 11)
-      return alert("Months should be between 0 and 11");
-    if (!headline.trim())
-      return alert("Headline is required");
+    if (!isValid) return;
 
     try {
-      setSaving(true);
-
       const res = await fetch(
-        `${BACKEND_URL}/api/profile-setup/professional`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/profile-setup/professional`,
         {
           method: "POST",
+          headers: { "Content-Type": "application/json" },
           credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
           body: JSON.stringify({
-            role: role.trim(),
+            role: customRole.trim(),
             experience: {
               years: Number(years),
               months: Number(months),
@@ -48,65 +61,97 @@ const ProfessionalInfo = () => {
         }
       );
 
-      if (!res.ok) {
-        throw new Error("Failed to save professional info");
-      }
+      if (!res.ok) throw new Error("Save failed");
 
-      // 🔥 CRITICAL FIX: sync user context
-      const updatedUser = await getMe();
-      setUser(updatedUser);
-
-      navigate("/dashboard/profile/portfolio");
+      navigate("/dashboard");
     } catch (err) {
-      console.error("Professional info save failed:", err);
+      console.error("Professional save failed:", err);
       alert("Failed to save professional info");
-    } finally {
-      setSaving(false);
     }
   };
 
   return (
-    <div className="profile-setup professional-info">
-      <h2>Professional Information</h2>
+    <div className="professional-page">
+      <img src={logo} alt="Applica" className="setup-logo" />
 
-      <label>Your Role *</label>
-      <input
-        type="text"
-        placeholder="UI Designer"
-        value={role}
-        onChange={(e) => setRole(e.target.value)}
-      />
+      <div className="professional-card">
+        <h2>Professional Information</h2>
+        <p className="subtext">What Best Describes Your Field</p>
 
-      <label>Experience *</label>
-      <div className="experience-row">
-        <input
-          type="number"
-          min="0"
-          placeholder="Years"
-          value={years}
-          onChange={(e) => setYears(e.target.value)}
-        />
-        <input
-          type="number"
-          min="0"
-          max="11"
-          placeholder="Months"
-          value={months}
-          onChange={(e) => setMonths(e.target.value)}
-        />
+        {/* Role Selection Grid */}
+        <div className="role-grid">
+          {rolesData.map((role) => (
+            <div
+              key={role.name}
+              className={`role-card ${
+                selectedRole === role.name ? "selected" : ""
+              }`}
+              onClick={() => handleSelectRole(role.name)}
+            >
+              <img src={role.icon} alt={role.name} />
+              <span>{role.name}</span>
+
+              {selectedRole === role.name && (
+                <div className="tick">✔</div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* Role Input */}
+        <div className="field">
+          <label>Your Role</label>
+          <input
+            type="text"
+            value={customRole}
+            onChange={(e) => setCustomRole(e.target.value)}
+            placeholder="UI Designer"
+          />
+        </div>
+
+        {/* Experience */}
+        <div className="experience-row">
+          <div className="field">
+            <label>Years</label>
+            <input
+              type="number"
+              min="0"
+              value={years}
+              onChange={(e) => setYears(e.target.value)}
+            />
+          </div>
+
+          <div className="field">
+            <label>Months</label>
+            <input
+              type="number"
+              min="0"
+              max="11"
+              value={months}
+              onChange={(e) => setMonths(e.target.value)}
+            />
+          </div>
+        </div>
+
+        {/* Headline */}
+        <div className="field">
+          <label>One-line About You</label>
+          <input
+            type="text"
+            value={headline}
+            onChange={(e) => setHeadline(e.target.value)}
+            placeholder="UI/UX designer focused on SaaS and landing pages"
+          />
+        </div>
+
+        <button
+          className="next-btn"
+          disabled={!isValid}
+          onClick={handleNext}
+        >
+          Next
+        </button>
       </div>
-
-      <label>One-line About You *</label>
-      <input
-        type="text"
-        placeholder="UI/UX designer focused on SaaS and landing pages"
-        value={headline}
-        onChange={(e) => setHeadline(e.target.value)}
-      />
-
-      <button onClick={handleNext} disabled={saving}>
-        {saving ? "Saving..." : "Next"}
-      </button>
     </div>
   );
 };
