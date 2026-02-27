@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useUser } from "../../context/UserContext";
 import { getMe } from "../../api/auth";
 import "./PortfolioSocials.css";
+import logo from "../../assets/logo.svg";
 
 // Icons
 import githubIcon from "../../assets/GitHub.svg";
@@ -48,9 +49,7 @@ const PortfolioSocials = () => {
         {
           method: "POST",
           credentials: "include",
-          headers: {
-            "Content-Type": "application/json"
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             portfolio: links.portfolio || null,
             github: links.github || null,
@@ -59,16 +58,14 @@ const PortfolioSocials = () => {
             linkedin: links.linkedin || null,
             facebook: links.facebook || null,
             instagram: links.instagram || null,
-            twitter: links.twitter || null
+            twitter: links.twitter || null,
+            drive: links.drive || null
           })
         }
       );
 
-      if (!res.ok) {
-        throw new Error("Failed to save portfolio links");
-      }
+      if (!res.ok) throw new Error("Failed to save portfolio links");
 
-      // 🔥 CRITICAL FIX: sync user context
       const updatedUser = await getMe();
       setUser(updatedUser);
 
@@ -82,43 +79,59 @@ const PortfolioSocials = () => {
   };
 
   return (
-    <div className="portfolio-socials">
-      <h2>Portfolio & Socials</h2>
-      <p>Add links to your work or social profiles (optional)</p>
+    <div className="portfolio-page">
+      <div className="portfolio-card">
 
-      <div className="portfolio-main">
-        <input
-          type="url"
-          placeholder="https://yourportfolio.com"
-          value={links.portfolio}
-          onChange={(e) => handleChange("portfolio", e.target.value)}
-        />
+        <img src={logo} alt="Applica" className="card-logo" />
+
+        <h2>Portfolio & Socials</h2>
+        <p className="subtext">
+          Add links to your work or social profiles (optional)
+        </p>
+
+        {/* Portfolio Main */}
+        <div className="field full">
+          <label>Portfolio / Website</label>
+          <input
+            type="url"
+            placeholder="https://yourportfolio.com"
+            value={links.portfolio}
+            onChange={(e) => handleChange("portfolio", e.target.value)}
+          />
+        </div>
+
+        {/* Social Grid */}
+        <div className="grid">
+          <SocialInput icon={githubIcon} label="Github" value={links.github} onChange={(v) => handleChange("github", v)} />
+          <SocialInput icon={dribbbleIcon} label="Dribbble" value={links.dribbble} onChange={(v) => handleChange("dribbble", v)} />
+          <SocialInput icon={behanceIcon} label="Behance" value={links.behance} onChange={(v) => handleChange("behance", v)} />
+          <SocialInput icon={linkedinIcon} label="LinkedIn" value={links.linkedin} onChange={(v) => handleChange("linkedin", v)} />
+          <SocialInput icon={facebookIcon} label="Facebook" value={links.facebook} onChange={(v) => handleChange("facebook", v)} />
+          <SocialInput icon={instagramIcon} label="Instagram" value={links.instagram} onChange={(v) => handleChange("instagram", v)} />
+          <SocialInput icon={twitterIcon} label="X / Twitter" value={links.twitter} onChange={(v) => handleChange("twitter", v)} />
+          <SocialInput icon={driveIcon} label="Google Drive" value={links.drive} onChange={(v) => handleChange("drive", v)} />
+        </div>
+
+        <button
+          className="next-btn"
+          onClick={handleNext}
+          disabled={saving}
+        >
+          {saving ? "Saving..." : "Next"}
+        </button>
       </div>
-
-      <div className="social-grid">
-        <SocialInput icon={githubIcon} placeholder="Github" value={links.github} onChange={(v) => handleChange("github", v)} />
-        <SocialInput icon={dribbbleIcon} placeholder="Dribbble" value={links.dribbble} onChange={(v) => handleChange("dribbble", v)} />
-        <SocialInput icon={behanceIcon} placeholder="Behance" value={links.behance} onChange={(v) => handleChange("behance", v)} />
-        <SocialInput icon={linkedinIcon} placeholder="LinkedIn" value={links.linkedin} onChange={(v) => handleChange("linkedin", v)} />
-        <SocialInput icon={facebookIcon} placeholder="Facebook" value={links.facebook} onChange={(v) => handleChange("facebook", v)} />
-        <SocialInput icon={instagramIcon} placeholder="Instagram" value={links.instagram} onChange={(v) => handleChange("instagram", v)} />
-        <SocialInput icon={twitterIcon} placeholder="X / Twitter" value={links.twitter} onChange={(v) => handleChange("twitter", v)} />
-        <SocialInput icon={driveIcon} placeholder="Google Drive" value={links.drive} onChange={(v) => handleChange("drive", v)} />
-      </div>
-
-      <button onClick={handleNext} disabled={saving}>
-        {saving ? "Saving..." : "Next"}
-      </button>
     </div>
   );
 };
 
-const SocialInput = ({ icon, placeholder, value, onChange }) => (
-  <div className="social-input">
-    <img src={icon} alt={placeholder} />
+const SocialInput = ({ icon, label, value, onChange }) => (
+  <div className="field">
+    <label className="social-label">
+      <img src={icon} alt={label} />
+      {label}
+    </label>
     <input
       type="url"
-      placeholder={placeholder}
       value={value}
       onChange={(e) => onChange(e.target.value)}
     />
