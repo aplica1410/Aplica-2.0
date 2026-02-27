@@ -1,24 +1,28 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../context/UserContext";
 import { getMe } from "../../api/auth";
 import "./PublicProfile.css";
 
 import logo from "../../assets/logo.svg";
-import imageIcon from "../../assets/Picture.svg";
+// import imageIcon from "../../assets/Picture.svg"; // 🔒 Disabled for now
 
 const PublicProfile = () => {
   const navigate = useNavigate();
   const { setUser } = useUser();
-  const fileRef = useRef(null);
 
-  const [image, setImage] = useState(null);
-  const [preview, setPreview] = useState(null);
+  // 🔒 Image upload disabled for testing phase
+  // const fileRef = useRef(null);
+  // const [image, setImage] = useState(null);
+  // const [preview, setPreview] = useState(null);
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [location, setLocation] = useState("");
   const [loading, setLoading] = useState(false);
 
+  /*
+  // 🔒 Disabled image handler
   const handleImageSelect = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -37,6 +41,7 @@ const PublicProfile = () => {
     setPreview(null);
     fileRef.current.value = "";
   };
+  */
 
   const handleNext = async () => {
     if (!firstName.trim() || !lastName.trim() || !location.trim()) {
@@ -67,7 +72,7 @@ const PublicProfile = () => {
         throw new Error("Save failed");
       }
 
-      // 🔥 CRITICAL FIX: sync user context
+      // 🔥 Sync user context
       const updatedUser = await getMe();
       setUser(updatedUser);
 
@@ -86,6 +91,8 @@ const PublicProfile = () => {
 
       <h2>Public Profile</h2>
 
+      {/* 🔒 Avatar Section Disabled Temporarily */}
+      {/*
       <div className="avatar-section">
         <div
           className="avatar-circle"
@@ -121,6 +128,7 @@ const PublicProfile = () => {
           onChange={handleImageSelect}
         />
       </div>
+      */}
 
       <div className="public-form">
         <div className="row">
