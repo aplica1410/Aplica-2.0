@@ -4,12 +4,12 @@ import "./ProfessionalInfo.css";
 
 import logo from "../../assets/logo.svg";
 
-import Designer from "../../assets/Designer.svg";
-import Developer from "../../assets/Developer.svg";
-import Writer from "../../assets/Writer.svg";
-import Editor from "../../assets/Editor.svg";
-import Marketer from "../../assets/Marketer.svg";
-import Other from "../../assets/Other.svg";
+import Designer from "../../assets/designer.svg";
+import Developer from "../../assets/developer.svg";
+import Writer from "../../assets/writer.svg";
+import Editor from "../../assets/editor.svg";
+import Marketer from "../../assets/marketer.svg";
+import Other from "../../assets/other.svg";
 
 const rolesData = [
   { name: "Designer", icon: Designer },
