@@ -8,17 +8,17 @@ const Auth = () => {
 
   return (
     <div className="auth-page">
-      <div className="auth-card" style={{ textAlign: "center" }}>
-        
-        {/* Logo */}
+      <div className="auth-card">
+
         <img
           src={logo}
           alt="Aplica Logo"
-          style={{ width: "50px", marginBottom: "20px" }}
+          className="auth-logo"
         />
 
         <h2>Sign In To Your Account</h2>
-        <p style={{ color: "#8a96a6", fontSize: "14px", marginBottom: "24px" }}>
+
+        <p className="auth-subtitle">
           Sign in via your Google account.
         </p>
 
@@ -26,6 +26,7 @@ const Auth = () => {
           <span style={{ fontWeight: "bold", fontSize: "18px" }}>G</span>
           Continue with Google
         </button>
+
       </div>
     </div>
   );
