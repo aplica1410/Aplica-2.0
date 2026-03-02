@@ -1,20 +1,23 @@
-import { useNavigate } from "react-router-dom"
-import "./Navbar.css"
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./Navbar.css";
 
 const Navbar = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <nav className="navbar">
-      <div 
-  className="logo"
-  onClick={() => navigate("/")}
-  style={{ cursor: "pointer" }}
->
-  Aplica
-</div>
 
+      {/* Logo */}
+      <div
+        className="logo"
+        onClick={() => navigate("/")}
+      >
+        Aplica
+      </div>
 
+      {/* Desktop Nav */}
       <div className="nav-pill">
         <span>Features</span>
         <span>How It Works</span>
@@ -22,11 +25,40 @@ const Navbar = () => {
         <span>Testimonials</span>
       </div>
 
-      <button className="cta-btn" onClick={() => navigate("/auth")}>
+      <button
+        className="cta-btn desktop-cta"
+        onClick={() => navigate("/auth")}
+      >
         Start Free Trial
       </button>
-    </nav>
-  )
-}
 
-export default Navbar
+      {/* Mobile Hamburger */}
+      <div
+        className="hamburger"
+        onClick={() => setMenuOpen(!menuOpen)}
+      >
+        ☰
+      </div>
+
+      {/* Mobile Menu */}
+      <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
+        <span onClick={() => setMenuOpen(false)}>Features</span>
+        <span onClick={() => setMenuOpen(false)}>How It Works</span>
+        <span onClick={() => setMenuOpen(false)}>Pricing</span>
+        <span onClick={() => setMenuOpen(false)}>Testimonials</span>
+
+        <button
+          className="cta-btn mobile-cta"
+          onClick={() => {
+            setMenuOpen(false);
+            navigate("/auth");
+          }}
+        >
+          Start Free Trial
+        </button>
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;

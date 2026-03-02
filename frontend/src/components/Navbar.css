@@ -4,15 +4,17 @@
   justify-content: space-between;
   padding: 24px 120px;
   position: relative;
+  z-index: 1000;
 }
 
 .logo {
   font-size: 22px;
   font-weight: 700;
   color: #38bdf8;
+  cursor: pointer;
 }
 
-/* Nav pill */
+/* Desktop nav */
 .nav-pill {
   display: flex;
   gap: 32px;
@@ -27,7 +29,7 @@
   font-size: 14px;
   color: #e5e7eb;
   cursor: pointer;
-  transition: color 0.2s ease;
+  transition: 0.2s ease;
 }
 
 .nav-pill span:hover {
@@ -42,6 +44,53 @@
   border-radius: 999px;
   font-weight: 600;
   cursor: pointer;
+}
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: white;
+}
+
+/* Mobile menu */
+.mobile-menu {
+  position: absolute;
+  top: 80px;
+  right: 20px;
+  background: #0f172a;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 220px;
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition: 0.3s ease;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+
+.mobile-menu.open {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.mobile-menu span {
+  color: #e5e7eb;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.mobile-menu span:hover {
+  color: #38bdf8;
+}
+
+.mobile-cta {
+  width: 100%;
 }
 
 /* ======================
@@ -60,12 +109,12 @@
     padding: 20px;
   }
 
-  .nav-pill {
+  .nav-pill,
+  .desktop-cta {
     display: none;
   }
 
-  .cta-btn {
-    padding: 8px 16px;
-    font-size: 13px;
+  .hamburger {
+    display: block;
   }
 }
