@@ -31,7 +31,7 @@ const Applications = () => {
   ================================ */
   const previewApplications = applications.filter(
     (app) =>
-      !app.status || app.status === "draft" || app.status === "preview"
+      !app.status || app.status === "draft" || app.status === "view"
   );
 
   const sentApplications = applications.filter(
