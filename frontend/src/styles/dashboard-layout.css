@@ -8,3 +8,17 @@
   background-color: #0f0f0f;
   padding: 24px;
 }
+
+/* 🔥 MOBILE RESPONSIVE FIX */
+@media (max-width: 768px) {
+
+  .dashboard-layout {
+    flex-direction: column;
+  }
+
+  .dashboard-content {
+    margin-top: 70px;   /* height of mobile topbar */
+    padding: 16px;      /* slightly reduced padding */
+  }
+
+}

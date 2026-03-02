@@ -66,3 +66,68 @@
 .sidebar-item.active .sidebar-icon {
   opacity: 1;
 }
+
+/* --------------------------
+   MOBILE TOP BAR
+--------------------------- */
+
+.mobile-topbar {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+  background: #121212;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1100;
+}
+
+.hamburger-btn {
+  font-size: 22px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.mobile-logo {
+  width: 40px;
+  height: 40px;
+}
+
+/* --------------------------
+   OVERLAY
+--------------------------- */
+
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1050;
+}
+
+/* --------------------------
+   RESPONSIVE
+--------------------------- */
+
+@media (max-width: 768px) {
+
+  .mobile-topbar {
+    display: flex;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -260px;
+    height: 100vh;
+    z-index: 1101;
+    transition: left 0.3s ease;
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
+
+}

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import logo from "../../assets/logo.svg";
 import dashboardIcon from "../../assets/D.svg";
@@ -8,70 +9,91 @@ import settingsIcon from "../../assets/S.svg";
 import "./sidebar.css";
 
 const Sidebar = () => {
-  console.log("✅ Sidebar rendered");
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <aside className="sidebar">
-
-      {/* 🔥 Logo → Redirects to Landing Page */}
-      <Link to="/" className="logo-container">
-        <img src={logo} alt="Aplica Logo" className="logo-img" />
-      </Link>
-
-      <nav>
-
-        <NavLink
-          to="/dashboard/home"
-          className={({ isActive }) =>
-            isActive ? "sidebar-item active" : "sidebar-item"
-          }
+    <>
+      {/* 🔥 Mobile Top Bar */}
+      <div className="mobile-topbar">
+        <button
+          className="hamburger-btn"
+          onClick={() => setIsOpen(true)}
         >
-          <img src={dashboardIcon} alt="" className="sidebar-icon" />
-          <span>Dashboard</span>
-        </NavLink>
+          ☰
+        </button>
+        <img src={logo} alt="Logo" className="mobile-logo" />
+      </div>
 
-        <NavLink
-          to="/dashboard/apply"
-          className={({ isActive }) =>
-            isActive ? "sidebar-item active" : "sidebar-item"
-          }
-        >
-          <img src={applyIcon} alt="" className="sidebar-icon" />
-          <span>Apply</span>
-        </NavLink>
+      {/* 🔥 Overlay */}
+      {isOpen && (
+        <div
+          className="sidebar-overlay"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
 
-        <NavLink
-          to="/dashboard/applications"
-          className={({ isActive }) =>
-            isActive ? "sidebar-item active" : "sidebar-item"
-          }
-        >
-          <img src={applicationsIcon} alt="" className="sidebar-icon" />
-          <span>Applications</span>
-        </NavLink>
+      {/* 🔥 Sidebar */}
+      <aside className={`sidebar ${isOpen ? "open" : ""}`}>
 
-        <NavLink
-          to="/dashboard/personal-information"
-          className={({ isActive }) =>
-            isActive ? "sidebar-item active" : "sidebar-item"
-          }
-        >
-          <img src={personalInfoIcon} alt="" className="sidebar-icon" />
-          <span>Personal Information</span>
-        </NavLink>
+        <Link to="/" className="logo-container">
+          <img src={logo} alt="Aplica Logo" className="logo-img" />
+        </Link>
 
-        <NavLink
-          to="/dashboard/settings"
-          className={({ isActive }) =>
-            isActive ? "sidebar-item active" : "sidebar-item"
-          }
-        >
-          <img src={settingsIcon} alt="" className="sidebar-icon" />
-          <span>Settings</span>
-        </NavLink>
+        <nav onClick={() => setIsOpen(false)}>
 
-      </nav>
-    </aside>
+          <NavLink
+            to="/dashboard/home"
+            className={({ isActive }) =>
+              isActive ? "sidebar-item active" : "sidebar-item"
+            }
+          >
+            <img src={dashboardIcon} alt="" className="sidebar-icon" />
+            <span>Dashboard</span>
+          </NavLink>
+
+          <NavLink
+            to="/dashboard/apply"
+            className={({ isActive }) =>
+              isActive ? "sidebar-item active" : "sidebar-item"
+            }
+          >
+            <img src={applyIcon} alt="" className="sidebar-icon" />
+            <span>Apply</span>
+          </NavLink>
+
+          <NavLink
+            to="/dashboard/applications"
+            className={({ isActive }) =>
+              isActive ? "sidebar-item active" : "sidebar-item"
+            }
+          >
+            <img src={applicationsIcon} alt="" className="sidebar-icon" />
+            <span>Applications</span>
+          </NavLink>
+
+          <NavLink
+            to="/dashboard/personal-information"
+            className={({ isActive }) =>
+              isActive ? "sidebar-item active" : "sidebar-item"
+            }
+          >
+            <img src={personalInfoIcon} alt="" className="sidebar-icon" />
+            <span>Personal Information</span>
+          </NavLink>
+
+          <NavLink
+            to="/dashboard/settings"
+            className={({ isActive }) =>
+              isActive ? "sidebar-item active" : "sidebar-item"
+            }
+          >
+            <img src={settingsIcon} alt="" className="sidebar-icon" />
+            <span>Settings</span>
+          </NavLink>
+
+        </nav>
+      </aside>
+    </>
   );
 };
 
