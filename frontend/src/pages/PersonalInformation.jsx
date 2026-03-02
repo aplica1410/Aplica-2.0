@@ -11,20 +11,6 @@ const PersonalInformation = () => {
   const [isFormValid, setIsFormValid] = useState(false);
 
   /* ===============================
-     VALIDATION HELPERS
-  ================================ */
-
-  const isValidName = (value) => /^[A-Za-z\s]+$/.test(value);
-  const isValidText = (value) => /^[A-Za-z0-9\s.,-]*$/.test(value);
-  const isNumeric = (value) => /^\d+$/.test(value);
-
-  const isValidLinkedIn = (url) =>
-    /^https?:\/\/(www\.)?linkedin\.com\/.*$/i.test(url);
-
-  const isValidGitHub = (url) =>
-    /^https?:\/\/(www\.)?github\.com\/.*$/i.test(url);
-
-  /* ===============================
      FETCH PROFILE
   ================================ */
 
@@ -49,7 +35,7 @@ const PersonalInformation = () => {
   }, []);
 
   /* ===============================
-     HANDLE INPUT CHANGE
+     HANDLE CHANGE
   ================================ */
 
   const handleChange = (section, field, value) => {
@@ -76,7 +62,7 @@ const PersonalInformation = () => {
   };
 
   /* ===============================
-     VALIDATE FORM (REAL TIME)
+     VALIDATION
   ================================ */
 
   useEffect(() => {
@@ -84,46 +70,14 @@ const PersonalInformation = () => {
 
     let newErrors = {};
 
-    const firstName = profile.publicProfile?.firstName || "";
-    const lastName = profile.publicProfile?.lastName || "";
-    const location = profile.publicProfile?.location || "";
-    const role = profile.professionalInfo?.role || "";
-    const headline = profile.professionalInfo?.headline || "";
-    const years = profile.professionalInfo?.experience?.years || "";
-    const months = profile.professionalInfo?.experience?.months || "";
-    const linkedin = profile.portfolio?.linkedin || "";
-    const github = profile.portfolio?.github || "";
-
-    if (firstName && !isValidName(firstName))
-      newErrors.firstName = "Only alphabets allowed";
-
-    if (lastName && !isValidName(lastName))
-      newErrors.lastName = "Only alphabets allowed";
-
-    if (location && !isValidText(location))
-      newErrors.location = "Invalid characters";
-
-    if (role && !isValidText(role))
-      newErrors.role = "Invalid characters";
-
-    if (headline && !isValidText(headline))
-      newErrors.headline = "Invalid characters";
-
-    if (years && !isNumeric(years))
-      newErrors.years = "Only numbers allowed";
-
-    if (months && !isNumeric(months))
-      newErrors.months = "Only numbers allowed";
-
-    if (linkedin && !isValidLinkedIn(linkedin))
-      newErrors.linkedin = "Invalid LinkedIn URL";
-
-    if (github && !isValidGitHub(github))
-      newErrors.github = "Invalid GitHub URL";
+    if (
+      profile.professionalInfo?.experience?.months > 11
+    ) {
+      newErrors.months = "Months must be 0–11";
+    }
 
     setErrors(newErrors);
     setIsFormValid(Object.keys(newErrors).length === 0);
-
   }, [profile]);
 
   /* ===============================
@@ -152,16 +106,12 @@ const PersonalInformation = () => {
     }
   };
 
-  /* ===============================
-     DISCARD
-  ================================ */
-
   const handleDiscard = () => {
     setProfile(originalProfile);
   };
 
   if (loading) return <p className="loading-text">Loading...</p>;
-  if (!profile) return <p className="loading-text">No profile found</p>;
+  if (!profile) return <p>No profile found</p>;
 
   return (
     <div className="personal-info-page">
@@ -169,68 +119,69 @@ const PersonalInformation = () => {
 
       <div className="form-section">
 
+        {/* ================= PUBLIC ================= */}
+        <h3 className="section-title">Public Profile</h3>
+
         <div className="form-row">
           <div className="form-group">
             <label>First Name</label>
             <input
-              className={errors.firstName ? "error-input" : ""}
               value={profile.publicProfile?.firstName || ""}
               onChange={(e) =>
                 handleChange("publicProfile", "firstName", e.target.value)
               }
             />
-            {errors.firstName && (
-              <p className="error-text">{errors.firstName}</p>
-            )}
           </div>
 
           <div className="form-group">
             <label>Last Name</label>
             <input
-              className={errors.lastName ? "error-input" : ""}
               value={profile.publicProfile?.lastName || ""}
               onChange={(e) =>
                 handleChange("publicProfile", "lastName", e.target.value)
               }
             />
-            {errors.lastName && (
-              <p className="error-text">{errors.lastName}</p>
-            )}
           </div>
         </div>
 
         <div className="form-group">
           <label>Location</label>
           <input
-            className={errors.location ? "error-input" : ""}
             value={profile.publicProfile?.location || ""}
             onChange={(e) =>
               handleChange("publicProfile", "location", e.target.value)
             }
           />
-          {errors.location && (
-            <p className="error-text">{errors.location}</p>
-          )}
         </div>
 
+        {/* ================= PROFESSIONAL ================= */}
+        <h3 className="section-title">Professional Info</h3>
+
         <div className="form-group">
-          <label>Your Role</label>
+          <label>Role</label>
           <input
-            className={errors.role ? "error-input" : ""}
             value={profile.professionalInfo?.role || ""}
             onChange={(e) =>
               handleChange("professionalInfo", "role", e.target.value)
             }
           />
-          {errors.role && <p className="error-text">{errors.role}</p>}
+        </div>
+
+        <div className="form-group">
+          <label>Headline</label>
+          <input
+            value={profile.professionalInfo?.headline || ""}
+            onChange={(e) =>
+              handleChange("professionalInfo", "headline", e.target.value)
+            }
+          />
         </div>
 
         <div className="form-row">
           <div className="form-group">
-            <label>Experience (Years)</label>
+            <label>Years</label>
             <input
               type="number"
-              className={errors.years ? "error-input" : ""}
               value={profile.professionalInfo?.experience?.years || ""}
               onChange={(e) =>
                 handleNestedChange(
@@ -241,14 +192,12 @@ const PersonalInformation = () => {
                 )
               }
             />
-            {errors.years && <p className="error-text">{errors.years}</p>}
           </div>
 
           <div className="form-group">
-            <label>Experience (Months)</label>
+            <label>Months</label>
             <input
               type="number"
-              className={errors.months ? "error-input" : ""}
               value={profile.professionalInfo?.experience?.months || ""}
               onChange={(e) =>
                 handleNestedChange(
@@ -259,40 +208,61 @@ const PersonalInformation = () => {
                 )
               }
             />
-            {errors.months && <p className="error-text">{errors.months}</p>}
-          </div>
-        </div>
-
-        <div className="form-row">
-          <div className="form-group">
-            <label>LinkedIn</label>
-            <input
-              className={errors.linkedin ? "error-input" : ""}
-              value={profile.portfolio?.linkedin || ""}
-              onChange={(e) =>
-                handleChange("portfolio", "linkedin", e.target.value)
-              }
-            />
-            {errors.linkedin && (
-              <p className="error-text">{errors.linkedin}</p>
-            )}
-          </div>
-
-          <div className="form-group">
-            <label>GitHub</label>
-            <input
-              className={errors.github ? "error-input" : ""}
-              value={profile.portfolio?.github || ""}
-              onChange={(e) =>
-                handleChange("portfolio", "github", e.target.value)
-              }
-            />
-            {errors.github && (
-              <p className="error-text">{errors.github}</p>
+            {errors.months && (
+              <p className="error-text">{errors.months}</p>
             )}
           </div>
         </div>
 
+        {/* ================= PORTFOLIO ================= */}
+        <h3 className="section-title">Portfolio & Socials</h3>
+
+        {[
+          "portfolio",
+          "github",
+          "linkedin",
+          "dribbble",
+          "behance",
+          "facebook",
+          "instagram",
+          "twitter",
+          "drive"
+        ].map((field) => (
+          <div className="form-group" key={field}>
+            <label>{field.charAt(0).toUpperCase() + field.slice(1)}</label>
+            <input
+              value={profile.portfolio?.[field] || ""}
+              onChange={(e) =>
+                handleChange("portfolio", field, e.target.value)
+              }
+            />
+          </div>
+        ))}
+
+        {/* ================= ATTACHMENTS ================= */}
+        <h3 className="section-title">Attachments</h3>
+
+        <div className="form-group">
+          <label>Resume Link</label>
+          <input
+            value={profile.attachment?.resumeLink || ""}
+            onChange={(e) =>
+              handleChange("attachment", "resumeLink", e.target.value)
+            }
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Optional Note</label>
+          <textarea
+            value={profile.attachment?.note || ""}
+            onChange={(e) =>
+              handleChange("attachment", "note", e.target.value)
+            }
+          />
+        </div>
+
+        {/* ================= ACTIONS ================= */}
         <div className="action-buttons">
           <button
             className="btn-primary"
@@ -305,7 +275,6 @@ const PersonalInformation = () => {
           <button
             className="btn-secondary"
             onClick={handleDiscard}
-            disabled={saving}
           >
             Discard
           </button>
