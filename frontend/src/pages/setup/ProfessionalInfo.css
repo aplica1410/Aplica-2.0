@@ -1,54 +1,77 @@
-/* Remove black bleed */
+/* =====================================
+   GLOBAL SAFETY
+===================================== */
+
+html, body {
+  overflow-x: hidden;
+}
+
+/* =====================================
+   PAGE BACKGROUND
+===================================== */
+
 .professional-page {
-  position: fixed;
-  inset: 0;
+  min-height: 100vh;
   background: radial-gradient(circle at top left, #0b1c2d, #050b14 70%);
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  padding: 40px 20px;
 }
 
-/* Logo */
+/* =====================================
+   CARD
+===================================== */
+
+.professional-card {
+  width: 100%;
+  max-width: 560px;
+  padding: 32px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(12px);
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+/* =====================================
+   HEADER
+===================================== */
+
 .card-logo {
   width: 48px;
   display: block;
   margin: 0 auto 18px auto;
 }
 
-/* Card reduced to fit full screen */
-.professional-card {
-  width: 520px;
-  padding: 32px 36px 36px 36px;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(12px);
-}
-
-/* Title */
 .professional-card h2 {
-  color: white;
   font-size: 22px;
   margin-bottom: 4px;
+  text-align: center;
 }
 
 .subtext {
   font-size: 13px;
   color: #8fa2b8;
-  margin-bottom: 18px;
+  margin-bottom: 22px;
+  text-align: center;
 }
 
-/* Role grid tighter */
+/* =====================================
+   ROLE GRID
+===================================== */
+
 .role-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 14px;
-  margin-bottom: 18px;
+  margin-bottom: 22px;
 }
 
 .role-card {
   position: relative;
-  padding: 16px;
+  padding: 18px 12px;
   border-radius: 14px;
   background: rgba(255, 255, 255, 0.05);
   text-align: center;
@@ -90,35 +113,55 @@
   color: white;
 }
 
-/* Fields */
+/* =====================================
+   FIELDS
+===================================== */
+
 .field {
-  margin-bottom: 12px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
 }
 
 .field label {
   font-size: 12px;
   color: #b8c6d9;
-  margin-bottom: 4px;
-  display: block;
+  margin-bottom: 6px;
 }
 
 .field input {
-  height: 38px;
-  padding: 0 12px;
-  border-radius: 8px;
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 10px;
   font-size: 13px;
   border: 1px solid rgba(255, 255, 255, 0.15);
   background: rgba(255, 255, 255, 0.05);
   color: white;
+  width: 100%;
+  min-width: 0;
+  transition: 0.2s ease;
 }
 
-/* Experience row */
+.field input:focus {
+  outline: none;
+  border-color: #3ea6ff;
+  box-shadow: 0 0 0 2px rgba(62, 166, 255, 0.2);
+}
+
+/* =====================================
+   EXPERIENCE ROW
+===================================== */
+
 .experience-row {
   display: flex;
-  gap: 12px;
+  gap: 16px;
+  margin-bottom: 16px;
 }
 
-/* Button */
+/* =====================================
+   BUTTON
+===================================== */
+
 .next-btn {
   width: 100%;
   height: 48px;
@@ -135,9 +178,57 @@
 
 .next-btn:hover:not(:disabled) {
   transform: translateY(-1px);
+  box-shadow: 0 10px 25px rgba(79, 140, 255, 0.35);
 }
 
 .next-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+/* =====================================
+   RESPONSIVE
+===================================== */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .professional-page {
+    padding: 32px 20px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+
+  .professional-page {
+    padding: 24px 16px;
+    align-items: flex-start;
+  }
+
+  .professional-card {
+    padding: 24px;
+  }
+
+  .professional-card h2 {
+    font-size: 20px;
+  }
+
+  /* Role grid becomes 2 columns */
+  .role-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Experience stack vertically */
+  .experience-row {
+    flex-direction: column;
+  }
+}
+
+/* Extra small */
+@media (max-width: 480px) {
+
+  /* Role grid becomes 1 column */
+  .role-grid {
+    grid-template-columns: 1fr;
+  }
 }

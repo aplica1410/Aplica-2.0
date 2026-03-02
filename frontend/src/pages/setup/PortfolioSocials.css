@@ -1,32 +1,44 @@
-/* =============================== */
-/* FULL PAGE BACKGROUND */
-/* =============================== */
+/* =====================================
+   GLOBAL SAFETY
+===================================== */
+
+html, body {
+  overflow-x: hidden;
+}
+
+/* =====================================
+   FULL PAGE BACKGROUND
+===================================== */
 
 .portfolio-page {
-  position: fixed;
-  inset: 0;
+  min-height: 100vh;
   background: radial-gradient(circle at top left, #0b1c2d, #050b14 70%);
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 40px 20px;
 }
 
-/* =============================== */
-/* CARD */
-/* =============================== */
+/* =====================================
+   CARD
+===================================== */
 
 .portfolio-card {
-  width: 600px;
-  padding: 15px 15px 15px;
+  width: 100%;
+  max-width: 640px;
+  padding: 32px;
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.04);
   backdrop-filter: blur(12px);
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  color: white;
+  display: flex;
+  flex-direction: column;
 }
 
-/* =============================== */
-/* HEADER */
-/* =============================== */
+/* =====================================
+   HEADER
+===================================== */
 
 .card-logo {
   width: 48px;
@@ -35,7 +47,6 @@
 }
 
 .portfolio-card h2 {
-  color: #ffffff;
   text-align: center;
   font-size: 22px;
   font-weight: 600;
@@ -47,16 +58,17 @@
   text-align: center;
   color: #9ca3af;
   margin-bottom: 26px;
+  line-height: 1.5;
 }
 
-/* =============================== */
-/* INPUT FIELDS */
-/* =============================== */
+/* =====================================
+   FIELDS
+===================================== */
 
 .field {
   display: flex;
   flex-direction: column;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
 .field label {
@@ -69,14 +81,16 @@
 }
 
 .field input {
-  height: 38px;
-  padding: 0 12px;
-  border-radius: 8px;
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 10px;
   font-size: 13px;
   border: 1px solid rgba(255, 255, 255, 0.15);
   background: rgba(255, 255, 255, 0.05);
   color: #ffffff;
   transition: all 0.2s ease;
+  width: 100%;
+  min-width: 0;
 }
 
 .field input:focus {
@@ -85,36 +99,68 @@
   box-shadow: 0 0 0 2px rgba(62, 166, 255, 0.2);
 }
 
-/* Portfolio full width */
 .full {
   width: 100%;
 }
 
-/* =============================== */
-/* SOCIAL GRID */
-/* =============================== */
+/* =====================================
+   INPUT WRAPPER (Checkmark)
+===================================== */
+
+.input-wrapper {
+  position: relative;
+}
+
+.valid-check {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #22c55e;
+  font-size: 16px;
+  font-weight: bold;
+  animation: fadeIn 0.2s ease;
+}
+
+/* =====================================
+   SOCIAL GRID
+===================================== */
 
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 14px 18px;
+  gap: 16px 20px;
+  margin-top: 8px;
 }
 
-/* Label with icon */
 .social-label img {
   width: 16px;
   height: 16px;
   opacity: 0.8;
 }
 
-/* =============================== */
-/* NEXT BUTTON */
-/* =============================== */
+/* =====================================
+   ERROR STATE
+===================================== */
+
+.input-error {
+  border: 1px solid #ff4d4f !important;
+}
+
+.error-text {
+  font-size: 11px;
+  color: #ff4d4f;
+  margin-top: 4px;
+}
+
+/* =====================================
+   NEXT BUTTON
+===================================== */
 
 .next-btn {
-  margin-top: 20px;
+  margin-top: 24px;
   width: 100%;
-  height: 46px;
+  height: 48px;
   border-radius: 12px;
   border: none;
   font-size: 14px;
@@ -136,63 +182,44 @@
   box-shadow: none;
 }
 
-/* Error state */
-.input-error {
-  border: 1px solid #ff4d4f !important;
+/* =====================================
+   RESPONSIVE
+===================================== */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .portfolio-page {
+    padding: 32px 20px;
+  }
 }
 
-.error-text {
-  font-size: 11px;
-  color: #ff4d4f;
-  margin-top: 4px;
-}
+/* Mobile */
+@media (max-width: 768px) {
 
-.next-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
+  .portfolio-page {
+    padding: 24px 16px;
+    align-items: flex-start;
+  }
 
-/* =============================== */
-/* MOBILE RESPONSIVE */
-/* =============================== */
-
-@media (max-width: 640px) {
   .portfolio-card {
-    width: 92%;
-    padding: 26px;
+    padding: 24px;
+    max-width: 100%;
+  }
+
+  .portfolio-card h2 {
+    font-size: 20px;
   }
 
   .grid {
     grid-template-columns: 1fr;
   }
+
+  .next-btn {
+    height: 46px;
+  }
 }
 
-/* Wrapper for input + check */
-.input-wrapper {
-  position: relative;
-}
-
-.valid-check {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #22c55e;
-  font-size: 16px;
-  font-weight: bold;
-  animation: fadeIn 0.2s ease;
-}
-
-.input-error {
-  border: 1px solid #ff4d4f !important;
-}
-
-.error-text {
-  font-size: 11px;
-  color: #ff4d4f;
-  margin-top: 4px;
-}
-
+/* Animation */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-50%) scale(0.8); }
   to { opacity: 1; transform: translateY(-50%) scale(1); }

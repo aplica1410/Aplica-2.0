@@ -1,0 +1,38 @@
+/* =====================================
+   GLOBAL SAFETY
+===================================== */
+
+html, body {
+  overflow-x: hidden;
+}
+
+/* =====================================
+   PROFILE SETUP LAYOUT
+===================================== */
+
+.profile-setup-layout {
+  min-height: 100vh;
+  background: #0f0f10;
+  color: #ffffff;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 40px;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .profile-setup-layout {
+    padding: 32px 24px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .profile-setup-layout {
+    padding: 24px 16px;
+    align-items: flex-start; /* better mobile UX */
+  }
+}

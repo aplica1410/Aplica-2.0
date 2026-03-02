@@ -1,17 +1,9 @@
 import { Outlet } from "react-router-dom";
+import "./ProfileSetupLayout.css";
 
 const ProfileSetupLayout = () => {
-  console.log("🔥 ProfileSetupLayout rendered");
-
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        padding: "40px",
-        backgroundColor: "#0f0f10",
-        color: "#ffffff",
-      }}
-    >
+    <div className="profile-setup-layout">
       <Outlet />
     </div>
   );
