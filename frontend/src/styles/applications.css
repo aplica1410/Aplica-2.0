@@ -43,30 +43,36 @@
   padding: 14px 0;
   border-top: 1px solid #2c2c2c;
   font-size: 14px;
-}
-
-.application-row:first-child {
-  border-top: none;
+  width: 100%;
+  min-width: 0; /* 🔥 IMPORTANT */
 }
 
 .application-row .name {
   color: #4da3ff;
-  min-width: 90px;
   font-weight: 500;
+  min-width: 120px;
+  flex-shrink: 0;
+  word-break: break-word;
 }
 
 .application-row .content {
   flex: 1;
+  min-width: 0; /* 🔥 CRITICAL FIX */
   color: #ccc;
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .application-row .date {
+  flex-shrink: 0;
   color: #888;
   font-size: 12px;
   white-space: nowrap;
+}
+
+.application-row button {
+  flex-shrink: 0;
 }
 
 .small-btn {

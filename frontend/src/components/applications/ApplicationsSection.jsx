@@ -36,12 +36,10 @@ const ApplicationsSection = ({
       {/* Application Rows */}
       {applications.map((app) => (
         <ApplicationRow
-          key={app._id}
-          application={app}
-          showSendButton={showSendAll}
-          onSendSingle={onSendSingle}
-          navigate={navigate}
-        />
+  key={app._id}
+  application={app}
+  isPreviewSection={showSendAll}
+/>
       ))}
     </div>
   );

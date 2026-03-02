@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-const ApplicationRow = ({ application }) => {
+const ApplicationRow = ({ application, isPreviewSection }) => {
   const navigate = useNavigate();
 
   return (
@@ -24,7 +24,7 @@ const ApplicationRow = ({ application }) => {
           navigate(`/dashboard/apply/${application._id}`)
         }
       >
-        Preview →
+        {isPreviewSection ? "Preview →" : "View →"}
       </button>
     </div>
   );

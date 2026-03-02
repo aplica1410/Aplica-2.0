@@ -9,3 +9,7 @@ body {
   background: radial-gradient(circle at top left, #0f172a, #020617);
   color: #ffffff;
 }
+
+html, body {
+  overflow-x: hidden;
+}
