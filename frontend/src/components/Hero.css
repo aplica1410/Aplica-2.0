@@ -10,10 +10,8 @@
   border-radius: 999px;
   font-size: 13px;
   color: #cbd5f5;
-
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(8px);
 }
 
 /* title */
@@ -42,10 +40,8 @@
   display: flex;
   align-items: center;
   gap: 16px;
-
   padding: 16px 22px;
   border-radius: 18px;
-
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.15);
 }
@@ -85,10 +81,6 @@
   cursor: pointer;
 }
 
-.primary-btn:hover {
-  box-shadow: 0 10px 40px rgba(56, 189, 248, 0.4);
-}
-
 .secondary-btn {
   background: transparent;
   color: #38bdf8;
@@ -98,6 +90,45 @@
   cursor: pointer;
 }
 
-.secondary-btn:hover {
-  background: rgba(56, 189, 248, 0.1);
+/* ======================
+   RESPONSIVE
+====================== */
+
+@media (max-width: 1024px) {
+  .hero {
+    padding: 80px 60px;
+  }
+
+  .hero-title {
+    font-size: 52px;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .hero {
+    padding: 60px 20px;
+  }
+
+  .hero-title {
+    font-size: 36px;
+  }
+
+  .hero-subtitle {
+    font-size: 15px;
+  }
+
+  .hero-proof {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+  }
+
+  .primary-btn,
+  .secondary-btn {
+    width: 100%;
+  }
 }
