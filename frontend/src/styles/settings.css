@@ -1,27 +1,45 @@
 .settings-page {
   padding: 24px;
   color: #fff;
+  max-width: 900px;
 }
 
+/* Header */
 .settings-header {
   border-bottom: 1px solid #2c2c2c;
   padding-bottom: 12px;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
+.settings-header h2 {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+/* Content */
 .settings-content {
   padding-top: 10px;
 }
 
+/* Delete Button */
 .delete-btn {
   background: #4da3ff;
   color: #fff;
-  padding: 10px 18px;
+  padding: 12px 20px;
   border-radius: 8px;
   border: none;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 15px;
+  transition: 0.2s ease;
 }
+
+.delete-btn:hover {
+  background: #3a8de0;
+}
+
+/* =========================
+   MODAL
+========================= */
 
 .modal-overlay {
   position: fixed;
@@ -31,6 +49,7 @@
   justify-content: center;
   align-items: center;
   z-index: 999;
+  padding: 16px; /* prevents edge touching on small screens */
 }
 
 .modal-box {
@@ -38,38 +57,55 @@
   padding: 30px;
   border-radius: 12px;
   width: 400px;
+  max-width: 100%;
   color: white;
 }
 
+.modal-box h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.modal-box p {
+  font-size: 14px;
+  color: #ccc;
+}
+
+/* Checkbox */
 .checkbox-label {
   display: flex;
   gap: 10px;
-  margin-top: 15px;
+  margin-top: 18px;
   font-size: 14px;
+  line-height: 1.4;
 }
 
+/* Modal Buttons */
 .modal-actions {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 24px;
+  gap: 10px;
 }
 
 .cancel-btn {
   background: #555;
   border: none;
-  padding: 8px 16px;
+  padding: 10px 16px;
   border-radius: 6px;
   color: white;
   cursor: pointer;
+  flex: 1;
 }
 
 .confirm-delete-btn {
   background: #e53935;
   border: none;
-  padding: 8px 16px;
+  padding: 10px 16px;
   border-radius: 6px;
   color: white;
   cursor: pointer;
+  flex: 1;
 }
 
 .confirm-delete-btn:disabled {
@@ -77,3 +113,34 @@
   cursor: not-allowed;
 }
 
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+
+  .settings-page {
+    padding: 16px;
+  }
+
+  .settings-header h2 {
+    font-size: 20px;
+  }
+
+  .delete-btn {
+    width: 100%;
+  }
+
+  .modal-box {
+    padding: 20px;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  .cancel-btn,
+  .confirm-delete-btn {
+    width: 100%;
+  }
+}
