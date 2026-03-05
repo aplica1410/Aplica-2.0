@@ -80,12 +80,9 @@ const DashboardHome = () => {
             Dashboard <span>/ Overview</span>
           </h2>
 
-          <p className="welcome">
-             Hi,{" "}
-          {user?.publicProfile?.firstName ||
-            user?.email?.split("@")[0] ||
-            "User"}
-          </p>
+         <p className="welcome">
+  Hi, {name || "User"}
+</p>
 
           <div className="date-row">
             <img src={calendarIcon} alt="calendar" />
