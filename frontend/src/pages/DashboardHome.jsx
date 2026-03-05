@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../api/axios";
+import { useUser } from "../context/UserContext";
 
 import "../styles/dashboard-home.css";
 import HistoryCard from "../components/dashboard/HistoryCard";
@@ -14,9 +15,9 @@ import previewIcon from "../assets/preview.svg";
 
 const DashboardHome = () => {
   const navigate = useNavigate();
+  const { user } = useUser();
 
   const [loading, setLoading] = useState(true);
-  const [name, setName] = useState("");
 
   const [stats, setStats] = useState({
     sent: 0,
@@ -26,24 +27,21 @@ const DashboardHome = () => {
 
   const [applications, setApplications] = useState([]);
 
+  const name =
+    user?.publicProfile?.firstName ||
+    user?.email?.split("@")[0] ||
+    "User";
+
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const [statsRes, appsRes, profileRes] = await Promise.all([
+        const [statsRes, appsRes] = await Promise.all([
           axios.get("/api/applications/stats/dashboard"),
           axios.get("/api/applications"),
-          axios.get("/api/profile-setup")   // ✅ correct route
         ]);
 
         setStats(statsRes.data);
         setApplications(appsRes.data.applications || []);
-
-        setName(
-          profileRes.data?.publicProfile?.firstName ||
-          profileRes.data?.firstName ||
-          ""
-        );
-
       } catch (err) {
         console.error("❌ Failed to load dashboard data", err);
       } finally {
@@ -80,9 +78,9 @@ const DashboardHome = () => {
             Dashboard <span>/ Overview</span>
           </h2>
 
-         <p className="welcome">
-  Hi, {name || "User"}
-</p>
+          <p className="welcome">
+            Hi, {name}
+          </p>
 
           <div className="date-row">
             <img src={calendarIcon} alt="calendar" />
