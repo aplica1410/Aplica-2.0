@@ -1,9 +1,23 @@
-import { useUser } from "../../context/UserContext";
+import { useEffect, useState } from "react";
+import axios from "../../api/axios";
 
 const DashboardHeader = () => {
-  const { user } = useUser();
+  const [name, setName] = useState("");
 
   const today = new Date().toDateString();
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const res = await axios.get("/api/profile");
+        setName(res.data?.profile?.firstName || "");
+      } catch (err) {
+        console.error("Failed to fetch profile", err);
+      }
+    };
+
+    fetchProfile();
+  }, []);
 
   return (
     <div className="dashboard-header">
@@ -12,10 +26,7 @@ const DashboardHeader = () => {
       </h2>
 
       <p>
-        Hi,{" "}
-        {user?.publicProfile?.firstName ||
-          user?.email?.split("@")[0] ||
-          "User"}
+        Hi, {name || "User"}
       </p>
 
       <small>📅 {today}</small>
