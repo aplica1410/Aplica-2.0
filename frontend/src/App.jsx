@@ -23,12 +23,14 @@ import { ApplicationsProvider } from "./context/ApplicationsContext";
 function App() {
   return (
     <Routes>
+
       {/* 🌍 Public */}
       <Route path="/" element={<Landing />} />
       <Route path="/auth" element={<Auth />} />
 
       {/* 🔐 Protected */}
       <Route element={<ProtectedRoute />}>
+
         <Route
           path="/dashboard"
           element={
@@ -49,7 +51,7 @@ function App() {
           />
         </Route>
 
-        {/* Profile setup */}
+        {/* Profile Setup */}
         <Route path="/dashboard/profile" element={<ProfileSetupLayout />}>
           <Route index element={<PublicProfile />} />
           <Route path="public" element={<PublicProfile />} />
@@ -57,6 +59,7 @@ function App() {
           <Route path="portfolio" element={<PortfolioSocials />} />
           <Route path="attachments" element={<Attachments />} />
         </Route>
+
       </Route>
     </Routes>
   );

@@ -9,11 +9,12 @@ const Sidebar = () => {
   return (
     <aside className="sidebar">
 
-      {/* 🔥 Logo */}
-      <Link to="/dashboard/home" className="sidebar-logo">
+      {/* ===== LOGO ===== */}
+      <Link to="/dashboard" className="sidebar-logo">
         <img src={logo} alt="Aplica Logo" className="logo-img" />
       </Link>
 
+      {/* ===== DASHBOARD ===== */}
       <NavLink
         to="/dashboard/home"
         className={({ isActive }) =>
@@ -23,6 +24,7 @@ const Sidebar = () => {
         Dashboard
       </NavLink>
 
+      {/* ===== APPLY ===== */}
       <NavLink
         to="/dashboard/apply"
         className={({ isActive }) =>
@@ -32,6 +34,7 @@ const Sidebar = () => {
         Apply
       </NavLink>
 
+      {/* ===== APPLICATIONS ===== */}
       <NavLink
         to="/dashboard/applications"
         className={({ isActive }) =>
@@ -41,6 +44,7 @@ const Sidebar = () => {
         Applications
       </NavLink>
 
+      {/* ===== PERSONAL INFO ===== */}
       <NavLink
         to="/dashboard/personal-information"
         className={({ isActive }) =>
@@ -50,6 +54,7 @@ const Sidebar = () => {
         Personal Information
       </NavLink>
 
+      {/* ===== SETTINGS ===== */}
       <NavLink
         to="/dashboard/settings"
         className={({ isActive }) =>

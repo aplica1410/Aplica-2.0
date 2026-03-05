@@ -21,7 +21,11 @@ const Sidebar = () => {
         >
           ☰
         </button>
-        <img src={logo} alt="Logo" className="mobile-logo" />
+
+        {/* Logo should also go to dashboard */}
+        <Link to="/dashboard">
+          <img src={logo} alt="Logo" className="mobile-logo" />
+        </Link>
       </div>
 
       {/* 🔥 Overlay */}
@@ -35,7 +39,8 @@ const Sidebar = () => {
       {/* 🔥 Sidebar */}
       <aside className={`sidebar ${isOpen ? "open" : ""}`}>
 
-        <Link to="/" className="logo-container">
+        {/* Desktop Logo */}
+        <Link to="/dashboard" className="logo-container">
           <img src={logo} alt="Aplica Logo" className="logo-img" />
         </Link>
 
