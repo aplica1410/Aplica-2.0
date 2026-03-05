@@ -31,7 +31,10 @@ const DashboardHeader = () => {
       </h2>
 
       <p>
-        Hi, {name || "User"}
+                  Hi,{" "}
+          {user?.publicProfile?.firstName ||
+            user?.email?.split("@")[0] ||
+            "User"}
       </p>
 
       <small>📅 {today}</small>

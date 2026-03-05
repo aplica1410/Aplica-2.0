@@ -81,7 +81,10 @@ const DashboardHome = () => {
           </h2>
 
           <p className="welcome">
-            Hi, {name || "User"}
+             Hi,{" "}
+          {user?.publicProfile?.firstName ||
+            user?.email?.split("@")[0] ||
+            "User"}
           </p>
 
           <div className="date-row">
