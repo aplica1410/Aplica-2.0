@@ -4,6 +4,24 @@ import User from "../models/User.js";
 
 const router = express.Router();
 
+/* ==============================
+   GET PROFILE
+============================== */
+router.get("/", auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).select("-password");
+
+    res.json({
+      profile: user
+    });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch profile" });
+  }
+});
+
+/* ==============================
+   UPDATE PROFILE
+============================== */
 router.post("/update", auth, async (req, res) => {
   try {
     const userId = req.user._id;
@@ -20,6 +38,9 @@ router.post("/update", auth, async (req, res) => {
   }
 });
 
+/* ==============================
+   PROFILE COMPLETE
+============================== */
 router.post("/complete", auth, async (req, res) => {
   await User.findByIdAndUpdate(req.user._id, {
     profileComplete: true
