@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../api/axios";
-import { useUser } from "../context/UserContext";
 
 import "../styles/dashboard-home.css";
 import HistoryCard from "../components/dashboard/HistoryCard";
@@ -15,9 +14,9 @@ import previewIcon from "../assets/preview.svg";
 
 const DashboardHome = () => {
   const navigate = useNavigate();
-  const { user } = useUser();
 
   const [loading, setLoading] = useState(true);
+  const [name, setName] = useState("");
 
   const [stats, setStats] = useState({
     sent: 0,
@@ -30,13 +29,17 @@ const DashboardHome = () => {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const [statsRes, appsRes] = await Promise.all([
+        const [statsRes, appsRes, profileRes] = await Promise.all([
           axios.get("/api/applications/stats/dashboard"),
           axios.get("/api/applications"),
+          axios.get("/api/profile"),   // 👈 fetch profile name
         ]);
 
         setStats(statsRes.data);
         setApplications(appsRes.data.applications || []);
+
+        // 👇 name from profile setup
+        setName(profileRes.data?.profile?.fullName || "");
       } catch (err) {
         console.error("❌ Failed to load dashboard data", err);
       } finally {
@@ -74,9 +77,8 @@ const DashboardHome = () => {
             Dashboard <span>/ Overview</span>
           </h2>
 
-          {/* USER NAME FIX */}
           <p className="welcome">
-            Hi, {user?.name || user?.given_name || "User"}
+            Hi, {name || "User"}
           </p>
 
           <div className="date-row">
@@ -94,10 +96,10 @@ const DashboardHome = () => {
 
       </div>
 
-      {/* ===== DIVIDER ===== */}
+      {/* ===== DIVIDER */}
       <div className="dashboard-divider" />
 
-      {/* ===== STATS ===== */}
+      {/* ===== STATS */}
       <div className="stats-grid">
 
         <div className="stat-card">
@@ -113,9 +115,7 @@ const DashboardHome = () => {
             <img src={remainingIcon} alt="remaining" />
             <span>Email Remaining</span>
           </div>
-          <h3>
-            {stats.remaining}/{stats.limit}
-          </h3>
+          <h3>{stats.remaining}/{stats.limit}</h3>
         </div>
 
         <div className="stat-card">
@@ -128,11 +128,10 @@ const DashboardHome = () => {
 
       </div>
 
-      {/* ===== HISTORY & PREVIEW ===== */}
+      {/* ===== HISTORY & PREVIEW */}
       <div className="dashboard-bottom">
 
         <HistoryCard items={historyItems.slice(0, 5)} />
-
         <PreviewCard items={previewItems.slice(0, 5)} />
 
       </div>
