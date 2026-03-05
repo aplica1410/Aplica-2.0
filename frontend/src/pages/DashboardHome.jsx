@@ -32,14 +32,18 @@ const DashboardHome = () => {
         const [statsRes, appsRes, profileRes] = await Promise.all([
           axios.get("/api/applications/stats/dashboard"),
           axios.get("/api/applications"),
-          axios.get("/api/profile"),   // 👈 fetch profile name
+          axios.get("/api/profile-setup")   // ✅ correct route
         ]);
 
         setStats(statsRes.data);
         setApplications(appsRes.data.applications || []);
 
-        // 👇 name from profile setup
-        setName(profileRes.data?.profile?.fullName || "");
+        setName(
+          profileRes.data?.publicProfile?.firstName ||
+          profileRes.data?.firstName ||
+          ""
+        );
+
       } catch (err) {
         console.error("❌ Failed to load dashboard data", err);
       } finally {
@@ -69,9 +73,8 @@ const DashboardHome = () => {
   return (
     <div className="dashboard-home">
 
-      {/* ===== HEADER ===== */}
+      {/* HEADER */}
       <div className="dashboard-top">
-
         <div>
           <h2>
             Dashboard <span>/ Overview</span>
@@ -93,13 +96,11 @@ const DashboardHome = () => {
         >
           Compose New Mail
         </button>
-
       </div>
 
-      {/* ===== DIVIDER */}
       <div className="dashboard-divider" />
 
-      {/* ===== STATS */}
+      {/* STATS */}
       <div className="stats-grid">
 
         <div className="stat-card">
@@ -128,12 +129,10 @@ const DashboardHome = () => {
 
       </div>
 
-      {/* ===== HISTORY & PREVIEW */}
+      {/* HISTORY & PREVIEW */}
       <div className="dashboard-bottom">
-
         <HistoryCard items={historyItems.slice(0, 5)} />
         <PreviewCard items={previewItems.slice(0, 5)} />
-
       </div>
 
     </div>
