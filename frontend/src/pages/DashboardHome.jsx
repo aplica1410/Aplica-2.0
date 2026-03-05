@@ -4,7 +4,6 @@ import axios from "../api/axios";
 import { useUser } from "../context/UserContext";
 
 import "../styles/dashboard-home.css";
-import DashboardHeader from "../components/dashboard/DashboardHeader";
 import HistoryCard from "../components/dashboard/HistoryCard";
 import PreviewCard from "../components/dashboard/PreviewCard";
 
@@ -19,6 +18,7 @@ const DashboardHome = () => {
   const { user } = useUser();
 
   const [loading, setLoading] = useState(true);
+
   const [stats, setStats] = useState({
     sent: 0,
     remaining: 0,
@@ -47,7 +47,7 @@ const DashboardHome = () => {
     fetchDashboardData();
   }, []);
 
-  if (!user || loading) {
+  if (loading) {
     return <div>Loading dashboard...</div>;
   }
 
@@ -68,11 +68,16 @@ const DashboardHome = () => {
 
       {/* ===== HEADER ===== */}
       <div className="dashboard-top">
+
         <div>
           <h2>
             Dashboard <span>/ Overview</span>
           </h2>
-          <p className="welcome">Hi, {user.name}</p>
+
+          {/* USER NAME FIX */}
+          <p className="welcome">
+            Hi, {user?.name || user?.given_name || "User"}
+          </p>
 
           <div className="date-row">
             <img src={calendarIcon} alt="calendar" />
@@ -86,6 +91,7 @@ const DashboardHome = () => {
         >
           Compose New Mail
         </button>
+
       </div>
 
       {/* ===== DIVIDER ===== */}
@@ -107,7 +113,9 @@ const DashboardHome = () => {
             <img src={remainingIcon} alt="remaining" />
             <span>Email Remaining</span>
           </div>
-          <h3>{stats.remaining}/{stats.limit}</h3>
+          <h3>
+            {stats.remaining}/{stats.limit}
+          </h3>
         </div>
 
         <div className="stat-card">
@@ -122,8 +130,11 @@ const DashboardHome = () => {
 
       {/* ===== HISTORY & PREVIEW ===== */}
       <div className="dashboard-bottom">
+
         <HistoryCard items={historyItems.slice(0, 5)} />
+
         <PreviewCard items={previewItems.slice(0, 5)} />
+
       </div>
 
     </div>
