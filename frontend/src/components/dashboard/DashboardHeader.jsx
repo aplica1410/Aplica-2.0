@@ -9,8 +9,13 @@ const DashboardHeader = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await axios.get("/api/profile");
-        setName(res.data?.profile?.firstName || "");
+        const res = await axios.get("/api/profile-setup");
+
+        setName(
+          res.data?.publicProfile?.firstName ||
+          res.data?.firstName ||
+          ""
+        );
       } catch (err) {
         console.error("Failed to fetch profile", err);
       }
