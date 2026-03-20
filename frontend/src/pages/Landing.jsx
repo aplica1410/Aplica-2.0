@@ -4,6 +4,7 @@ import ScaleSection from "../components/sections/ScaleSection"
 import Features from "../components/sections/Features"
 import Pricing from "../components/sections/Pricing"
 import Testimonials from "../components/sections/Testimonials"
+import CTAFooter from "../components/sections/CTAFooter"
 
 const Landing = () => {
   return (
@@ -35,6 +36,11 @@ const Landing = () => {
       {/* TESTIMONIALS */}
       <section id="testimonials">
         <Testimonials />
+      </section>
+
+      {/* CTA + FOOTER (YOU MISSED THIS) */}
+      <section id="cta">
+        <CTAFooter />
       </section>
 
     </div>
