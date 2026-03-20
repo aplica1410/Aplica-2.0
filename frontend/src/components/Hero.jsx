@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom"
 import heroEnvelope from "../assets/Hero Section.svg"
-import dashboard from "../assets/dashboard.png" // your dashboard image
 import "./Hero.css"
 
 const Hero = () => {
@@ -9,24 +8,24 @@ const Hero = () => {
   return (
     <section className="hero">
 
-      {/* pill */}
+      {/* TOP PILL */}
       <div className="hero-pill">
         🚀 1000+ users worldwide
       </div>
 
-      {/* heading */}
+      {/* HEADING */}
       <h1 className="hero-title">
         Apply Smarter <br />
         Get More Clients
       </h1>
 
-      {/* subtitle */}
+      {/* SUBTITLE */}
       <p className="hero-subtitle">
         AI-powered job & freelance applications that help you
         stand out, save time and win more work.
       </p>
 
-      {/* CTA */}
+      {/* CTA BUTTON */}
       <button
         className="hero-btn"
         onClick={() => navigate("/auth")}
@@ -34,23 +33,13 @@ const Hero = () => {
         Start Free Trial
       </button>
 
-      {/* 🔥 HERO VISUAL */}
+      {/* HERO VISUAL (SVG ONLY) */}
       <div className="hero-visual">
-
-        {/* dashboard */}
-        <img
-          src={dashboard}
-          alt="dashboard"
-          className="dashboard-img"
-        />
-
-        {/* envelope svg */}
         <img
           src={heroEnvelope}
-          alt="envelope"
+          alt="hero visual"
           className="envelope-img"
         />
-
       </div>
 
     </section>
