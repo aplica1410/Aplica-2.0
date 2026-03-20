@@ -1,4 +1,6 @@
 import { useNavigate } from "react-router-dom"
+import heroEnvelope from "../assets/Hero Section.svg"
+import dashboard from "../assets/dashboard.png" // your dashboard image
 import "./Hero.css"
 
 const Hero = () => {
@@ -7,49 +9,48 @@ const Hero = () => {
   return (
     <section className="hero">
 
-      {/* Top pill */}
+      {/* pill */}
       <div className="hero-pill">
-        Built for freelancers, job seekers & creators
+        🚀 1000+ users worldwide
       </div>
 
-      {/* Main heading */}
+      {/* heading */}
       <h1 className="hero-title">
-        Apply <span>Smarter</span><br />
-        Get <span>More</span> Clients.
+        Apply Smarter <br />
+        Get More Clients
       </h1>
 
-      {/* Subtitle */}
+      {/* subtitle */}
       <p className="hero-subtitle">
         AI-powered job & freelance applications that help you
         stand out, save time and win more work.
       </p>
 
-      {/* Social proof card */}
-      <div className="hero-proof">
-        <div className="avatars">
-          <img src="https://i.pravatar.cc/40?img=12" alt="user1" />
-          <img src="https://i.pravatar.cc/40?img=32" alt="user2" />
-          <img src="https://i.pravatar.cc/40?img=47" alt="user3" />
-        </div>
+      {/* CTA */}
+      <button
+        className="hero-btn"
+        onClick={() => navigate("/auth")}
+      >
+        Start Free Trial
+      </button>
 
-        <p>
-          Helping <strong>1,000+</strong> freelancers land<br />
-          upto <strong>10X</strong> more work, faster
-        </p>
-      </div>
+      {/* 🔥 HERO VISUAL */}
+      <div className="hero-visual">
 
-      {/* CTA buttons */}
-      <div className="hero-actions">
-        <button
-          className="primary-btn"
-          onClick={() => navigate("/auth")}
-        >
-          Start Free Trial
-        </button>
+        {/* dashboard */}
+        <img
+          src={dashboard}
+          alt="dashboard"
+          className="dashboard-img"
+        />
 
-        <button className="secondary-btn">
-          How It Works
-        </button>
+        {/* envelope svg */}
+        <img
+          src={heroEnvelope}
+          alt="envelope"
+          className="envelope-img"
+        />
+
       </div>
 
     </section>
