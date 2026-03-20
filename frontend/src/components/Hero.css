@@ -5,7 +5,7 @@
   overflow: hidden;
 }
 
-/* glow bg */
+/* 🔥 BACKGROUND GLOW */
 .hero::before {
   content: "";
   position: absolute;
@@ -15,40 +15,49 @@
   width: 800px;
   height: 800px;
 
-  background: radial-gradient(circle, rgba(56,189,248,0.2), transparent 60%);
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.2), transparent 60%);
   filter: blur(120px);
   z-index: 0;
 }
 
-/* pill */
+/* 🟣 TOP PILL */
 .hero-pill {
   display: inline-block;
   padding: 6px 14px;
   border-radius: 999px;
   font-size: 12px;
 
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   color: #cbd5f5;
+
+  position: relative;
+  z-index: 2;
 }
 
-/* title */
+/* 🧠 TITLE */
 .hero-title {
   margin-top: 20px;
   font-size: 64px;
   font-weight: 700;
   line-height: 1.1;
+
+  position: relative;
+  z-index: 2;
 }
 
-/* subtitle */
+/* ✏️ SUBTITLE */
 .hero-subtitle {
   margin-top: 16px;
   color: #9ca3af;
   max-width: 600px;
   margin-inline: auto;
+
+  position: relative;
+  z-index: 2;
 }
 
-/* button */
+/* 🔘 BUTTON */
 .hero-btn {
   margin-top: 25px;
   padding: 12px 26px;
@@ -59,46 +68,61 @@
   color: #020617;
   font-weight: 600;
   cursor: pointer;
-}
 
-/* VISUAL SECTION */
-.hero-visual {
-  position: relative;
-  margin-top: 80px;
-  display: flex;
-  justify-content: center;
-}
-
-/* dashboard */
-.dashboard-img {
-  width: 75%;
-  max-width: 900px;
-  border-radius: 20px;
   position: relative;
   z-index: 2;
 }
 
-/* envelope svg */
-.envelope-img {
-  position: absolute;
-  bottom: -20px;
-  width: 85%;
-  max-width: 950px;
-  z-index: 3;
-  pointer-events: none;
+/* 📦 HERO VISUAL (SVG BELOW TEXT) */
+.hero-visual {
+  margin-top: 70px;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  z-index: 1; /* below text */
 }
 
-/* RESPONSIVE */
-@media (max-width: 768px) {
-  .hero-title {
-    font-size: 40px;
-  }
+/* 📄 SVG IMAGE */
+.envelope-img {
+  width: 85%;
+  max-width: 950px;
+  display: block;
+}
 
-  .dashboard-img {
-    width: 95%;
+/* 📱 RESPONSIVE */
+@media (max-width: 1024px) {
+  .hero-title {
+    font-size: 48px;
   }
 
   .envelope-img {
-    width: 100%;
+    width: 90%;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 80px 16px 0;
+  }
+
+  .hero-title {
+    font-size: 36px;
+  }
+
+  .hero-subtitle {
+    font-size: 14px;
+  }
+
+  .hero-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  .hero-visual {
+    margin-top: 40px;
+  }
+
+  .envelope-img {
+    width: 95%;
   }
 }
