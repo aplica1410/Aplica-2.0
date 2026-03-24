@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Navbar.css";
+import logo from "../assets/logo.svg"; // ✅ add this
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ const Navbar = () => {
         className="logo"
         onClick={() => navigate("/")}
       >
-        Aplica
+        <img src={logo} alt="Aplica Logo" className="logo-img" />
       </div>
 
       {/* Desktop Nav */}
