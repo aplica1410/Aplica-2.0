@@ -1,8 +1,10 @@
 .hero {
   text-align: center;
-  padding: 100px 20px 0;
+  padding: 10px 20px 0;
   position: relative;
   overflow: hidden;
+
+  height: 90vh;
 }
 
 /* 🔥 BACKGROUND GLOW */
@@ -37,7 +39,7 @@
 
 /* 🧠 TITLE */
 .hero-title {
-  margin-top: 20px;
+  margin-top: 5px;
   font-size: 64px;
   font-weight: 700;
   line-height: 1.1;
@@ -48,7 +50,7 @@
 
 /* ✏️ SUBTITLE */
 .hero-subtitle {
-  margin-top: 16px;
+  margin-top: 5px;
   color: #9ca3af;
   max-width: 600px;
   margin-inline: auto;
@@ -59,7 +61,7 @@
 
 /* 🔘 BUTTON */
 .hero-btn {
-  margin-top: 25px;
+  margin-top: 10px;
   padding: 12px 26px;
   border-radius: 999px;
   border: none;
@@ -75,18 +77,24 @@
 
 /* 📦 HERO VISUAL (SVG BELOW TEXT) */
 .hero-visual {
-  margin-top: 70px;
-  display: flex;
-  justify-content: center;
-  position: relative;
-  z-index: 1; /* below text */
+  position: absolute;
+  bottom: 0;              /* stick to bottom of hero */
+  left: 57%;
+  transform: translateX(-50%);
+  z-index: 1;
+
+  width: 100%;
+  max-height: 60vh;       /* 🔥 controls visible part */
+  overflow: hidden;
 }
 
 /* 📄 SVG IMAGE */
 .envelope-img {
-  width: 85%;
-  max-width: 950px;
+  width: 100%;
+  max-width: 1300px;
   display: block;
+
+  transform: translateY(20px); /* slight adjust */
 }
 
 /* 📱 RESPONSIVE */
