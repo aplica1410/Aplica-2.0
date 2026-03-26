@@ -2,24 +2,24 @@ import "./Features.css"
 
 const features = [
   {
-    title: "Intelligent Execution",
-    desc: "Our platform continuously enhances results with minimal user input.",
+    title: "Intelligent Email Generation",
+    desc: "Generate high-quality emails instantly with AI — no manual drafting needed.",
   },
   {
-    title: "Seamless Control",
-    desc: "Easily manage tasks from a centralized, intuitive dashboard.",
+    title: "Seamless Personalization",
+    desc: "Customize every email effortlessly based on context, tone, and recipient.",
   },
   {
-    title: "Trusted Performance",
-    desc: "Dependable systems guarantee security and smooth transitions.",
+    title: "High Reply Performance",
+    desc: "Craft emails optimized for better open rates and higher responses.",
   },
   {
     title: "Blazing-Fast Setup",
-    desc: "No developers needed. Start in minutes with our plug-and-play system.",
+    desc: "Start generating emails in minutes with a simple, no-code setup",
   },
   {
-    title: "Multi-Channel Touchpoints",
-    desc: "Connect through email, SMS, LinkedIn, and more channels.",
+    title: "Multi-Channel Adaptability",
+    desc: "Repurpose your emails for LinkedIn, messages, and more channels easily.",
   },
 ]
 
@@ -28,16 +28,16 @@ const Features = () => {
     <section className="features">
 
       {/* Top Tag */}
-      <div className="features-tag">Designed for Impact</div>
+      <div className="features-tag">Engineered for Outreach</div>
 
       {/* Heading */}
       <h2 className="features-heading">
-        Built for results. Powered by intelligence.
+        Built for results. Powered by AI.
       </h2>
 
       {/* Subtext */}
       <p className="features-sub">
-        Delivering growth through automation, clarity, and conversion-focused design.
+        Delivering better outreach through automation, personalization, and conversion-focused messaging.
       </p>
 
       {/* Grid */}

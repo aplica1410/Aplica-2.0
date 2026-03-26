@@ -115,7 +115,7 @@
 
   .hero {
     padding: 60px 16px 0;
-    height: 100vh; /* full screen hero */
+    height: 65vh; /* full screen hero */
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -148,7 +148,7 @@
   /* 📦 IMAGE FIX */
   .hero-visual {
     position: absolute;
-    bottom: 35%;
+    bottom: 0px;
     left: 50%;
     transform: translateX(-50%);
 
