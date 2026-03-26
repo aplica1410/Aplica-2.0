@@ -1,8 +1,10 @@
 .pricing {
-  padding: 140px 24px;
+  padding: 80px 24px 60px; /* 🔥 tighter */
   text-align: center;
   max-width: 1200px;
   margin: 0 auto;
+
+  margin-top: -40px; /* 🔥 pulls closer to previous section */
 }
 
 .pricing-tag {
@@ -50,10 +52,10 @@
 
 /* GRID */
 .pricing-grid {
-  margin-top: 60px;
+  margin-top: 50px; /* reduced from 60px */
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
+  gap: 24px; /* tighter */
 }
 
 /* CARD */
@@ -124,3 +126,59 @@ li {
   color: white;
   cursor: pointer;
 }
+
+@media (max-width: 1024px) {
+
+  .pricing h2 {
+    font-size: 28px;
+  }
+
+  .pricing-grid {
+    grid-template-columns: repeat(2, 1fr); /* 3 → 2 */
+    gap: 20px;
+  }
+
+  .pricing-card {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .pricing {
+    padding: 60px 16px 40px; /* 🔥 consistent with other sections */
+  }
+
+  .pricing h2 {
+    font-size: 24px;
+  }
+
+  .pricing-sub {
+    font-size: 13px;
+    padding: 0 10px;
+  }
+
+  .toggle {
+    margin-top: 20px;
+    transform: scale(0.95); /* compact */
+  }
+
+  .pricing-grid {
+    grid-template-columns: 1fr; /* 🔥 stack cards */
+    margin-top: 40px;
+    gap: 20px;
+  }
+
+  .pricing-card {
+    padding: 20px;
+  }
+
+  .price {
+    font-size: 26px;
+  }
+
+  li {
+    font-size: 12px;
+  }
+}
+
