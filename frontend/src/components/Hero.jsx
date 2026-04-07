@@ -31,14 +31,24 @@ const Hero = () => {
         <div className="hero-actions">
           <button
             className="primary-btn"
-            onClick={() => navigate("/auth")}
+              onClick={() => {
+    console.log("clicked");
+    navigate("/auth");
+  }}
           >
             Start Generating for Free →
           </button>
 
-          <button className="secondary-btn">
-            See How It Works
-          </button>
+          <button
+  className="secondary-btn"
+  onClick={() => {
+    document.getElementById("workflow")?.scrollIntoView({
+      behavior: "smooth",
+    });
+  }}
+>
+  See How It Works
+</button>
         </div>
 
         {/* SOCIAL PROOF */}
