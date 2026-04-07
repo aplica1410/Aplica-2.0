@@ -1,11 +1,22 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Navbar.css";
-import logo from "../assets/logo.svg"; // ✅ add this
+import logo from "../assets/logo.svg";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
+
+  // 🔥 SCROLL FUNCTION
+  const scrollToSection = (id) => {
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
 
   return (
     <nav className="navbar">
@@ -20,10 +31,10 @@ const Navbar = () => {
 
       {/* Desktop Nav */}
       <div className="nav-pill">
-        <span>Features</span>
-        <span>How It Works</span>
-        <span>Pricing</span>
-        <span>Testimonials</span>
+        <span onClick={() => scrollToSection("features")}>Features</span>
+        <span onClick={() => scrollToSection("workflow")}>How It Works</span>
+        <span onClick={() => scrollToSection("pricing")}>Pricing</span>
+        <span onClick={() => scrollToSection("testimonials")}>Testimonials</span>
       </div>
 
       <button
@@ -43,10 +54,21 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
-        <span onClick={() => setMenuOpen(false)}>Features</span>
-        <span onClick={() => setMenuOpen(false)}>How It Works</span>
-        <span onClick={() => setMenuOpen(false)}>Pricing</span>
-        <span onClick={() => setMenuOpen(false)}>Testimonials</span>
+        <span onClick={() => { scrollToSection("features"); setMenuOpen(false); }}>
+          Features
+        </span>
+
+        <span onClick={() => { scrollToSection("workflow"); setMenuOpen(false); }}>
+          How It Works
+        </span>
+
+        <span onClick={() => { scrollToSection("pricing"); setMenuOpen(false); }}>
+          Pricing
+        </span>
+
+        <span onClick={() => { scrollToSection("testimonials"); setMenuOpen(false); }}>
+          Testimonials
+        </span>
 
         <button
           className="cta-btn mobile-cta"
