@@ -13,11 +13,11 @@ const ScaleSection = () => {
         <span>closing opportunities</span>, not writing emails.
       </h2>
 
-      {/* LIGHT BEAM */}
+      {/* LIGHT BEAM 
       <div className="beam-wrapper">
         <div className="beam-horizontal"></div>
         <div className="beam-vertical"></div>
-      </div>
+      </div> */}
 
       {/* Bottom Card */}
       <div className="scale-card">

@@ -1,6 +1,7 @@
 import Navbar from "../components/Navbar"
 import Hero from "../components/Hero"
 import ScaleSection from "../components/sections/ScaleSection"
+import WorkflowSection from "../components/sections/Workflow" // ✅ NEW
 import Features from "../components/sections/Features"
 import Pricing from "../components/sections/Pricing"
 import Testimonials from "../components/sections/Testimonials"
@@ -18,9 +19,14 @@ const Landing = () => {
         <Hero />
       </section>
 
-      {/* SCALE (LIGHTNING) */}
+      {/* SCALE */}
       <section id="scale">
         <ScaleSection />
+      </section>
+
+      {/* 🔥 WORKFLOW (NEW SECTION - BEST POSITION) */}
+      <section id="workflow">
+        <WorkflowSection />
       </section>
 
       {/* FEATURES */}
@@ -38,7 +44,7 @@ const Landing = () => {
         <Testimonials />
       </section>
 
-      {/* CTA + FOOTER (YOU MISSED THIS) */}
+      {/* CTA + FOOTER */}
       <section id="cta">
         <CTAFooter />
       </section>

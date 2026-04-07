@@ -2,24 +2,28 @@ import "./Features.css"
 
 const features = [
   {
-    title: "Intelligent Email Generation",
-    desc: "Generate high-quality emails instantly with AI — no manual drafting needed.",
+    title: "Extract Client Email",
+    desc: "Drop in any job posting and Aplica automatically pulls out the client’s contact email—no copy-pasting, no hunting.",
   },
   {
-    title: "Seamless Personalization",
-    desc: "Customize every email effortlessly based on context, tone, and recipient.",
+    title: "AI-Personalized Email",
+    desc: "Powered by GPT, every email references real details from the JD—company name, project type, specific requirements—never generic.",
   },
   {
-    title: "High Reply Performance",
-    desc: "Craft emails optimized for better open rates and higher responses.",
+    title: "Auto-Links Your Work",
+    desc: "Your portfolio, GitHub, LinkedIn, and other links are woven into every email signature automatically.",
   },
   {
-    title: "Blazing-Fast Setup",
-    desc: "Start generating emails in minutes with a simple, no-code setup",
+    title: "Subject Line Included",
+    desc: "A sharp, relevant subject line is generated alongside the email—ready to paste directly into your inbox.",
   },
   {
-    title: "Multi-Channel Adaptability",
-    desc: "Repurpose your emails for LinkedIn, messages, and more channels easily.",
+    title: "One-Click Copy",
+    desc: "Copy the email body or open it directly in your mail client with a single click. Zero friction between you and sending.",
+  },
+    {
+    title: "History Saved",
+    desc: "Every generated email is stored so you can revisit, tweak, or reference past pitches anytime.",
   },
 ]
 
@@ -32,12 +36,12 @@ const Features = () => {
 
       {/* Heading */}
       <h2 className="features-heading">
-        Built for results. Powered by AI.
+        Everything you need to pitch faster
       </h2>
 
       {/* Subtext */}
       <p className="features-sub">
-        Delivering better outreach through automation, personalization, and conversion-focused messaging.
+        From extracting emails to sending polished pitches – Aplica handles the tedious parts so you can focus on doing great work.
       </p>
 
       {/* Grid */}

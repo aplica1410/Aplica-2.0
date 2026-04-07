@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom"
-import heroEnvelope from "../assets/Hero Section.svg"
 import "./Hero.css"
 
 const Hero = () => {
@@ -8,38 +7,45 @@ const Hero = () => {
   return (
     <section className="hero">
 
-      {/* TOP PILL */}
-      <div className="hero-pill">
-        🚀 1000+ users worldwide
-      </div>
+      <div className="hero-container">
 
-      {/* HEADING */}
-      <h1 className="hero-title">
-        Apply Smarter <br />
-        Get More Clients
-      </h1>
+        {/* TOP TAG */}
+        <div className="hero-pill">
+          ✨ AI-powered outreach for freelancers
+        </div>
 
-      {/* SUBTITLE */}
-      <p className="hero-subtitle">
-        AI-powered job & freelance applications that help you
-        stand out, save time and win more work.
-      </p>
+        {/* HEADING */}
+        <h1 className="hero-title">
+          Paste a JD. <br />
+          <span>Land the client.</span>
+        </h1>
 
-      {/* CTA BUTTON */}
-      <button
-        className="hero-btn"
-        onClick={() => navigate("/auth")}
-      >
-        Start Free Trial
-      </button>
+        {/* SUBTEXT */}
+        <p className="hero-subtitle">
+          Aplica reads any job description, extracts the client’s email,
+          generates a personalized outreach email in seconds, and links your
+          portfolio automatically.
+        </p>
 
-      {/* HERO VISUAL (SVG ONLY) */}
-      <div className="hero-visual">
-        <img
-          src={heroEnvelope}
-          alt="hero visual"
-          className="envelope-img"
-        />
+        {/* BUTTONS */}
+        <div className="hero-actions">
+          <button
+            className="primary-btn"
+            onClick={() => navigate("/auth")}
+          >
+            Start Generating for Free →
+          </button>
+
+          <button className="secondary-btn">
+            See How It Works
+          </button>
+        </div>
+
+        {/* SOCIAL PROOF */}
+        <p className="hero-proof">
+          <span className="highlight">500+</span> freelancers already pitching smarter
+        </p>
+
       </div>
 
     </section>

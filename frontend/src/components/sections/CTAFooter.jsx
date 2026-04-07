@@ -8,17 +8,16 @@ const CTAFooter = () => {
       <div className="cta-box">
 
         <h2>
-          Ready to Accelerate Your <span>Growth?</span>
+          Start landing more clients <span>today</span>
         </h2>
 
         <p>
-          Launch smarter campaigns, convert more leads, and scale your business
-          with ease — all in one place.
+          Set up in under 2 minutes. No credit card required to try — just paste your first JD and see what Aplica does.
         </p>
 
         <div className="cta-actions">
           <button className="primary">Get Started Now</button>
-          <button className="secondary">Book a Demo</button>
+          <button className="secondary">Try Aplica →</button>
         </div>
 
       </div>
@@ -30,8 +29,8 @@ const CTAFooter = () => {
       <footer className="footer">
 
         <div className="footer-left">
-          <div className="logo">Scalepro</div>
-          <p>Smarter campaigns. Faster growth.</p>
+          <div className="logo">Aplica</div>
+          <p>Build freelancers who want to work smarter.</p>
 
           <div className="socials">
             <span>f</span>
@@ -70,7 +69,7 @@ const CTAFooter = () => {
       </footer>
 
       <div className="copyright">
-        © 2025 Scalepro. All rights reserved.
+        © 2026 Aplica. All rights reserved.
       </div>
 
     </section>
