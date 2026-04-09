@@ -29,7 +29,7 @@
 }
 
 .scale-heading span {
-  color: #a78bfa;
+  color: #38bdf8;
 }
 
 /* BEAM EFFECT */
@@ -50,13 +50,13 @@
   background: linear-gradient(
     90deg,
     transparent,
-    #8b5cf6,
-    #a78bfa,
-    #8b5cf6,
+    #5cd7f6,
+    #38bdf8,
+    #09b6dd,
     transparent
   );
 
-  box-shadow: 0 0 40px #8b5cf6;
+  box-shadow: 0 0 40px #38bdf8;
 }
 
 /* vertical beam */
@@ -71,12 +71,12 @@
 
   background: linear-gradient(
     to bottom,
-    #c4b5fd,
-    #8b5cf6,
+    #a0dbf4,
+    #38bdf8,
     transparent
   );
 
-  box-shadow: 0 0 60px #8b5cf6;
+  box-shadow: 0 0 60px #38bdf8;
 
   filter: blur(1px);
 }
