@@ -23,7 +23,7 @@ const Testimonials = () => {
     <section className="testimonials">
 
       <h2>
-        More than 2500 people across 400+ companies choose NeuralNova
+        More than 300 Freelancers have tested Aplica. Here’s what they say:
       </h2>
 
       {/* SCROLLER */}

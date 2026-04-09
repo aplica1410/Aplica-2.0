@@ -1,5 +1,5 @@
 .features {
-  padding: 80px 24px 60px; /* 🔥 reduced from 140px */
+  padding: 80px 24px 60px;
   text-align: center;
   max-width: 1100px;
   margin: 0 auto;
@@ -32,10 +32,10 @@
 
 /* grid */
 .features-grid {
-  margin-top: 50px; /* 🔥 reduced from 70px */
+  margin-top: 50px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 28px; /* 🔥 tighter */
+  gap: 28px;
 }
 
 /* card */
@@ -43,19 +43,36 @@
   text-align: center;
   padding: 20px;
   position: relative;
+  transition: transform 0.25s ease;
 }
 
-/* glowing icon */
+.feature-card:hover {
+  transform: translateY(-6px);
+}
+
+/* glowing icon box */
 .icon {
-  width: 50px;
-  height: 50px;
+  width: 56px;
+  height: 56px;
   margin: 0 auto 16px;
 
-  border-radius: 12px;
-  background: rgba(139, 92, 246, 0.1);
-  border: 1px solid #20b0ee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  box-shadow: 0 0 20px #38bdf8;
+  border-radius: 14px;
+  background: rgba(139, 92, 246, 0.08);
+  border: 1px solid #38bdf8;
+
+  box-shadow: 0 0 18px rgba(56, 189, 248, 0.5);
+}
+
+/* actual svg */
+.icon img {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  filter: brightness(1.2);
 }
 
 /* text */
@@ -70,21 +87,22 @@
   line-height: 1.5;
 }
 
+/* tablet */
 @media (max-width: 1024px) {
   .features-heading {
     font-size: 28px;
   }
 
   .features-grid {
-    grid-template-columns: repeat(2, 1fr); /* 3 → 2 */
+    grid-template-columns: repeat(2, 1fr);
     gap: 24px;
   }
 }
 
+/* mobile */
 @media (max-width: 768px) {
-
   .features {
-    padding: 60px 16px 40px; /* 🔥 tighter spacing */
+    padding: 60px 16px 40px;
   }
 
   .features-heading {
@@ -97,7 +115,7 @@
   }
 
   .features-grid {
-    grid-template-columns: 1fr; /* 🔥 stack */
+    grid-template-columns: 1fr;
     margin-top: 40px;
     gap: 20px;
   }
@@ -107,8 +125,13 @@
   }
 
   .icon {
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    height: 48px;
+  }
+
+  .icon img {
+    width: 22px;
+    height: 22px;
   }
 
   .feature-card h4 {
@@ -120,8 +143,8 @@
   }
 }
 
+/* small devices */
 @media (max-width: 400px) {
-
   .features-heading {
     font-size: 22px;
   }
