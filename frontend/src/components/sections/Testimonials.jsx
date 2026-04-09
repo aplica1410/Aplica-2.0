@@ -16,7 +16,7 @@ const testimonials = [
   },
   {
     name: "Raviraj Srivastava",
-    role: "UI Desgner",
+    role: "UI Designer",
     text: "Aplica completely changed how I find clients. Instead of copy pasting responses from ChatGPT, I could give more time on learning and doing actual work.",
     image: t2,
   },
