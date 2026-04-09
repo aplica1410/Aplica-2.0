@@ -69,10 +69,18 @@
 
 /* actual svg */
 .icon img {
-  width: 26px;
-  height: 26px;
+  width: 28px;
+  height: 28px;
+
   object-fit: contain;
-  filter: brightness(1.2);
+
+  /* 🔥 Make thin icons visible */
+  transform: scale(1.4);
+
+  /* Improve visibility */
+  filter: brightness(1.8) contrast(1.2);
+
+  opacity: 0.95;
 }
 
 /* text */
