@@ -1,20 +1,42 @@
 import "./Testimonials.css"
 
+// ✅ import images
+import t1 from "../../assets/T1.jpeg"
+import t2 from "../../assets/T2.jpeg"
+import t3 from "../../assets/T3.jpeg"
+import t4 from "../../assets/T4.jpeg"
+import t5 from "../../assets/T5.jpeg"
+
 const testimonials = [
   {
-    name: "Richard Hendricks",
-    role: "Founder at X",
-    text: "Easily interpret your data. From interactive dashboards to detailed reports help you quickly identify trends, patterns, and opportunities.",
+    name: "Sanya Dixit",
+    role: "Social Media Manager",
+    text: "Aplica helped me connect with brands that actually value strategy, not just cheap content.",
+    image: t1,
   },
   {
-    name: "Mike Neeson",
-    role: "Founder at X",
-    text: "Easily interpret your data. From interactive dashboards to detailed reports help you quickly identify trends, patterns, and opportunities.",
+    name: "Raviraj Srivastava",
+    role: "UI Desgner",
+    text: "Aplica completely changed how I find clients. Instead of copy pasting responses from ChatGPT, I could give more time on learning and doing actual work.",
+    image: t2,
   },
   {
-    name: "Stephan King",
-    role: "Founder at X",
-    text: "Easily interpret your data. From interactive dashboards to detailed reports help you quickly identify trends, patterns, and opportunities.",
+    name: "Abhishek Sharma",
+    role: "Graphic Designer",
+    text: "Finding consistent work is tough. With Aplica, I could actually land some gigs finally and save my time.",
+    image: t3,
+  },
+  {
+    name: "Sanjam Kaur",
+    role: "Content Writer",
+    text: "I love how simple everything is. And actually saves my time.",
+    image: t4,
+  },
+  {
+    name: "Vidhi Rawat",
+    role: "Web Developer",
+    text: "Easy to use, and actually works. I was able to land a client within 2 days of using Aplica.",
+    image: t5,
   },
 ]
 
@@ -39,11 +61,15 @@ const Testimonials = () => {
               <p className="text">“{t.text}”</p>
 
               <div className="user">
-                <div className="avatar"></div>
+
+                {/* ✅ IMAGE AVATAR */}
+                <img src={t.image} alt={t.name} className="avatar" />
+
                 <div>
                   <h4>{t.name}</h4>
                   <span>{t.role}</span>
                 </div>
+
               </div>
 
             </div>

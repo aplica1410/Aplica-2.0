@@ -45,6 +45,12 @@
   border: 1px solid rgba(255,255,255,0.08);
 
   text-align: left;
+  transition: all 0.3s ease;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(59,130,246,0.4);
 }
 
 /* stars */
@@ -58,6 +64,7 @@
   font-size: 13px;
   color: #9ca3af;
   margin-bottom: 15px;
+  line-height: 1.5;
 }
 
 /* user */
@@ -67,17 +74,26 @@
   gap: 10px;
 }
 
+/* ✅ IMAGE AVATAR */
 .avatar {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  background: #1f2937;
+  object-fit: cover;
+
+  border: 2px solid rgba(59, 130, 246, 0.6);
+
+  /* 🔥 make it pop */
+  box-shadow: 0 0 10px rgba(59,130,246,0.5);
 }
 
+/* name */
 .user h4 {
   font-size: 13px;
+  margin: 0;
 }
 
+/* role */
 .user span {
   font-size: 11px;
   color: #6b7280;
