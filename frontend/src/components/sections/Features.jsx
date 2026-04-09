@@ -6,7 +6,7 @@ import aiIcon from "../../assets/ai.svg"
 import autoLinkIcon from "../../assets/auto link.svg"
 import subjectIcon from "../../assets/subject line.svg"
 import oneClickIcon from "../../assets/one click.svg"
-import historyIcon from "../../assets/history.svg"
+import historyIcon from "../../assets/history icon.svg"
 
 const features = [
   {
