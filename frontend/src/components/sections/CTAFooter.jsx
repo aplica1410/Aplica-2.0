@@ -1,6 +1,9 @@
-import "./CTAFooter.css"
+import "./CTAFooter.css";
+import { useNavigate } from "react-router-dom";
 
 const CTAFooter = () => {
+  const navigate = useNavigate();
+
   return (
     <section className="cta-footer">
 
@@ -59,10 +62,25 @@ const CTAFooter = () => {
 
           <div>
             <h4>Resources</h4>
+
             <span>Help Center</span>
             <span>API Docs</span>
-            <span>Privacy Policy</span>
-            <span>Terms of Service</span>
+
+            {/* ✅ CONNECTED LINKS */}
+            <span
+              className="footer-link"
+              onClick={() => navigate("/privacy-policy")}
+            >
+              Privacy Policy
+            </span>
+
+            <span
+              className="footer-link"
+              onClick={() => navigate("/terms")}
+            >
+              Terms of Service
+            </span>
+
           </div>
         </div>
 
@@ -73,7 +91,7 @@ const CTAFooter = () => {
       </div>
 
     </section>
-  )
-}
+  );
+};
 
-export default CTAFooter
+export default CTAFooter;
