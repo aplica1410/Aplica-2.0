@@ -47,9 +47,9 @@ const CTAFooter = () => {
           <div>
             <h4>Product</h4>
             <span>Features</span>
+            <span>How it works</span>
             <span>Pricing</span>
-            <span>Integrations</span>
-            <span>Dashboard Demo</span>
+            <span>Testimonials</span>
           </div>
 
           <div>
