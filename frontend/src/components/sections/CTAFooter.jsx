@@ -46,10 +46,10 @@ const CTAFooter = () => {
         <div className="footer-links">
           <div>
             <h4>Product</h4>
-            <span>Features</span>
-            <span>How it works</span>
-            <span>Pricing</span>
-            <span>Testimonials</span>
+        <span onClick={() => scrollToSection("features")}>Features</span>
+        <span onClick={() => scrollToSection("workflow")}>How It Works</span>
+        <span onClick={() => scrollToSection("pricing")}>Pricing</span>
+        <span onClick={() => scrollToSection("testimonials")}>Testimonials</span>
           </div>
 
          {/* <div>
