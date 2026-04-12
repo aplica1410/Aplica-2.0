@@ -20,6 +20,10 @@ import Attachments from "./pages/setup/Attachments";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { ApplicationsProvider } from "./context/ApplicationsContext";
 
+/* ✅ NEW IMPORTS */
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
+
 function App() {
   return (
     <Routes>
@@ -27,6 +31,10 @@ function App() {
       {/* 🌍 Public */}
       <Route path="/" element={<Landing />} />
       <Route path="/auth" element={<Auth />} />
+
+      {/* ✅ Legal Pages */}
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+      <Route path="/terms" element={<TermsOfService />} />
 
       {/* 🔐 Protected */}
       <Route element={<ProtectedRoute />}>
