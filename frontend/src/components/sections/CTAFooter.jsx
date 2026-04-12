@@ -52,13 +52,13 @@ const CTAFooter = () => {
             <span>Testimonials</span>
           </div>
 
-          <div>
+         {/* <div>
             <h4>Company</h4>
             <span>About Us</span>
             <span>Careers</span>
             <span>Blog</span>
             <span>Contact</span>
-          </div>
+          </div>*/}
 
           <div>
             <h4>Resources</h4>
