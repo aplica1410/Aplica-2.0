@@ -35,6 +35,19 @@ const Navbar = () => {
         <span onClick={() => scrollToSection("workflow")}>How It Works</span>
         <span onClick={() => scrollToSection("pricing")}>Pricing</span>
         <span onClick={() => scrollToSection("testimonials")}>Testimonials</span>
+                    <span
+              className="footer-link"
+              onClick={() => navigate("/privacy-policy")}
+            >
+              Privacy Policy
+            </span>
+
+            <span
+              className="footer-link"
+              onClick={() => navigate("/terms")}
+            >
+              Terms of Service
+            </span>
       </div>
 
       <button
