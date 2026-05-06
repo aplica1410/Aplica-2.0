@@ -41,7 +41,7 @@ app.set("trust proxy", 1);
 ================================ */
 app.use(
   cors({
-    origin: ["https://aplica-2-0.vercel.app","https:aplica.live"],
+    origin: ["https://aplica-2-0.vercel.app","https://aplica.live/"],
     credentials: true,
   })
 );
